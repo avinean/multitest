@@ -1,35 +1,7 @@
 <template>
   <div class="flex flex-col">
-    <div v-if="testComplete" class="flex-1 flex justify-center items-center">
-      <div class="max-w-2xl w-full p-8 bg-white border border-gray-200 rounded-lg shadow-sm text-center">
-        <h1 class="text-3xl font-bold mb-8">🎉 Test Complete!</h1>
-        
-        <div class="my-8">
-          <div class="inline-flex items-center justify-center w-32 h-32 border-8 border-primary-500 rounded-full mb-4">
-            <span class="text-3xl font-bold">{{ score }}</span>
-            <span class="text-xl">/ {{ totalQuestions }}</span>
-          </div>
-          <p class="text-2xl font-semibold">{{ Math.round((score / totalQuestions) * 100) }}%</p>
-        </div>
-        
-        <div class="mb-8">
-          <h3 class="text-lg font-semibold mb-4">Results by Question Type:</h3>
-          <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
-            <div v-for="(result, type) in scoreByType" :key="type" class="p-4 bg-gray-100 rounded-lg text-center">
-              <span class="block text-sm mb-2">Type {{ type }}</span>
-              <span class="text-lg font-semibold">{{ result.correct }}/{{ result.total }}</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="flex justify-center">
-          <UButton color="primary" @click="restartTest">Restart Test</UButton>
-        </div>
-      </div>
-    </div>
-
     <!-- Test Interface -->
-    <div v-else class="flex-1 flex flex-col">
+    <div class="flex-1 flex flex-col">
       <!-- Sticky Top: Question Navigation -->
       <div class="sticky top-0 bg-white border-b border-gray-200 p-4 z-10">
         <div class="max-w-6xl mx-auto">
@@ -157,7 +129,12 @@ useHead({
 
 const currentQuestionIndex = ref(0)
 const userAnswers = ref({})
-const testComplete = ref(false)
+
+// Reset test state when page loads
+onMounted(() => {
+  currentQuestionIndex.value = 0
+  userAnswers.value = {}
+})
 
 const allQuestions = computed(() => {
   const questions = []
@@ -188,30 +165,7 @@ const isLastQuestion = computed(() => {
   return currentQuestionIndex.value === totalQuestions.value - 1
 })
 
-const score = computed(() => {
-  let correct = 0
-  allQuestions.value.forEach(question => {
-    if (userAnswers.value[question.questionId] === question.correctAnswerIndex) {
-      correct++
-    }
-  })
-  return correct
-})
 
-const scoreByType = computed(() => {
-  const breakdown = {}
-  allQuestions.value.forEach(question => {
-    const type = question.testType
-    if (!breakdown[type]) {
-      breakdown[type] = { correct: 0, total: 0 }
-    }
-    breakdown[type].total++
-    if (userAnswers.value[question.questionId] === question.correctAnswerIndex) {
-      breakdown[type].correct++
-    }
-  })
-  return breakdown
-})
 
 const answeredCount = computed(() => {
   return allQuestions.value.filter(question => 
@@ -225,7 +179,15 @@ function formatText(text) {
 
 function nextQuestion() {
   if (isLastQuestion.value) {
-    testComplete.value = true
+    // Save results to localStorage for the results page
+    const resultsData = {
+      userAnswers: userAnswers.value,
+      totalQuestions: totalQuestions.value
+    }
+    localStorage.setItem('testResults', JSON.stringify(resultsData))
+    
+    // Navigate to results page
+    navigateTo('/result')
   } else {
     currentQuestionIndex.value++
   }
@@ -235,12 +197,6 @@ function previousQuestion() {
   if (currentQuestionIndex.value > 0) {
     currentQuestionIndex.value--
   }
-}
-
-function restartTest() {
-  currentQuestionIndex.value = 0
-  userAnswers.value = {}
-  testComplete.value = false
 }
 
 function goToQuestion(index) {
