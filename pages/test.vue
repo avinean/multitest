@@ -1,22 +1,6 @@
 <template>
   <div class="flex flex-col">
-    <!-- Loading State -->
-    <div v-if="loading" class="flex-1 flex flex-col items-center justify-center text-center">
-      <div class="w-10 h-10 border-4 border-gray-200 rounded-full animate-spin mb-4"/>
-      <p>Loading test questions...</p>
-    </div>
-
-    <!-- Error State -->
-    <div v-else-if="error" class="flex-1 flex flex-col items-center justify-center text-center">
-      <div class="max-w-md p-8 bg-white border border-gray-200 rounded-lg shadow-sm">
-        <h2 class="text-xl font-semibold mb-4">Error Loading Test</h2>
-        <p class="mb-4">{{ error }}</p>
-        <UButton color="primary" @click="fetchTestData">Retry</UButton>
-      </div>
-    </div>
-
-    <!-- Test Complete State -->
-    <div v-else-if="testComplete" class="flex-1 flex justify-center items-center">
+    <div v-if="testComplete" class="flex-1 flex justify-center items-center">
       <div class="max-w-2xl w-full p-8 bg-white border border-gray-200 rounded-lg shadow-sm text-center">
         <h1 class="text-3xl font-bold mb-8">🎉 Test Complete!</h1>
         
@@ -171,8 +155,6 @@ useHead({
   title: 'English Proficiency Test'
 })
 
-const loading = ref(true)
-const error = ref(null)
 const currentQuestionIndex = ref(0)
 const userAnswers = ref({})
 const testComplete = ref(false)
