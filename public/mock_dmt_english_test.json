@@ -1,0 +1,615 @@
+[
+  {
+    "id": "type1-1",
+    "type": 1,
+    "title": "",
+    "subtitle": "",
+    "text": "",
+    "imageUrl": "https://picsum.photos/200/300",
+    "questions": [
+      {
+        "questionId": "type1-1-q1",
+        "text": "What is the correct answer?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D",
+          "Option E",
+          "Option F",
+          "Option G",
+          "Option H"
+        ],
+        "correctAnswerIndex": 7
+      }
+    ]
+  },
+  {
+    "id": "type1-2",
+    "type": 1,
+    "title": "",
+    "subtitle": "",
+    "text": "",
+    "imageUrl": "https://picsum.photos/200/300",
+    "questions": [
+      {
+        "questionId": "type1-2-q1",
+        "text": "What is the correct answer?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D",
+          "Option E",
+          "Option F",
+          "Option G",
+          "Option H"
+        ],
+        "correctAnswerIndex": 0
+      }
+    ]
+  },
+  {
+    "id": "type1-3",
+    "type": 1,
+    "title": "",
+    "subtitle": "",
+    "text": "",
+    "imageUrl": "https://picsum.photos/200/300",
+    "questions": [
+      {
+        "questionId": "type1-3-q1",
+        "text": "What is the correct answer?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D",
+          "Option E",
+          "Option F",
+          "Option G",
+          "Option H"
+        ],
+        "correctAnswerIndex": 5
+      }
+    ]
+  },
+  {
+    "id": "type1-4",
+    "type": 1,
+    "title": "",
+    "subtitle": "",
+    "text": "",
+    "imageUrl": "https://picsum.photos/200/300",
+    "questions": [
+      {
+        "questionId": "type1-4-q1",
+        "text": "What is the correct answer?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D",
+          "Option E",
+          "Option F",
+          "Option G",
+          "Option H"
+        ],
+        "correctAnswerIndex": 6
+      }
+    ]
+  },
+  {
+    "id": "type1-5",
+    "type": 1,
+    "title": "",
+    "subtitle": "",
+    "text": "",
+    "imageUrl": "https://picsum.photos/200/300",
+    "questions": [
+      {
+        "questionId": "type1-5-q1",
+        "text": "What is the correct answer?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D",
+          "Option E",
+          "Option F",
+          "Option G",
+          "Option H"
+        ],
+        "correctAnswerIndex": 7
+      }
+    ]
+  },
+  {
+    "id": "type2-1",
+    "type": 2,
+    "title": "Reading Task 1",
+    "subtitle": "",
+    "text": "Read the text passage 1 and answer the question.",
+    "imageUrl": "",
+    "questions": [
+      {
+        "questionId": "type2-1-q1",
+        "text": "What is the correct answer?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "correctAnswerIndex": 1
+      }
+    ]
+  },
+  {
+    "id": "type2-2",
+    "type": 2,
+    "title": "Reading Task 2",
+    "subtitle": "",
+    "text": "Read the text passage 2 and answer the question.",
+    "imageUrl": "",
+    "questions": [
+      {
+        "questionId": "type2-2-q1",
+        "text": "What is the correct answer?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "correctAnswerIndex": 3
+      }
+    ]
+  },
+  {
+    "id": "type2-3",
+    "type": 2,
+    "title": "Reading Task 3",
+    "subtitle": "",
+    "text": "Read the text passage 3 and answer the question.",
+    "imageUrl": "",
+    "questions": [
+      {
+        "questionId": "type2-3-q1",
+        "text": "What is the correct answer?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "correctAnswerIndex": 3
+      }
+    ]
+  },
+  {
+    "id": "type2-4",
+    "type": 2,
+    "title": "Reading Task 4",
+    "subtitle": "",
+    "text": "Read the text passage 4 and answer the question.",
+    "imageUrl": "",
+    "questions": [
+      {
+        "questionId": "type2-4-q1",
+        "text": "What is the correct answer?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "correctAnswerIndex": 1
+      }
+    ]
+  },
+  {
+    "id": "type2-5",
+    "type": 2,
+    "title": "Reading Task 5",
+    "subtitle": "",
+    "text": "Read the text passage 5 and answer the question.",
+    "imageUrl": "",
+    "questions": [
+      {
+        "questionId": "type2-5-q1",
+        "text": "What is the correct answer?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "correctAnswerIndex": 3
+      }
+    ]
+  },
+  {
+    "id": "type3-1",
+    "type": 3,
+    "title": "Headline 1",
+    "subtitle": "Subheadline 1",
+    "text": "Detailed explanation text 1.",
+    "imageUrl": "",
+    "questions": [
+      {
+        "questionId": "type3-1-q1",
+        "text": "What is the correct answer?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D",
+          "Option E",
+          "Option F",
+          "Option G",
+          "Option H"
+        ],
+        "correctAnswerIndex": 2
+      }
+    ]
+  },
+  {
+    "id": "type3-2",
+    "type": 3,
+    "title": "Headline 2",
+    "subtitle": "Subheadline 2",
+    "text": "Detailed explanation text 2.",
+    "imageUrl": "",
+    "questions": [
+      {
+        "questionId": "type3-2-q1",
+        "text": "What is the correct answer?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D",
+          "Option E",
+          "Option F",
+          "Option G",
+          "Option H"
+        ],
+        "correctAnswerIndex": 0
+      }
+    ]
+  },
+  {
+    "id": "type3-3",
+    "type": 3,
+    "title": "Headline 3",
+    "subtitle": "Subheadline 3",
+    "text": "Detailed explanation text 3.",
+    "imageUrl": "",
+    "questions": [
+      {
+        "questionId": "type3-3-q1",
+        "text": "What is the correct answer?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D",
+          "Option E",
+          "Option F",
+          "Option G",
+          "Option H"
+        ],
+        "correctAnswerIndex": 3
+      }
+    ]
+  },
+  {
+    "id": "type3-4",
+    "type": 3,
+    "title": "Headline 4",
+    "subtitle": "Subheadline 4",
+    "text": "Detailed explanation text 4.",
+    "imageUrl": "",
+    "questions": [
+      {
+        "questionId": "type3-4-q1",
+        "text": "What is the correct answer?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D",
+          "Option E",
+          "Option F",
+          "Option G",
+          "Option H"
+        ],
+        "correctAnswerIndex": 6
+      }
+    ]
+  },
+  {
+    "id": "type3-5",
+    "type": 3,
+    "title": "Headline 5",
+    "subtitle": "Subheadline 5",
+    "text": "Detailed explanation text 5.",
+    "imageUrl": "",
+    "questions": [
+      {
+        "questionId": "type3-5-q1",
+        "text": "What is the correct answer?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D",
+          "Option E",
+          "Option F",
+          "Option G",
+          "Option H"
+        ],
+        "correctAnswerIndex": 0
+      }
+    ]
+  },
+  {
+    "id": "type4-1",
+    "type": 4,
+    "title": "Cloze Text A",
+    "subtitle": "",
+    "text": "This is a long text with 8 blanks: [[1]], [[2]], ..., [[8]].",
+    "imageUrl": "",
+    "questions": [
+      {
+        "questionId": "type4-1-q1",
+        "text": "Select the correct answer for blank #1",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D",
+          "Option E",
+          "Option F",
+          "Option G",
+          "Option H"
+        ],
+        "correctAnswerIndex": 1
+      },
+      {
+        "questionId": "type4-1-q2",
+        "text": "Select the correct answer for blank #2",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D",
+          "Option E",
+          "Option F",
+          "Option G",
+          "Option H"
+        ],
+        "correctAnswerIndex": 1
+      },
+      {
+        "questionId": "type4-1-q3",
+        "text": "Select the correct answer for blank #3",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D",
+          "Option E",
+          "Option F",
+          "Option G",
+          "Option H"
+        ],
+        "correctAnswerIndex": 3
+      },
+      {
+        "questionId": "type4-1-q4",
+        "text": "Select the correct answer for blank #4",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D",
+          "Option E",
+          "Option F",
+          "Option G",
+          "Option H"
+        ],
+        "correctAnswerIndex": 2
+      },
+      {
+        "questionId": "type4-1-q5",
+        "text": "Select the correct answer for blank #5",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D",
+          "Option E",
+          "Option F",
+          "Option G",
+          "Option H"
+        ],
+        "correctAnswerIndex": 5
+      },
+      {
+        "questionId": "type4-1-q6",
+        "text": "Select the correct answer for blank #6",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D",
+          "Option E",
+          "Option F",
+          "Option G",
+          "Option H"
+        ],
+        "correctAnswerIndex": 7
+      },
+      {
+        "questionId": "type4-1-q7",
+        "text": "Select the correct answer for blank #7",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D",
+          "Option E",
+          "Option F",
+          "Option G",
+          "Option H"
+        ],
+        "correctAnswerIndex": 5
+      },
+      {
+        "questionId": "type4-1-q8",
+        "text": "Select the correct answer for blank #8",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D",
+          "Option E",
+          "Option F",
+          "Option G",
+          "Option H"
+        ],
+        "correctAnswerIndex": 4
+      }
+    ]
+  },
+  {
+    "id": "type5-1",
+    "type": 5,
+    "title": "Cloze Text B",
+    "subtitle": "",
+    "text": "Another text with 5 blanks: [[1]], [[2]], ..., [[5]].",
+    "imageUrl": "",
+    "questions": [
+      {
+        "questionId": "type5-1-q1",
+        "text": "Select the correct answer for blank #1",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "correctAnswerIndex": 2
+      },
+      {
+        "questionId": "type5-1-q2",
+        "text": "Select the correct answer for blank #2",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "correctAnswerIndex": 2
+      },
+      {
+        "questionId": "type5-1-q3",
+        "text": "Select the correct answer for blank #3",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "correctAnswerIndex": 1
+      },
+      {
+        "questionId": "type5-1-q4",
+        "text": "Select the correct answer for blank #4",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "correctAnswerIndex": 0
+      },
+      {
+        "questionId": "type5-1-q5",
+        "text": "Select the correct answer for blank #5",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "correctAnswerIndex": 1
+      }
+    ]
+  },
+  {
+    "id": "type2-extra-1",
+    "type": 2,
+    "title": "Extra Reading 1",
+    "subtitle": "",
+    "text": "Additional text passage 1.",
+    "imageUrl": "",
+    "questions": [
+      {
+        "questionId": "type2-extra-1-q1",
+        "text": "What is the correct answer?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "correctAnswerIndex": 1
+      }
+    ]
+  },
+  {
+    "id": "type2-extra-2",
+    "type": 2,
+    "title": "Extra Reading 2",
+    "subtitle": "",
+    "text": "Additional text passage 2.",
+    "imageUrl": "",
+    "questions": [
+      {
+        "questionId": "type2-extra-2-q1",
+        "text": "What is the correct answer?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "correctAnswerIndex": 0
+      }
+    ]
+  },
+  {
+    "id": "type2-extra-3",
+    "type": 2,
+    "title": "Extra Reading 3",
+    "subtitle": "",
+    "text": "Additional text passage 3.",
+    "imageUrl": "",
+    "questions": [
+      {
+        "questionId": "type2-extra-3-q1",
+        "text": "What is the correct answer?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "correctAnswerIndex": 2
+      }
+    ]
+  }
+]

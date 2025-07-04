@@ -165,20 +165,21 @@
 </template>
 
 <script setup>
+import testData from 'assets/mock_dmt_english_test.json'
+
 useHead({
   title: 'English Proficiency Test'
 })
 
 const loading = ref(true)
 const error = ref(null)
-const testData = ref([])
 const currentQuestionIndex = ref(0)
 const userAnswers = ref({})
 const testComplete = ref(false)
 
 const allQuestions = computed(() => {
   const questions = []
-  testData.value.forEach(test => {
+  testData.forEach(test => {
     test.questions.forEach(question => {
       questions.push({
         ...question,
@@ -236,20 +237,6 @@ const answeredCount = computed(() => {
   ).length
 })
 
-async function fetchTestData() {
-  try {
-    loading.value = true
-    error.value = null
-    const response = await $fetch('/api/english-test')
-    testData.value = response
-  } catch (err) {
-    console.error('Error loading test data:', err)
-    error.value = 'Failed to load test data. Please try again.'
-  } finally {
-    loading.value = false
-  }
-}
-
 function formatText(text) {
   return text.replace(/\[\[(\d+)\]\]/g, '<span class="bg-yellow-200 px-2 py-1 rounded font-semibold">[$1]</span>')
 }
@@ -283,6 +270,4 @@ function goToQuestion(index) {
 function isQuestionAnswered(questionId) {
   return userAnswers.value[questionId] !== undefined
 }
-
-onMounted(fetchTestData)
 </script> 
