@@ -1,25 +1,24 @@
 <template>
-  <div class="min-h-screen bg-gray-50 p-4">
-    <div v-if="loading" class="flex flex-col items-center justify-center min-h-[80vh] text-center">
+  <div class="flex flex-col">
+    <!-- Loading State -->
+    <div v-if="loading" class="flex-1 flex flex-col items-center justify-center text-center">
       <div class="w-10 h-10 border-4 border-gray-200 rounded-full animate-spin mb-4"/>
       <p>Loading test questions...</p>
     </div>
 
-    <div v-else-if="error" class="flex flex-col items-center justify-center min-h-[80vh] text-center">
-      <UCard class="max-w-md">
-        <template #header>
-          <h2 class="text-xl font-semibold">Error Loading Test</h2>
-        </template>
+    <!-- Error State -->
+    <div v-else-if="error" class="flex-1 flex flex-col items-center justify-center text-center">
+      <div class="max-w-md p-8 bg-white border border-gray-200 rounded-lg shadow-sm">
+        <h2 class="text-xl font-semibold mb-4">Error Loading Test</h2>
         <p class="mb-4">{{ error }}</p>
         <UButton color="primary" @click="fetchTestData">Retry</UButton>
-      </UCard>
+      </div>
     </div>
 
-    <div v-else-if="testComplete" class="flex justify-center items-center min-h-[80vh]">
-      <UCard class="max-w-2xl w-full text-center">
-        <template #header>
-          <h1 class="text-3xl font-bold">🎉 Test Complete!</h1>
-        </template>
+    <!-- Test Complete State -->
+    <div v-else-if="testComplete" class="flex-1 flex justify-center items-center">
+      <div class="max-w-2xl w-full p-8 bg-white border border-gray-200 rounded-lg shadow-sm text-center">
+        <h1 class="text-3xl font-bold mb-8">🎉 Test Complete!</h1>
         
         <div class="my-8">
           <div class="inline-flex items-center justify-center w-32 h-32 border-8 border-primary-500 rounded-full mb-4">
@@ -39,30 +38,60 @@
           </div>
         </div>
 
-        <div class="flex flex-col sm:flex-row gap-4 justify-center">
-          <UButton to="/" color="gray" variant="outline">Back to Home</UButton>
+        <div class="flex justify-center">
           <UButton color="primary" @click="restartTest">Restart Test</UButton>
         </div>
-      </UCard>
+      </div>
     </div>
 
-    <div v-else class="max-w-4xl mx-auto">
-      <UCard class="mb-8">
-        <div class="space-y-3">
-          <div class="w-full bg-gray-200 rounded-full h-2">
-            <div 
-              class="bg-primary-600 h-2 rounded-full transition-all duration-300"
-              :style="{ width: progressPercentage + '%' }"
-            />
+    <!-- Test Interface -->
+    <div v-else class="flex-1 flex flex-col">
+      <!-- Sticky Top: Question Navigation -->
+      <div class="sticky top-0 bg-white border-b border-gray-200 p-4 z-10">
+        <div class="max-w-6xl mx-auto">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-lg font-semibold">Question Navigation</h3>
+            <div class="text-sm">
+              {{ answeredCount }} of {{ totalQuestions }} answered
+            </div>
           </div>
-          <p class="text-center">
-            Question {{ currentQuestionIndex + 1 }} of {{ totalQuestions }}
-          </p>
-        </div>
-      </UCard>
 
-      <UCard v-if="currentQuestion" class="mb-8">
-        <template #header>
+          <div class="flex flex-wrap gap-2 mb-4">
+            <button
+              v-for="(question, index) in allQuestions"
+              :key="question.questionId"
+              class="w-8 h-8 rounded-lg border-2 flex items-center justify-center"
+              :class="{
+                'border-primary-500 bg-primary-100': index === currentQuestionIndex,
+                'border-green-500 bg-green-100': isQuestionAnswered(question.questionId) && index !== currentQuestionIndex,
+                'border-gray-300 bg-gray-50 hover:bg-gray-100': !isQuestionAnswered(question.questionId) && index !== currentQuestionIndex
+              }"
+              @click="goToQuestion(index)"
+            >
+              {{ index + 1 }}
+            </button>
+          </div>
+          
+          <div class="flex items-center gap-4 text-xs">
+            <div class="flex items-center gap-2">
+              <div class="w-4 h-4 border-2 border-primary-500 bg-primary-100 rounded"/>
+              <span>Current</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <div class="w-4 h-4 border-2 border-green-500 bg-green-100 rounded"/>
+              <span>Answered</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <div class="w-4 h-4 border-2 border-gray-300 bg-gray-50 rounded"/>
+              <span>Unanswered</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scrollable Middle: Question Content -->
+      <div class="flex-1 overflow-auto p-4">
+        <div v-if="currentQuestion" class="max-w-4xl mx-auto space-y-6">
           <div v-if="currentTest.title || currentTest.subtitle">
             <h2 v-if="currentTest.title" class="text-2xl font-semibold mb-2">
               {{ currentTest.title }}
@@ -71,13 +100,13 @@
               {{ currentTest.subtitle }}
             </h3>
           </div>
-        </template>
-
-        <div class="space-y-6">
+          
           <div v-if="currentTest.imageUrl && currentTest.type === 1" class="text-center">
             <img
-:src="currentTest.imageUrl" :alt="currentTest.title" 
-                 class="max-w-full h-auto rounded-lg shadow-lg mx-auto" >
+              :src="currentTest.imageUrl" 
+              :alt="currentTest.title" 
+              class="max-w-full h-auto rounded-lg shadow-lg mx-auto"
+            >
           </div>
 
           <div v-if="currentTest.text" class="bg-gray-50 p-6 rounded-lg">
@@ -109,28 +138,28 @@
             </div>
           </div>
         </div>
+      </div>
 
-        <template #footer>
-          <div class="flex justify-between">
-            <UButton 
-              :disabled="currentQuestionIndex === 0" 
-              color="gray"
-              variant="outline"
-              @click="previousQuestion"
-            >
-              ← Previous
-            </UButton>
-            
-            <UButton 
-              :disabled="!isCurrentQuestionAnswered"
-              color="primary"
-              @click="nextQuestion"
-            >
-              {{ isLastQuestion ? 'Finish Test' : 'Next →' }}
-            </UButton>
-          </div>
-        </template>
-      </UCard>
+      <!-- Sticky Bottom: Navigation Buttons -->
+      <div class="sticky bottom-0 bg-white border-t border-gray-200 p-4">
+        <div class="max-w-4xl mx-auto flex justify-between">
+          <UButton 
+            :disabled="currentQuestionIndex === 0" 
+            color="gray"
+            variant="outline"
+            @click="previousQuestion"
+          >
+            ← Previous
+          </UButton>
+          
+          <UButton 
+            color="primary"
+            @click="nextQuestion"
+          >
+            {{ isLastQuestion ? 'Finish Test' : 'Next →' }}
+          </UButton>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -172,14 +201,6 @@ const currentTest = computed(() => {
   return currentQuestion.value?.test || {}
 })
 
-const progressPercentage = computed(() => {
-  return totalQuestions.value > 0 ? (currentQuestionIndex.value / totalQuestions.value) * 100 : 0
-})
-
-const isCurrentQuestionAnswered = computed(() => {
-  return currentQuestion.value && userAnswers.value[currentQuestion.value.questionId] !== undefined
-})
-
 const isLastQuestion = computed(() => {
   return currentQuestionIndex.value === totalQuestions.value - 1
 })
@@ -207,6 +228,12 @@ const scoreByType = computed(() => {
     }
   })
   return breakdown
+})
+
+const answeredCount = computed(() => {
+  return allQuestions.value.filter(question => 
+    userAnswers.value[question.questionId] !== undefined
+  ).length
 })
 
 async function fetchTestData() {
@@ -245,6 +272,16 @@ function restartTest() {
   currentQuestionIndex.value = 0
   userAnswers.value = {}
   testComplete.value = false
+}
+
+function goToQuestion(index) {
+  if (index >= 0 && index < totalQuestions.value) {
+    currentQuestionIndex.value = index
+  }
+}
+
+function isQuestionAnswered(questionId) {
+  return userAnswers.value[questionId] !== undefined
 }
 
 onMounted(fetchTestData)

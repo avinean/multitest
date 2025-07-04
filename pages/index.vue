@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen flex items-center">
+  <div class="min-h-[calc(100vh-8rem)] flex items-center">
     <UContainer class="text-center">
       <h1 class="text-5xl lg:text-6xl font-bold mb-4 drop-shadow-lg">
         English Proficiency Test
@@ -56,4 +56,10 @@
       </div>
     </UContainer>
   </div>
-</template> 
+</template>
+
+<script setup>
+useHead({
+  title: 'English Proficiency Test - Home'
+})
+</script> 
