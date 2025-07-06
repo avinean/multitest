@@ -1,26 +1,40 @@
 <template>
-  <div class="flex flex-col">
-    <!-- Test Interface -->
-    <div class="flex-1 flex flex-col">
-      <!-- Sticky Top: Question Navigation -->
+  <div class="flex flex-col"> 
+    <div v-if="loading" class="flex-1 flex justify-center items-center min-h-screen">
+      <div class="text-center">
+        <div class="animate-spin rounded-full h-32 w-32 border-b-2 border-primary-500 mx-auto mb-4"/>
+        <p class="text-lg">Loading test questions...</p>
+      </div>
+    </div>
+
+    <div v-else-if="error" class="flex-1 flex justify-center items-center min-h-screen">
+      <div class="max-w-md w-full p-8 bg-white border border-red-200 rounded-lg shadow-sm text-center">
+        <div class="text-red-500 text-6xl mb-4">⚠️</div>
+        <h2 class="text-2xl font-bold text-red-800 mb-4">Error Loading Test</h2>
+        <p class="text-red-600 mb-6">{{ error }}</p>
+        <UButton color="red" @click="$router.go(0)">Reload Page</UButton>
+      </div>
+    </div>
+
+    <div v-else-if="questions.length > 0" class="flex-1 flex flex-col">
       <div class="sticky top-0 bg-white border-b border-gray-200 p-4 z-10">
         <div class="max-w-6xl mx-auto">
           <div class="flex items-center justify-between mb-4">
             <h3 class="text-lg font-semibold">Question Navigation</h3>
             <div class="text-sm">
-              {{ answeredCount }} of {{ totalQuestions }} answered
+              {{ answeredCount }} of {{ questions.length }} answered
             </div>
           </div>
 
           <div class="flex flex-wrap gap-2 mb-4">
             <button
-              v-for="(question, index) in allQuestions"
-              :key="question.questionId"
+              v-for="(question, index) in questions"
+              :key="index"
               class="w-8 h-8 rounded-lg border-2 flex items-center justify-center"
               :class="{
                 'border-primary-500 bg-primary-100': index === currentQuestionIndex,
-                'border-green-500 bg-green-100': isQuestionAnswered(question.questionId) && index !== currentQuestionIndex,
-                'border-gray-300 bg-gray-50 hover:bg-gray-100': !isQuestionAnswered(question.questionId) && index !== currentQuestionIndex
+                'border-green-500 bg-green-100': isQuestionAnswered(index) && index !== currentQuestionIndex,
+                'border-gray-300 bg-gray-50 hover:bg-gray-100': !isQuestionAnswered(index) && index !== currentQuestionIndex
               }"
               @click="goToQuestion(index)"
             >
@@ -45,28 +59,23 @@
         </div>
       </div>
 
-      <!-- Scrollable Middle: Question Content -->
       <div class="flex-1 overflow-auto p-4">
         <div v-if="currentQuestion" class="max-w-4xl mx-auto space-y-6">
-          <div v-if="currentTest.title || currentTest.subtitle">
-            <h2 v-if="currentTest.title" class="text-2xl font-semibold mb-2">
-              {{ currentTest.title }}
+          <div v-if="currentQuestion.title || currentQuestion.subtitle">
+            <h2 v-if="currentQuestion.title" class="text-2xl font-semibold mb-2">
+              {{ currentQuestion.title }}
             </h2>
-            <h3 v-if="currentTest.subtitle" class="text-lg">
-              {{ currentTest.subtitle }}
+            <h3 v-if="currentQuestion.subtitle" class="text-lg">
+              {{ currentQuestion.subtitle }}
             </h3>
           </div>
           
-          <div v-if="currentTest.imageUrl && currentTest.type === 1" class="text-center">
+          <div v-if="currentQuestion.imageUrl" class="text-center">
             <img
-              :src="currentTest.imageUrl" 
-              :alt="currentTest.title" 
+              :src="currentQuestion.imageUrl" 
+              :alt="currentQuestion.title" 
               class="max-w-full h-auto rounded-lg shadow-lg mx-auto"
             >
-          </div>
-
-          <div v-if="currentTest.text" class="bg-gray-50 p-6 rounded-lg">
-            <p class="leading-relaxed" v-html="formatText(currentTest.text)"/>
           </div>
 
           <div>
@@ -78,14 +87,14 @@
                 :key="index"
                 class="flex items-center p-4 bg-gray-50 border-2 rounded-lg cursor-pointer transition-all hover:bg-gray-100"
                 :class="{
-                  'border-primary-500 bg-primary-50': userAnswers[currentQuestion.questionId] === index,
-                  'border-gray-200': userAnswers[currentQuestion.questionId] !== index
+                  'border-primary-500 bg-primary-50': userAnswers[currentQuestionIndex] === index,
+                  'border-gray-200': userAnswers[currentQuestionIndex] !== index
                 }"
               >
                 <input
-                  v-model="userAnswers[currentQuestion.questionId]"
+                  v-model="userAnswers[currentQuestionIndex]"
                   type="radio"
-                  :name="currentQuestion.questionId"
+                  :name="`question-${currentQuestionIndex}`"
                   :value="index"
                   class="mr-3"
                 >
@@ -96,7 +105,6 @@
         </div>
       </div>
 
-      <!-- Sticky Bottom: Navigation Buttons -->
       <div class="sticky bottom-0 bg-white border-t border-gray-200 p-4">
         <div class="max-w-4xl mx-auto flex justify-between">
           <UButton 
@@ -121,8 +129,6 @@
 </template>
 
 <script setup>
-import testData from 'assets/mock_dmt_english_test.json'
-
 useHead({
   title: 'English Proficiency Test'
 })
@@ -130,82 +136,36 @@ useHead({
 const currentQuestionIndex = ref(0)
 const userAnswers = ref({})
 
-// Reset test state when page loads
-onMounted(() => {
-  currentQuestionIndex.value = 0
-  userAnswers.value = {}
-})
+const { loading, error, questions } = useTestQuestions()
+const currentQuestion = computed(() => questions.value[currentQuestionIndex.value])
+const isLastQuestion = computed(() =>  currentQuestionIndex.value === questions.value.length - 1)
+const answeredCount = computed(() => Object.keys(userAnswers.value).length)
 
-const allQuestions = computed(() => {
-  const questions = []
-  testData.forEach(test => {
-    test.questions.forEach(question => {
-      questions.push({
-        ...question,
-        testId: test.id,
-        testType: test.type,
-        test: test
-      })
-    })
-  })
-  return questions
-})
+const isQuestionAnswered = (questionIndex) => userAnswers.value[questionIndex] !== undefined
 
-const totalQuestions = computed(() => allQuestions.value.length)
-
-const currentQuestion = computed(() => {
-  return allQuestions.value[currentQuestionIndex.value]
-})
-
-const currentTest = computed(() => {
-  return currentQuestion.value?.test || {}
-})
-
-const isLastQuestion = computed(() => {
-  return currentQuestionIndex.value === totalQuestions.value - 1
-})
-
-
-
-const answeredCount = computed(() => {
-  return allQuestions.value.filter(question => 
-    userAnswers.value[question.questionId] !== undefined
-  ).length
-})
-
-function formatText(text) {
-  return text.replace(/\[\[(\d+)\]\]/g, '<span class="bg-yellow-200 px-2 py-1 rounded font-semibold">[$1]</span>')
-}
-
-function nextQuestion() {
+const nextQuestion = () => {
   if (isLastQuestion.value) {
-    // Save results to localStorage for the results page
     const resultsData = {
       userAnswers: userAnswers.value,
-      totalQuestions: totalQuestions.value
+      totalQuestions: questions.value.length
     }
     localStorage.setItem('testResults', JSON.stringify(resultsData))
     
-    // Navigate to results page
     navigateTo('/result')
   } else {
     currentQuestionIndex.value++
   }
 }
 
-function previousQuestion() {
+const previousQuestion = () => {
   if (currentQuestionIndex.value > 0) {
     currentQuestionIndex.value--
   }
 }
 
-function goToQuestion(index) {
-  if (index >= 0 && index < totalQuestions.value) {
+const goToQuestion = (index) => {
+  if (index >= 0 && index < questions.value.length) {
     currentQuestionIndex.value = index
   }
-}
-
-function isQuestionAnswered(questionId) {
-  return userAnswers.value[questionId] !== undefined
 }
 </script> 
