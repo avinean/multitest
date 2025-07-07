@@ -281,13 +281,76 @@
             />
           </div>
 
+          <!-- Image Upload -->
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Image URL (Optional)</label>
-            <UInput 
-              v-model="questionForm.imageUrl" 
-              placeholder="https://example.com/image.jpg"
-              :disabled="savingQuestion"
-            />
+            <label class="block text-sm font-medium text-gray-700 mb-2">Question Image (Optional)</label>
+            
+            <!-- Image Upload Error -->
+            <div v-if="imageUploadError" class="mb-3 p-3 bg-red-50 border border-red-200 rounded-lg">
+              <p class="text-sm text-red-700">{{ imageUploadError }}</p>
+            </div>
+            
+            <!-- Current Image Display -->
+            <div v-if="questionForm.imageUrl" class="mb-3">
+              <div class="relative inline-block">
+                <img 
+                  :src="questionForm.imageUrl" 
+                  alt="Question image"
+                  class="max-w-full h-32 object-contain rounded-lg border border-gray-200"
+                >
+                <button
+                  type="button"
+                  :disabled="savingQuestion || uploadingImage"
+                  class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-red-600 disabled:opacity-50"
+                  @click="removeImage"
+                >
+                  ✕
+                </button>
+              </div>
+              <p class="text-xs text-gray-500 mt-1">Current image</p>
+            </div>
+            
+            <!-- File Input -->
+            <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-gray-400 transition-colors">
+              <input
+                ref="imageInput"
+                type="file"
+                accept="image/*"
+                :disabled="savingQuestion || uploadingImage"
+                class="hidden"
+                @change="handleImageSelect"
+              >
+              <div class="space-y-2">
+                <div class="text-gray-400">
+                  <svg class="w-8 h-8 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                  </svg>
+                </div>
+                <div>
+                  <UButton
+                    type="button"
+                    size="sm"
+                    variant="outline"
+                    :disabled="savingQuestion || uploadingImage"
+                    :loading="uploadingImage"
+                    @click="$refs.imageInput.click()"
+                  >
+                    {{ questionForm.imageUrl ? 'Change Image' : 'Select Image' }}
+                  </UButton>
+                </div>
+                <p class="text-xs text-gray-500">
+                  PNG, JPG, GIF up to 5MB
+                </p>
+              </div>
+            </div>
+            
+            <!-- Selected File Info -->
+            <div v-if="questionForm.imageFile" class="mt-2 p-2 bg-blue-50 border border-blue-200 rounded text-sm">
+              <span class="font-medium">Selected:</span> {{ questionForm.imageFile.name }}
+              <span class="text-gray-500 ml-2">
+                ({{ Math.round(questionForm.imageFile.size / 1024) }}KB)
+              </span>
+            </div>
           </div>
 
           <!-- Answer Options -->
@@ -370,6 +433,7 @@
 
 <script setup>
 import { addDoc, collection, doc, updateDoc, serverTimestamp } from 'firebase/firestore'
+import { ref as storageRef, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage'
 import { useDocument } from 'vuefire'
 
 definePageMeta({
@@ -378,6 +442,7 @@ definePageMeta({
 
 const route = useRoute()
 const db = inject('db')
+const storage = inject('storage')
 
 // Get the slug from route params
 const slug = computed(() => route.params.slug?.[0] || 'new')
@@ -413,11 +478,16 @@ const questionForm = ref({
   text: '',
   title: '',
   subtitle: '',
-  imageUrl: '',
+  imageUrl: '', // Will store the uploaded image URL
+  imageFile: null, // Will store the selected file
   options: ['', ''],
   correctAnswerIndex: null,
   order: 1
 })
+
+// Image upload state
+const uploadingImage = ref(false)
+const imageUploadError = ref('')
 
 // Fetch test data if editing existing test
 const { data: fetchedTest, pending: testPending, error: fetchError } = isNewTest.value 
@@ -485,10 +555,12 @@ const initQuestionForm = () => {
     title: '',
     subtitle: '',
     imageUrl: '',
+    imageFile: null,
     options: ['', ''],
     correctAnswerIndex: null,
     order: (testData.value?.questions?.length || 0) + 1
   }
+  imageUploadError.value = ''
 }
 
 const addQuestion = () => {
@@ -506,11 +578,13 @@ const editQuestion = (index) => {
     title: question.title || '',
     subtitle: question.subtitle || '',
     imageUrl: question.imageUrl || '',
+    imageFile: null, // Always null when editing - new uploads will set this
     options: [...(question.options || ['', ''])],
     correctAnswerIndex: question.correctAnswerIndex !== undefined ? String(question.correctAnswerIndex) : null,
     order: question.order ?? index + 1
   }
   
+  imageUploadError.value = ''
   showQuestionModal.value = true
 }
 
@@ -518,6 +592,7 @@ const closeQuestionModal = () => {
   showQuestionModal.value = false
   editingQuestionIndex.value = null
   questionSaveError.value = ''
+  imageUploadError.value = ''
   initQuestionForm()
 }
 
@@ -548,6 +623,16 @@ const saveQuestion = async () => {
   questionSaveError.value = ''
   
   try {
+    // Upload image if a new file was selected
+    let imageUrl = questionForm.value.imageUrl
+    if (questionForm.value.imageFile) {
+      imageUrl = await uploadImage()
+      if (!imageUrl && imageUploadError.value) {
+        // If upload failed, don't save the question
+        return
+      }
+    }
+    
     // Prepare question data with proper data types
     const questionData = {
       text: questionForm.value.text.trim(),
@@ -563,8 +648,8 @@ const saveQuestion = async () => {
     if (questionForm.value.subtitle?.trim()) {
       questionData.subtitle = questionForm.value.subtitle.trim()
     }
-    if (questionForm.value.imageUrl?.trim()) {
-      questionData.imageUrl = questionForm.value.imageUrl.trim()
+    if (imageUrl?.trim()) {
+      questionData.imageUrl = imageUrl.trim()
     }
     
     // Get current questions array
@@ -621,5 +706,70 @@ const deleteQuestion = async (index) => {
     console.error('Error deleting question:', error)
     // Could add error handling here
   }
+}
+
+// Image upload functions
+const handleImageSelect = (event) => {
+  const file = event.target.files[0]
+  if (file) {
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      imageUploadError.value = 'Please select a valid image file'
+      return
+    }
+    
+    // Validate file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      imageUploadError.value = 'Image size must be less than 5MB'
+      return
+    }
+    
+    questionForm.value.imageFile = file
+    imageUploadError.value = ''
+  }
+}
+
+const uploadImage = async () => {
+  if (!questionForm.value.imageFile) return null
+  
+  uploadingImage.value = true
+  imageUploadError.value = ''
+  
+  try {
+    // Create a unique filename
+    const filename = `test-images/${Date.now()}-${questionForm.value.imageFile.name}`
+    const imageRef = storageRef(storage, filename)
+    
+    // Upload the file
+    await uploadBytes(imageRef, questionForm.value.imageFile)
+    
+    // Get download URL
+    const downloadURL = await getDownloadURL(imageRef)
+    
+    return downloadURL
+  } catch (error) {
+    console.error('Error uploading image:', error)
+    imageUploadError.value = error.message || 'Failed to upload image'
+    return null
+  } finally {
+    uploadingImage.value = false
+  }
+}
+
+const removeImage = async () => {
+  if (questionForm.value.imageUrl) {
+    try {
+      // Extract storage path from URL to delete the old image
+      const imageRef = storageRef(storage, questionForm.value.imageUrl)
+      await deleteObject(imageRef)
+    } catch (error) {
+      console.log('Could not delete old image:', error)
+      // Don't throw error as the main operation should continue
+    }
+  }
+  
+  questionForm.value.imageUrl = ''
+  questionForm.value.imageFile = null
+  imageUploadError.value = ''
 }
 </script> 

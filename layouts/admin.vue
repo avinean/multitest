@@ -34,6 +34,7 @@
 
 <script setup>
 import { signOut as firebaseSignOut, onAuthStateChanged, getAuth } from 'firebase/auth'
+import { getStorage } from 'firebase/storage'
 import { useFirestore } from 'vuefire'
 
 definePageMeta({
@@ -44,8 +45,10 @@ definePageMeta({
 const auth = getAuth()
 const user = ref(null)
 const db = useFirestore()
+const storage = getStorage()
 
 provide('db', db)
+provide('storage', storage)
 provide('user', user)
 
 const signOut = async () => {
