@@ -25,13 +25,13 @@
             >
               Take Test
             </UButton>
-            <UButton 
+            <!-- <UButton 
               to="/admin/login" 
               variant="ghost" 
               size="sm"
             >
               Admin
-            </UButton>
+            </UButton> -->
           </nav>
         </div>
       </UContainer>
