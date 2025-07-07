@@ -16,19 +16,19 @@
       </div>
     </div>
 
-    <div v-else-if="data.questions.length > 0" class="flex-1 flex flex-col">
+    <div v-else-if="questions && questions.length > 0" class="flex-1 flex flex-col">
       <div class="sticky top-0 bg-white border-b border-gray-200 p-4 z-10">
         <div class="max-w-6xl mx-auto">
           <div class="flex items-center justify-between mb-4">
             <h3 class="text-lg font-semibold">Question Navigation</h3>
             <div class="text-sm">
-              {{ answeredCount }} of {{ data.questions.length }} answered
+              {{ answeredCount }} of {{ questions.length }} answered
             </div>
           </div>
 
           <div class="flex flex-wrap gap-2 mb-4">
             <button
-              v-for="(question, index) in data.questions"
+              v-for="(question, index) in questions"
               :key="index"
               class="w-8 h-8 rounded-lg border-2 flex items-center justify-center"
               :class="{
@@ -61,27 +61,33 @@
 
       <div class="flex-1 overflow-auto p-4">
         <div v-if="currentQuestion" class="max-w-4xl mx-auto space-y-6">
-          <div v-if="currentQuestion.title || currentQuestion.subtitle">
-            <h2 v-if="currentQuestion.title" class="text-2xl font-semibold mb-2">
-              {{ currentQuestion.title }}
+          <div class="flex items-center justify-between">
+            <h2 class="text-xl font-semibold text-gray-800">
+              Question {{ currentQuestionIndex + 1 }} of {{ questions.length }}
             </h2>
-            <h3 v-if="currentQuestion.subtitle" class="text-lg">
-              {{ currentQuestion.subtitle }}
-            </h3>
+            <div class="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
+              {{ currentQuestion.groupType }}
+            </div>
           </div>
           
           <div v-if="currentQuestion.imageUrl" class="text-center">
             <img
               :src="currentQuestion.imageUrl" 
-              :alt="currentQuestion.title" 
+              :alt="`Question ${currentQuestionIndex + 1} image`" 
               class="max-w-full h-auto rounded-lg shadow-lg mx-auto"
             >
           </div>
 
           <div>
-            <div class="text-lg font-medium mb-6 prose prose-lg max-w-none" v-html="currentQuestion.text"/>
+            <div v-if="currentQuestion.text" class="text-lg font-medium mb-6 prose prose-lg max-w-none whitespace-pre-wrap">
+              {{ currentQuestion.text }}
+            </div>
+            
+            <div v-if="currentQuestion.question" class="text-lg font-medium mb-6 text-gray-800">
+              {{ currentQuestion.question }}
+            </div>
           
-            <div class="space-y-3">
+            <div v-if="currentQuestion.options && currentQuestion.options.length > 0" class="space-y-3">
               <label 
                 v-for="(option, index) in currentQuestion.options" 
                 :key="index"
@@ -125,41 +131,92 @@
         </div>
       </div>
     </div>
+
+    <div v-else class="flex-1 flex justify-center items-center min-h-screen">
+      <div class="max-w-md w-full p-8 bg-white border border-gray-200 rounded-lg shadow-sm text-center">
+        <div class="text-gray-400 text-6xl mb-4">📝</div>
+        <h2 class="text-2xl font-bold text-gray-800 mb-4">No Test Available</h2>
+        <p class="text-gray-600 mb-6">No published question groups were found to create a test.</p>
+        <UButton @click="navigateTo('/')">Go to Home</UButton>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup>
-import { doc, query, where, collection, getDocs } from 'firebase/firestore'
+import { query, where, collection, getDocs, limit } from 'firebase/firestore'
 import { useFirestore } from 'vuefire'
 
 useHead({
   title: 'English Proficiency Test'
 })
 
-const route = useRoute()
-let testId = route.query.id
 const currentQuestionIndex = ref(0)
 const userAnswers = ref({})
+const pending = ref(true)
+const error = ref(null)
+const questions = ref([])
 
 const db = useFirestore()
 
-if (!testId) {
-  const publishedTests = await getDocs(query(collection(db, 'tests'), where('published', '==', true)))
-  const randomIndex = Math.floor(Math.random() * publishedTests.docs.length)
-  testId = publishedTests.docs[randomIndex].id
+// Fetch question groups and combine their questions
+const fetchTestQuestions = async () => {
+  try {
+    pending.value = true
+    error.value = null
+    
+    const questionTypes = [
+      { type: 'image', count: 1 },
+      { type: 'long_text', count: 1 },
+      { type: 'short_text', count: 1 },
+      { type: 'blanks_8', count: 1 },
+      { type: 'blanks_4', count: 2 }
+    ]
+    
+    let allQuestions = []
+    
+    for (const { type, count } of questionTypes) {
+      // Fetch published question groups of this type
+      const querySnapshot = await getDocs(
+        query(
+          collection(db, 'question-groups'),
+          where('type', '==', type),
+          where('published', '==', true),
+          limit(count)
+        )
+      )
+      
+      querySnapshot.docs.forEach(doc => {
+        const groupData = doc.data()
+        if (groupData.questions && groupData.questions.length > 0) {
+          // Add questions from this group to the test
+          allQuestions = [...allQuestions, ...groupData.questions]
+        }
+      })
+    }
+    
+    questions.value = allQuestions
+    
+  } catch (err) {
+    console.error('Error fetching question groups:', err)
+    error.value = err.message || 'Failed to load test questions'
+  } finally {
+    pending.value = false
+  }
 }
 
-const { data, pending, error } = useDocument(doc(db, 'tests', testId))
+// Fetch questions on component mount
+await fetchTestQuestions()
 
-const currentQuestion = computed(() => data.value.questions[currentQuestionIndex.value])
-const isLastQuestion = computed(() =>  currentQuestionIndex.value === data.value.questions.length - 1)
+const currentQuestion = computed(() => questions.value[currentQuestionIndex.value])
+const isLastQuestion = computed(() => currentQuestionIndex.value === questions.value.length - 1)
 const answeredCount = computed(() => Object.keys(userAnswers.value).length)
 
 const nextQuestion = () => {
   if (isLastQuestion.value) {
     const resultsData = {
       userAnswers: userAnswers.value,
-      totalQuestions: data.value.questions.length
+      totalQuestions: questions.value.length
     }
     localStorage.setItem('testResults', JSON.stringify(resultsData))
     
@@ -176,7 +233,7 @@ const previousQuestion = () => {
 }
 
 const goToQuestion = (index) => {
-  if (index >= 0 && index < data.value.questions.length) {
+  if (index >= 0 && index < questions.value.length) {
     currentQuestionIndex.value = index
   }
 }

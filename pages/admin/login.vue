@@ -82,7 +82,7 @@ const signIn = async () => {
   try {
     await signInWithEmailAndPassword(auth, email.value, password.value)
     // Redirect to admin tests page after successful login
-    navigateTo('/admin/tests')
+    navigateTo('/admin/question-groups')
   } catch (error) {
     authError.value = error.message
   } finally {
@@ -94,7 +94,7 @@ const signIn = async () => {
 onMounted(() => {
   onAuthStateChanged(auth, (user) => {
     if (user) {
-      navigateTo('/admin/tests')
+      navigateTo('/admin/question-groups')
     }
   })
 })

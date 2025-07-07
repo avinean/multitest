@@ -5,16 +5,22 @@
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-16">
           <div class="flex items-center space-x-8">
-            <nuxt-link to="/" class="text-xl font-semibold text-gray-900">Test Admin</nuxt-link>
+            <nuxt-link to="/admin" class="text-xl font-semibold text-gray-900">Test Admin</nuxt-link>
             <div class="flex space-x-4">
               <nuxt-link 
-                to="/admin/tests" 
+                to="/" 
                 class="text-sm font-medium text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md"
                 active-class="bg-gray-100 text-gray-900"
               >
-                Tests
+                Home
               </nuxt-link>
-              <!-- Add more admin navigation items here in the future -->
+              <nuxt-link 
+                to="/admin/question-groups" 
+                class="text-sm font-medium text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md"
+                active-class="bg-gray-100 text-gray-900"
+              >
+                Question Groups
+              </nuxt-link>
             </div>
           </div>
           <div class="flex items-center gap-4">
