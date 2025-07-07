@@ -208,17 +208,37 @@ const fetchTestQuestions = async () => {
 // Fetch questions on component mount
 await fetchTestQuestions()
 
+// Store questions in sessionStorage when fetched
+watch(questions, (newQuestions) => {
+  if (newQuestions && newQuestions.length > 0) {
+    const testData = {
+      questions: newQuestions,
+      userAnswers: {},
+      startTime: new Date().toISOString()
+    }
+    sessionStorage.setItem('testData', JSON.stringify(testData))
+  }
+}, { immediate: true })
+
+// Watch for answer changes and update sessionStorage
+watch(userAnswers, (newAnswers) => {
+  const testData = JSON.parse(sessionStorage.getItem('testData') || '{}')
+  if (testData.questions) {
+    testData.userAnswers = newAnswers
+    sessionStorage.setItem('testData', JSON.stringify(testData))
+  }
+}, { deep: true })
+
 const currentQuestion = computed(() => questions.value[currentQuestionIndex.value])
 const isLastQuestion = computed(() => currentQuestionIndex.value === questions.value.length - 1)
 const answeredCount = computed(() => Object.keys(userAnswers.value).length)
 
 const nextQuestion = () => {
   if (isLastQuestion.value) {
-    const resultsData = {
-      userAnswers: userAnswers.value,
-      totalQuestions: questions.value.length
-    }
-    localStorage.setItem('testResults', JSON.stringify(resultsData))
+    // Update sessionStorage with final completion time
+    const testData = JSON.parse(sessionStorage.getItem('testData') || '{}')
+    testData.completedTime = new Date().toISOString()
+    sessionStorage.setItem('testData', JSON.stringify(testData))
     
     navigateTo('/result')
   } else {
