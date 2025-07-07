@@ -79,7 +79,7 @@
           </div>
 
           <div>
-            <h4 class="text-lg font-medium mb-6">{{ currentQuestion.text }}</h4>
+            <div class="text-lg font-medium mb-6 prose prose-lg max-w-none" v-html="currentQuestion.text"/>
           
             <div class="space-y-3">
               <label 

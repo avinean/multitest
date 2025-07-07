@@ -75,11 +75,13 @@
           </div>
         </div>
 
-        <form class="space-y-6" @submit.prevent="saveTest">
-          <div>
-            <label for="testName" class="block text-sm font-medium text-gray-700 mb-2">
-              Test Name *
-            </label>
+        <UForm 
+          class="space-y-6" 
+          :state="testForm" 
+          :validate-on="[]"
+          @submit="saveTest"
+        >
+          <UFormField label="Test Name *" hint="Choose a clear, descriptive name that identifies the purpose of this test.">
             <UInput 
               id="testName"
               v-model="testForm.name" 
@@ -89,15 +91,9 @@
               required
               class="w-full"
             />
-            <p class="mt-1 text-sm text-gray-500">
-              Choose a clear, descriptive name that identifies the purpose of this test.
-            </p>
-          </div>
+          </UFormField>
 
-          <div>
-            <label for="testDescription" class="block text-sm font-medium text-gray-700 mb-2">
-              Description (Optional)
-            </label>
+          <UFormField label="Description (Optional)" hint="Optional description to help identify the test's content and purpose.">
             <UTextarea 
               id="testDescription"
               v-model="testForm.description" 
@@ -106,10 +102,28 @@
               rows="3"
               class="w-full"
             />
-            <p class="mt-1 text-sm text-gray-500">
-              Optional description to help identify the test's content and purpose.
-            </p>
-          </div>
+          </UFormField>
+
+          <UFormField label="Publication Status" hint="Controls whether this test is visible to users or remains as a draft.">
+            <div class="flex items-center gap-3">
+              <USwitch 
+                v-model="testForm.published"
+                :disabled="saving"
+              />
+              <div class="flex items-center gap-2">
+                <UBadge 
+                  :color="testForm.published ? 'success' : 'neutral'"
+                  :variant="testForm.published ? 'solid' : 'outline'"
+                  size="sm"
+                >
+                  {{ testForm.published ? 'Published' : 'Draft' }}
+                </UBadge>
+                <span class="text-sm text-gray-600">
+                  {{ testForm.published ? 'Test is visible to users' : 'Test is hidden from users' }}
+                </span>
+              </div>
+            </div>
+          </UFormField>
 
           <!-- Questions info for existing tests -->
           <div v-if="!isNewTest && testData?.questions" class="bg-gray-50 border border-gray-200 rounded-lg p-4">
@@ -210,7 +224,7 @@
               {{ isNewTest ? 'Create Test' : 'Update Test' }}
             </UButton>
           </div>
-        </form>
+        </UForm>
       </div>
     </div>
 
@@ -237,53 +251,55 @@
         </div>
 
         <!-- Question Form -->
-        <form class="space-y-6" @submit.prevent="saveQuestion">
+        <UForm 
+          class="space-y-6" 
+          :state="questionForm" 
+          :validate-on="[]"
+          @submit="saveQuestion"
+        >
           <!-- Question Text -->
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Question Text *</label>
+          <UFormField label="Question Text *" hint="Enter the main question text. This can include rich HTML formatting.">
             <UTextarea 
               v-model="questionForm.text" 
               placeholder="Enter your question here..."
               rows="3"
               required
               :disabled="savingQuestion"
+              class="w-full"
             />
-          </div>
+          </UFormField>
 
           <!-- Optional Fields -->
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">Title (Optional)</label>
-              <UInput 
-                v-model="questionForm.title" 
-                placeholder="Question title"
-                :disabled="savingQuestion"
-              />
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">Order</label>
-              <UInput 
-                v-model="questionForm.order" 
-                type="number"
-                min="1"
-                :disabled="savingQuestion"
-                required
-              />
-            </div>
-          </div>
-
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Subtitle (Optional)</label>
+          <UFormField label="Title (Optional)" hint="An optional title for the question.">
+            <UInput 
+              v-model="questionForm.title" 
+              placeholder="Question title"
+              :disabled="savingQuestion"
+              class="w-full"
+            />
+          </UFormField>
+          <UFormField label="Order" hint="Position of this question in the test.">
+            <UInput 
+              v-model="questionForm.order" 
+              type="number"
+              min="1"
+              :disabled="savingQuestion"
+              required
+              class="w-full"
+            />
+          </UFormField>
+          
+          <UFormField label="Subtitle (Optional)" hint="An optional subtitle for the question.">
             <UInput 
               v-model="questionForm.subtitle" 
               placeholder="Question subtitle"
               :disabled="savingQuestion"
+              class="w-full"
             />
-          </div>
+          </UFormField>
 
           <!-- Image Upload -->
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Question Image (Optional)</label>
+          <UFormField label="Question Image (Optional)" hint="Upload an image to accompany the question.">
             
             <!-- Image Upload Error -->
             <div v-if="imageUploadError" class="mb-3 p-3 bg-red-50 border border-red-200 rounded-lg">
@@ -351,11 +367,10 @@
                 ({{ Math.round(questionForm.imageFile.size / 1024) }}KB)
               </span>
             </div>
-          </div>
+          </UFormField>
 
           <!-- Answer Options -->
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Answer Options *</label>
+          <UFormField label="Answer Options *" hint="Add answer options and select the correct one. At least 2 options are required.">
             <div class="space-y-3">
               <div 
                 v-for="(option, index) in questionForm.options" 
@@ -392,19 +407,19 @@
                 </UButton>
               </div>
             </div>
-            <div class="mt-3">
-              <UButton 
-                type="button" 
-                variant="outline" 
-                size="sm" 
-                :disabled="savingQuestion"
-                @click="addOption"
-              >
-                Add Option
-              </UButton>
-            </div>
-          </div>
-        </form>
+          </UFormField>
+          
+          <UButton 
+            type="button" 
+            variant="outline" 
+            size="sm" 
+            :disabled="savingQuestion"
+            @click="addOption"
+          >
+            Add Option
+          </UButton>
+          
+        </UForm>
       </template>
 
       <template #footer>
@@ -456,7 +471,8 @@ useHead({
 // Form state
 const testForm = ref({
   name: '',
-  description: ''
+  description: '',
+  published: false
 })
 
 const saving = ref(false)
@@ -505,14 +521,20 @@ watch([fetchedTest, testPending, fetchError], ([data, pending, error]) => {
     if (data) {
       testForm.value = {
         name: data.name || '',
-        description: data.description || ''
+        description: data.description || '',
+        published: data.published || false
       }
     }
   }
 }, { immediate: true })
 
 // Save test
-const saveTest = async () => {
+const saveTest = async (event) => {
+  // Prevent default if it's a form event
+  if (event?.preventDefault) {
+    event.preventDefault()
+  }
+  
   if (!testForm.value.name.trim()) return
   
   saving.value = true
@@ -522,6 +544,7 @@ const saveTest = async () => {
     const testData = {
       name: testForm.value.name,
       description: testForm.value.description,
+      published: testForm.value.published,
       updatedAt: serverTimestamp()
     }
     
@@ -611,7 +634,12 @@ const removeOption = (index) => {
   questionForm.value.options.splice(index, 1)
 }
 
-const saveQuestion = async () => {
+const saveQuestion = async (event) => {
+  // Prevent default if it's a form event
+  if (event?.preventDefault) {
+    event.preventDefault()
+  }
+  
   if (!questionForm.value.text.trim() || 
       questionForm.value.options.filter(o => o.trim()).length < 2 || 
       questionForm.value.correctAnswerIndex === null || 

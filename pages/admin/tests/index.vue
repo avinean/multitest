@@ -48,7 +48,16 @@
       >
         <div class="flex justify-between items-start">
           <div class="flex-1">
-            <h3 class="text-lg font-semibold text-gray-900 mb-2">{{ test.name }}</h3>
+            <div class="flex items-center gap-3 mb-2">
+              <h3 class="text-lg font-semibold text-gray-900">{{ test.name }}</h3>
+              <UBadge 
+                :color="test.published ? 'success' : 'neutral'"
+                :variant="test.published ? 'solid' : 'outline'"
+                size="sm"
+              >
+                {{ test.published ? 'Published' : 'Draft' }}
+              </UBadge>
+            </div>
             <div class="flex items-center gap-4 text-sm text-gray-500">
               <span>ID: {{ test.id }}</span>
               <span>{{ test.questions?.length || 0 }} questions</span>
