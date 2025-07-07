@@ -33,8 +33,8 @@
               class="w-8 h-8 rounded-lg border-2 flex items-center justify-center"
               :class="{
                 'border-primary-500 bg-primary-100': index === currentQuestionIndex,
-                'border-green-500 bg-green-100': isQuestionAnswered(index) && index !== currentQuestionIndex,
-                'border-gray-300 bg-gray-50 hover:bg-gray-100': !isQuestionAnswered(index) && index !== currentQuestionIndex
+                'border-green-500 bg-green-100': userAnswers[index] && index !== currentQuestionIndex,
+                'border-gray-300 bg-gray-50 hover:bg-gray-100': !userAnswers[index] && index !== currentQuestionIndex
               }"
               @click="goToQuestion(index)"
             >
@@ -129,26 +129,31 @@
 </template>
 
 <script setup>
-import { doc } from 'firebase/firestore'
-import { useDocument, useFirestore } from 'vuefire'
+import { doc, query, where, collection, getDocs } from 'firebase/firestore'
+import { useFirestore } from 'vuefire'
 
 useHead({
   title: 'English Proficiency Test'
 })
 
+const route = useRoute()
+let testId = route.query.id
 const currentQuestionIndex = ref(0)
 const userAnswers = ref({})
 
-// Fetch test data directly using useDocument
 const db = useFirestore()
-const { data, pending, error } = useDocument(
-  doc(db, 'tests', 'combined-test')
-)
+
+if (!testId) {
+  const publishedTests = await getDocs(query(collection(db, 'tests'), where('published', '==', true)))
+  const randomIndex = Math.floor(Math.random() * publishedTests.docs.length)
+  testId = publishedTests.docs[randomIndex].id
+}
+
+const { data, pending, error } = useDocument(doc(db, 'tests', testId))
+
 const currentQuestion = computed(() => data.value.questions[currentQuestionIndex.value])
 const isLastQuestion = computed(() =>  currentQuestionIndex.value === data.value.questions.length - 1)
 const answeredCount = computed(() => Object.keys(userAnswers.value).length)
-
-const isQuestionAnswered = (questionIndex) => userAnswers.value[questionIndex] !== undefined
 
 const nextQuestion = () => {
   if (isLastQuestion.value) {

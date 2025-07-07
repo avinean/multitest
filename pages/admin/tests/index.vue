@@ -57,6 +57,14 @@
               >
                 {{ test.published ? 'Published' : 'Draft' }}
               </UBadge>
+              <UButton 
+                color="primary"
+                variant="outline"
+                size="xs"
+                :to="`/test?id=${test.id}`"
+              >
+                Preview
+              </UButton>
             </div>
             <div class="flex items-center gap-4 text-sm text-gray-500">
               <span>ID: {{ test.id }}</span>
@@ -119,7 +127,6 @@ definePageMeta({
 
 const db = inject('db')
 
-// Fetch tests data directly using useCollection
 const { data: tests, pending: testsLoading, error: testsError } = useCollection(
   collection(db, 'tests')
 )
