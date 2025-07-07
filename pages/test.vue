@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col"> 
-    <div v-if="loading" class="flex-1 flex justify-center items-center min-h-screen">
+    <div v-if="pending" class="flex-1 flex justify-center items-center min-h-screen">
       <div class="text-center">
         <div class="animate-spin rounded-full h-32 w-32 border-b-2 border-primary-500 mx-auto mb-4"/>
         <p class="text-lg">Loading test questions...</p>
@@ -16,19 +16,19 @@
       </div>
     </div>
 
-    <div v-else-if="questions.length > 0" class="flex-1 flex flex-col">
+    <div v-else-if="data.questions.length > 0" class="flex-1 flex flex-col">
       <div class="sticky top-0 bg-white border-b border-gray-200 p-4 z-10">
         <div class="max-w-6xl mx-auto">
           <div class="flex items-center justify-between mb-4">
             <h3 class="text-lg font-semibold">Question Navigation</h3>
             <div class="text-sm">
-              {{ answeredCount }} of {{ questions.length }} answered
+              {{ answeredCount }} of {{ data.questions.length }} answered
             </div>
           </div>
 
           <div class="flex flex-wrap gap-2 mb-4">
             <button
-              v-for="(question, index) in questions"
+              v-for="(question, index) in data.questions"
               :key="index"
               class="w-8 h-8 rounded-lg border-2 flex items-center justify-center"
               :class="{
@@ -129,6 +129,9 @@
 </template>
 
 <script setup>
+import { doc } from 'firebase/firestore'
+import { useDocument, useFirestore } from 'vuefire'
+
 useHead({
   title: 'English Proficiency Test'
 })
@@ -136,9 +139,13 @@ useHead({
 const currentQuestionIndex = ref(0)
 const userAnswers = ref({})
 
-const { loading, error, questions } = useTest()
-const currentQuestion = computed(() => questions.value[currentQuestionIndex.value])
-const isLastQuestion = computed(() =>  currentQuestionIndex.value === questions.value.length - 1)
+// Fetch test data directly using useDocument
+const db = useFirestore()
+const { data, pending, error } = useDocument(
+  doc(db, 'tests', 'combined-test')
+)
+const currentQuestion = computed(() => data.value.questions[currentQuestionIndex.value])
+const isLastQuestion = computed(() =>  currentQuestionIndex.value === data.value.questions.length - 1)
 const answeredCount = computed(() => Object.keys(userAnswers.value).length)
 
 const isQuestionAnswered = (questionIndex) => userAnswers.value[questionIndex] !== undefined
@@ -147,7 +154,7 @@ const nextQuestion = () => {
   if (isLastQuestion.value) {
     const resultsData = {
       userAnswers: userAnswers.value,
-      totalQuestions: questions.value.length
+      totalQuestions: data.value.questions.length
     }
     localStorage.setItem('testResults', JSON.stringify(resultsData))
     
@@ -164,7 +171,7 @@ const previousQuestion = () => {
 }
 
 const goToQuestion = (index) => {
-  if (index >= 0 && index < questions.value.length) {
+  if (index >= 0 && index < data.value.questions.length) {
     currentQuestionIndex.value = index
   }
 }
