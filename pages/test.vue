@@ -136,7 +136,7 @@ useHead({
 const currentQuestionIndex = ref(0)
 const userAnswers = ref({})
 
-const { loading, error, questions } = useTestQuestions()
+const { loading, error, questions } = useTest()
 const currentQuestion = computed(() => questions.value[currentQuestionIndex.value])
 const isLastQuestion = computed(() =>  currentQuestionIndex.value === questions.value.length - 1)
 const answeredCount = computed(() => Object.keys(userAnswers.value).length)

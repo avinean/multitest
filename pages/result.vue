@@ -97,7 +97,7 @@ useHead({
 const route = useRoute()
 const userAnswers = ref({})
 
-const { loading, error, questions } = useTestQuestions()
+const { loading, error, questions } = useTest()
 
 onMounted(() => {
   const savedResults = localStorage.getItem('testResults')
