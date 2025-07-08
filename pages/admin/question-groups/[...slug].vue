@@ -11,7 +11,7 @@
         >
           Back to Question Groups
         </UButton>
-        <div>
+        <div class="flex-1">
           <h2 class="text-2xl font-bold text-gray-900">
             {{ isNewGroup ? 'Create New Question Group' : `Edit: ${groupData?.name || 'Question Group'}` }}
           </h2>
@@ -19,21 +19,24 @@
             {{ isNewGroup ? 'Add a new question group to the system' : 'Modify question group settings and content' }}
           </p>
         </div>
+        <UButton 
+          v-if="!isNewGroup && groupData?.questions?.length > 0"
+          color="primary" 
+          variant="outline" 
+          icon="i-heroicons-eye"
+          @click="openPreview"
+        >
+          Preview Group
+        </UButton>
       </div>
     </div>
 
     <!-- Loading State (for editing existing group) -->
     <div v-if="!isNewGroup && groupLoading" class="max-w-2xl">
-      <div class="bg-white rounded-lg shadow-sm p-6 animate-pulse">
-        <div class="space-y-6">
-          <div>
-            <div class="h-4 bg-gray-200 rounded w-1/4 mb-2"/>
-            <div class="h-10 bg-gray-200 rounded"/>
-          </div>
-          <div>
-            <div class="h-4 bg-gray-200 rounded w-1/3 mb-2"/>
-            <div class="h-20 bg-gray-200 rounded"/>
-          </div>
+      <div class="bg-white rounded-lg shadow-sm p-6 flex justify-center items-center">
+        <div class="flex items-center gap-3">
+          <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-500"/>
+          <span class="text-gray-600">Loading question group...</span>
         </div>
       </div>
     </div>
@@ -56,150 +59,148 @@
     </div>
 
     <!-- Form (shown when ready) -->
-    <div v-else-if="isNewGroup || (!groupLoading && groupData)" class="max-w-2xl">
-      <div class="bg-white rounded-lg shadow-sm p-6">
-        <!-- Save Error message -->
-        <div v-if="saveError" class="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+    <div v-else-if="isNewGroup || (!groupLoading && groupData)" class="max-w-2xl mx-auto">
+      <div v-if="saveError" class="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+        <div class="flex">
+          <div class="text-red-400">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+            </svg>
+          </div>
+          <div class="ml-3">
+            <h3 class="text-sm font-medium text-red-800">
+              Error {{ isNewGroup ? 'creating' : 'updating' }} question group
+            </h3>
+            <p class="mt-1 text-sm text-red-700">{{ saveError }}</p>
+          </div>
+        </div>
+      </div>
+
+      <UForm 
+        class="space-y-6" 
+        :state="groupForm" 
+        :validate-on="[]"
+        @submit="saveGroup"
+      >
+        <UFormField label="Name *" hint="Give this question group a descriptive name.">
+          <UInput 
+            v-model="groupForm.name"
+            placeholder="Enter question group name..."
+            :disabled="saving"
+            required
+          />
+        </UFormField>
+
+        <UFormField label="Type *" hint="Select the type of question group you want to create.">
+          <USelect 
+            v-model="groupForm.type"
+            :items="[
+              { value: 'image', label: 'Image-based Questions' },
+              { value: 'long_text', label: 'Long Text Questions' },
+              { value: 'short_text', label: 'Short Text Questions' },
+              { value: 'blanks_8', label: 'Fill in Blanks (8 options)' },
+              { value: 'blanks_4_vocabulary', label: 'Fill in Blanks (4 options) - Vocabulary' },
+              { value: 'blanks_4_grammar', label: 'Fill in Blanks (4 options) - Grammar' }
+            ]"
+            :disabled="saving"
+            placeholder="Select question group type"
+            required
+          />
+        </UFormField>
+
+        <UFormField v-if="groupData" label="Publication Status" hint="Control whether this question group is published and available for use.">
+          <USwitch 
+            v-model="groupForm.published"
+            :disabled="saving"
+          />
+          <span class="text-sm" :class="groupForm.published ? 'text-green-600 font-medium' : 'text-gray-500'">
+            {{ groupForm.published ? 'Published (Visible to users)' : 'Draft (Hidden from users)' }}
+          </span>
+        </UFormField>
+
+        <!-- Questions list for existing groups -->
+        <template v-if="!isNewGroup">
+          <div class="flex items-center justify-between mb-4">
+            <h4 class="text-sm font-medium text-gray-700">Sub-Questions</h4>
+            <UButton size="sm" @click="addQuestion">Add Sub-Question</UButton>
+          </div>
+      
+          <!-- Questions List -->
+          <div v-if="groupData?.questions?.length > 0" class="space-y-3">
+            <div 
+              v-for="(question, index) in groupData.questions" 
+              :key="index"
+              class="bg-white border border-gray-200 rounded-lg p-4"
+            >
+              <div class="flex justify-between items-start">
+                <div class="flex-1">
+                  <div class="flex items-center gap-2 mb-2">
+                    <span class="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-1 rounded">
+                      Q{{ index + 1 }}
+                    </span>
+                  </div>
+                  <p v-if="question.imageUrl" class="text-sm text-gray-700 mb-2">
+                    <strong>Image:</strong> {{ question.imageUrl.length > 50 ? question.imageUrl.substring(0, 50) + '...' : question.imageUrl }}
+                  </p>
+                  <p v-if="question.text" class="text-sm text-gray-700 mb-2">
+                    <strong>Text:</strong> {{ question.text.length > 100 ? question.text.substring(0, 100) + '...' : question.text }}
+                  </p>
+                  <p v-if="question.question" class="text-sm text-gray-700 mb-2">
+                    <strong>Question:</strong> {{ question.question.length > 100 ? question.question.substring(0, 100) + '...' : question.question }}
+                  </p>
+                  <div class="text-xs text-gray-500">
+                    {{ question.options?.length || 0 }} options
+                    <span v-if="question.correct !== undefined && question.options?.[question.correct]">
+                      • Correct: {{ question.options[question.correct] }}
+                    </span>
+                  </div>
+                </div>
+                <div class="flex gap-2 ml-4">
+                  <UButton size="xs" variant="outline" @click="editQuestion(index)">
+                    Edit
+                  </UButton>
+                  <UButton size="xs" color="neutral" variant="outline" @click="duplicateQuestion(index)">
+                    Duplicate
+                  </UButton>
+                  <UButton size="xs" color="error" variant="outline" @click="deleteQuestion(index)">
+                    Delete
+                  </UButton>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- No questions state -->
+          <div v-else class="text-center py-6">
+            <div class="text-gray-400 mb-2">
+              <svg class="w-8 h-8 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+            </div>
+            <p class="text-sm text-gray-500 mb-3">No sub-questions added yet</p>
+            <UButton size="sm" @click="addQuestion">Add First Sub-Question</UButton>
+          </div>
+        </template>
+
+        <!-- Info box for new groups -->
+        <div v-if="isNewGroup" class="bg-blue-50 border border-blue-200 rounded-lg p-4">
           <div class="flex">
-            <div class="text-red-400">
+            <div class="text-blue-400">
               <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
               </svg>
             </div>
             <div class="ml-3">
-              <h3 class="text-sm font-medium text-red-800">
-                Error {{ isNewGroup ? 'creating' : 'updating' }} question group
-              </h3>
-              <p class="mt-1 text-sm text-red-700">{{ saveError }}</p>
+              <h3 class="text-sm font-medium text-blue-800">Getting Started</h3>
+              <p class="mt-1 text-sm text-blue-700">
+                Create and save this question group first, then you'll be able to add individual sub-questions to organize your content.
+              </p>
             </div>
           </div>
         </div>
-
-        <UForm 
-          class="space-y-6" 
-          :state="groupForm" 
-          :validate-on="[]"
-          @submit="saveGroup"
-        >
-          <UFormField label="Name *" hint="Give this question group a descriptive name.">
-            <UInput 
-              v-model="groupForm.name"
-              placeholder="Enter question group name..."
-              :disabled="saving"
-              required
-            />
-          </UFormField>
-
-          <UFormField label="Type *" hint="Select the type of question group you want to create.">
-            <USelect 
-              v-model="groupForm.type"
-              :items="[
-                { value: 'image', label: 'Image-based Questions' },
-                { value: 'long_text', label: 'Long Text Questions' },
-                { value: 'short_text', label: 'Short Text Questions' },
-                { value: 'blanks_8', label: 'Fill in Blanks (8 options)' },
-                { value: 'blanks_4_vocabulary', label: 'Fill in Blanks (4 options) - Vocabulary' },
-                { value: 'blanks_4_grammar', label: 'Fill in Blanks (4 options) - Grammar' }
-              ]"
-              :disabled="saving"
-              placeholder="Select question group type"
-              required
-            />
-          </UFormField>
-
-          <UFormField v-if="groupData" label="Publication Status" hint="Control whether this question group is published and available for use.">
-            <USwitch 
-              v-model="groupForm.published"
-              :disabled="saving"
-            />
-            <span class="text-sm" :class="groupForm.published ? 'text-green-600 font-medium' : 'text-gray-500'">
-              {{ groupForm.published ? 'Published (Visible to users)' : 'Draft (Hidden from users)' }}
-            </span>
-          </UFormField>
-
-                  <!-- Questions list for existing groups -->
-          <div v-if="!isNewGroup" class="bg-gray-50 border border-gray-200 rounded-lg p-4">
-            <div class="flex items-center justify-between mb-4">
-              <h4 class="text-sm font-medium text-gray-700">Sub-Questions</h4>
-              <UButton size="sm" @click="addQuestion">Add Sub-Question</UButton>
-            </div>
-        
-        <!-- Questions List -->
-        <div v-if="groupData?.questions?.length > 0" class="space-y-3">
-          <div 
-            v-for="(question, index) in groupData.questions" 
-            :key="index"
-            class="bg-white border border-gray-200 rounded-lg p-4"
-          >
-            <div class="flex justify-between items-start">
-              <div class="flex-1">
-                <div class="flex items-center gap-2 mb-2">
-                  <span class="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-1 rounded">
-                    Q{{ index + 1 }}
-                  </span>
-                </div>
-                <p v-if="question.imageUrl" class="text-sm text-gray-700 mb-2">
-                  <strong>Image:</strong> {{ question.imageUrl.length > 50 ? question.imageUrl.substring(0, 50) + '...' : question.imageUrl }}
-                </p>
-                <p v-if="question.text" class="text-sm text-gray-700 mb-2">
-                  <strong>Text:</strong> {{ question.text.length > 100 ? question.text.substring(0, 100) + '...' : question.text }}
-                </p>
-                <p v-if="question.question" class="text-sm text-gray-700 mb-2">
-                  <strong>Question:</strong> {{ question.question.length > 100 ? question.question.substring(0, 100) + '...' : question.question }}
-                </p>
-                <div class="text-xs text-gray-500">
-                  {{ question.options?.length || 0 }} options
-                  <span v-if="question.correct !== undefined && question.options?.[question.correct]">
-                    • Correct: {{ question.options[question.correct] }}
-                  </span>
-                </div>
-              </div>
-              <div class="flex gap-2 ml-4">
-                <UButton size="xs" variant="outline" @click="editQuestion(index)">
-                  Edit
-                </UButton>
-                <UButton size="xs" color="neutral" variant="outline" @click="duplicateQuestion(index)">
-                  Duplicate
-                </UButton>
-                <UButton size="xs" color="error" variant="outline" @click="deleteQuestion(index)">
-                  Delete
-                </UButton>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <!-- No questions state -->
-        <div v-else class="text-center py-6">
-          <div class="text-gray-400 mb-2">
-            <svg class="w-8 h-8 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-            </svg>
-          </div>
-          <p class="text-sm text-gray-500 mb-3">No sub-questions added yet</p>
-                      <UButton size="sm" @click="addQuestion">Add First Sub-Question</UButton>
-            </div>
-          </div>
-
-          <!-- Info box for new groups -->
-          <div v-if="isNewGroup" class="bg-blue-50 border border-blue-200 rounded-lg p-4">
-            <div class="flex">
-              <div class="text-blue-400">
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
-                </svg>
-              </div>
-              <div class="ml-3">
-                <h3 class="text-sm font-medium text-blue-800">Getting Started</h3>
-                <p class="mt-1 text-sm text-blue-700">
-                  Create and save this question group first, then you'll be able to add individual sub-questions to organize your content.
-                </p>
-              </div>
-            </div>
-          </div>
 
           <!-- Action Buttons -->
-        <div class="flex justify-end gap-3 pt-6 border-t border-gray-200">
+        <div class="flex justify-end gap-3 py-6 sticky bottom-0 bg-white">
           <UButton 
             type="button" 
             color="gray" 
@@ -215,10 +216,9 @@
             :disabled="!isFormValid()"
           >
             {{ isNewGroup ? 'Create Question Group' : 'Update Question Group' }}
-                      </UButton>
-          </div>
-        </UForm>
-      </div>
+          </UButton>
+        </div>
+      </UForm>
     </div>
 
     <!-- Sub-Question Modal -->
@@ -326,28 +326,26 @@
           <!-- Text field -->
           <UFormField 
             label="Text Content" 
-            hint="Text content for this sub-question."
+            hint="Text content for this sub-question. You can use rich formatting like bold, italic, lists, etc."
           >
-            <UTextarea 
+            <WysiwygEditor 
               v-model="subQuestionForm.text" 
-              placeholder="Enter text content..."
-              rows="3"
+              placeholder="Enter text content with rich formatting..."
               :disabled="savingSubQuestion"
-              class="w-full"
+              style="min-height: 120px;"
             />
           </UFormField>
 
           <!-- Question field -->
           <UFormField 
             label="Question" 
-            hint="The question text for this sub-question."
+            hint="The question text for this sub-question. You can use rich formatting like bold, italic, lists, etc."
           >
-            <UTextarea 
+            <WysiwygEditor 
               v-model="subQuestionForm.question" 
-              placeholder="Enter your question here..."
-              rows="2"
+              placeholder="Enter your question here with rich formatting..."
               :disabled="savingSubQuestion"
-              class="w-full"
+              style="min-height: 100px;"
             />
           </UFormField>
 
@@ -423,6 +421,96 @@
             @click="saveSubQuestion"
           >
             {{ editingSubQuestionIndex !== null ? 'Update Sub-Question' : 'Add Sub-Question' }}
+          </UButton>
+        </div>
+      </template>
+    </UModal>
+
+    <!-- Preview Modal -->
+    <UModal 
+      v-model:open="showPreviewModal" 
+      title="Question Group Preview"
+      :ui="{ content: 'w-full max-w-4xl h-[80vh]' }"
+    >
+      <template #body>
+        <div v-if="groupData?.questions?.length > 0" class="h-full flex flex-col">
+          <!-- Preview Navigation -->
+          <div class="border-b border-gray-200 pb-4 mb-4">
+            <div class="flex items-center justify-between mb-4">
+              <h4 class="text-lg font-semibold">{{ groupData.name }}</h4>
+              <div class="text-sm text-gray-600">
+                Question {{ previewQuestionIndex + 1 }} of {{ groupData.questions.length }}
+              </div>
+            </div>
+            
+            <div class="flex flex-wrap gap-2 mb-4">
+              <button
+                v-for="(question, index) in groupData.questions"
+                :key="index"
+                class="w-8 h-8 rounded-lg border-2 flex items-center justify-center text-sm"
+                :class="{
+                  'border-primary-500 bg-primary-100 text-primary-700': index === previewQuestionIndex,
+                  'border-gray-300 bg-gray-50 hover:bg-gray-100': index !== previewQuestionIndex
+                }"
+                @click="previewQuestionIndex = index"
+              >
+                {{ index + 1 }}
+              </button>
+            </div>
+          </div>
+
+          <!-- Preview Content -->
+          <div class="flex-1 overflow-auto">
+            <QuestionViewer 
+              v-if="currentPreviewQuestion"
+              :question="currentPreviewQuestion"
+              mode="preview"
+              :question-index="previewQuestionIndex"
+            />
+          </div>
+
+          <!-- Preview Navigation Controls -->
+          <div class="border-t border-gray-200 pt-4 mt-4">
+            <div class="flex justify-between">
+              <UButton 
+                :disabled="previewQuestionIndex === 0" 
+                color="gray"
+                variant="outline"
+                @click="previewQuestionIndex--"
+              >
+                ← Previous
+              </UButton>
+              
+              <UButton 
+                :disabled="previewQuestionIndex === groupData.questions.length - 1"
+                color="primary"
+                variant="outline"
+                @click="previewQuestionIndex++"
+              >
+                Next →
+              </UButton>
+            </div>
+          </div>
+        </div>
+        
+        <div v-else class="text-center py-8">
+          <div class="text-gray-400 mb-2">
+            <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+          <p class="text-gray-500">No questions to preview</p>
+        </div>
+      </template>
+
+      <template #footer>
+        <div class="flex justify-end">
+          <UButton 
+            color="gray" 
+            variant="outline"
+            @click="closePreview"
+          >
+            Close Preview
           </UButton>
         </div>
       </template>
@@ -568,6 +656,15 @@ const subQuestionForm = ref({
 // Sub-question image upload state
 const uploadingSubQuestionImage = ref(false)
 const subQuestionImageUploadError = ref('')
+
+// Preview modal state
+const showPreviewModal = ref(false)
+const previewQuestionIndex = ref(0)
+
+// Preview computed properties
+const currentPreviewQuestion = computed(() => {
+  return groupData.value?.questions?.[previewQuestionIndex.value] || null
+})
 
 // Helper function to get max options based on group type
 const getMaxOptionsForGroupType = () => {
@@ -847,5 +944,16 @@ const deleteQuestion = async (index) => {
     console.error('Error deleting sub-question:', error)
     // Could add error handling here
   }
+}
+
+// Preview functions
+const openPreview = () => {
+  previewQuestionIndex.value = 0
+  showPreviewModal.value = true
+}
+
+const closePreview = () => {
+  showPreviewModal.value = false
+  previewQuestionIndex.value = 0
 }
 </script> 

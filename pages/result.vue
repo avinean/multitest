@@ -40,11 +40,9 @@
             <img :src="question.imageUrl" :alt="question.text || 'Question image'" class="max-w-80 mx-auto rounded-lg shadow-lg">
           </div>
 
-          <div v-if="question.text" class="mb-4 p-4 bg-gray-50 rounded-lg">
-            <p class="text-gray-800">{{ question.text }}</p>
-          </div>
+          <div v-if="question.text" class="mb-4 p-4 bg-gray-50 rounded-lg prose prose-sm max-w-none" v-html="question.text" />
 
-          <p class="text-gray-800 mb-4 font-medium">{{ question.question }}</p>
+          <div class="mb-4 font-medium prose prose-sm max-w-none" v-html="question.question" />
 
           <div v-if="question.options && question.options.length > 0" class="space-y-1 mb-4">
             <div v-for="(option, optionIndex) in question.options" :key="optionIndex" class="flex items-center gap-1 flex-1">

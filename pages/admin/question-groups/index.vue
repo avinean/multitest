@@ -58,8 +58,8 @@
                 {{ group.type }}
               </UBadge>
               <UBadge 
-                :color="group.isActive ? 'success' : 'neutral'"
-                :variant="group.isActive ? 'solid' : 'outline'"
+                :color="group.published ? 'success' : 'neutral'"
+                :variant="group.published ? 'solid' : 'outline'"
                 size="sm"
               >
                 {{ group.published ? 'Published' : 'Draft' }}
