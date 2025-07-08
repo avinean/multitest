@@ -180,7 +180,8 @@ const fetchTestQuestions = async () => {
       { type: 'long_text', count: 1 },
       { type: 'short_text', count: 1 },
       { type: 'blanks_8', count: 1 },
-      { type: 'blanks_4', count: 2 }
+      { type: 'blanks_4_vocabulary', count: 1 },
+      { type: 'blanks_4_grammar', count: 1 }
     ]
     
     let allQuestions = []
