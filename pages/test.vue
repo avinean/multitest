@@ -16,7 +16,7 @@
       </div>
     </div>
 
-    <div v-else-if="questions && questions.length > 0" class="flex-1 flex flex-col">
+    <div v-else-if="questions.length > 0" class="flex-1 flex flex-col">
       <div class="sticky top-0 bg-white border-b border-gray-200 p-4 z-10">
         <div class="max-w-6xl mx-auto">
           <div class="flex items-center justify-between mb-4">
@@ -29,12 +29,12 @@
           <div class="flex flex-wrap gap-2 mb-4">
             <button
               v-for="(question, index) in questions"
-              :key="index"
+              :key="question"
               class="w-8 h-8 rounded-lg border-2 flex items-center justify-center"
               :class="{
                 'border-primary-500 bg-primary-100': index === currentQuestionIndex,
-                'border-green-500 bg-green-100': userAnswers[index] && index !== currentQuestionIndex,
-                'border-gray-300 bg-gray-50 hover:bg-gray-100': !userAnswers[index] && index !== currentQuestionIndex
+                'border-green-500 bg-green-100': userAnswers[index] !== undefined && index !== currentQuestionIndex,
+                'border-gray-300 bg-gray-50 hover:bg-gray-100': userAnswers[index] === undefined && index !== currentQuestionIndex
               }"
               @click="goToQuestion(index)"
             >
@@ -69,7 +69,6 @@
               {{ currentQuestion.groupType }}
             </div>
           </div>
-          
           <div v-if="currentQuestion.imageUrl" class="text-center">
             <img
               :src="currentQuestion.imageUrl" 
@@ -147,19 +146,30 @@
 import { query, where, collection, getDocs, limit } from 'firebase/firestore'
 import { useFirestore } from 'vuefire'
 
+definePageMeta({
+  ssr: false
+})
+
 useHead({
   title: 'English Proficiency Test'
 })
 
-const currentQuestionIndex = ref(0)
-const userAnswers = ref({})
-const pending = ref(true)
+const pending = ref(false)
 const error = ref(null)
-const questions = ref([])
 
 const db = useFirestore()
+const questions = ref([])
+const userAnswers = reactive({})
+const currentQuestionIndex = ref(0)
 
-// Fetch question groups and combine their questions
+watch([questions, userAnswers, currentQuestionIndex], () => {
+  sessionStorage.setItem('testData', JSON.stringify({
+    questions: questions.value,
+    userAnswers: userAnswers,
+    currentQuestionIndex: currentQuestionIndex.value,
+  }))
+})
+
 const fetchTestQuestions = async () => {
   try {
     pending.value = true
@@ -176,7 +186,6 @@ const fetchTestQuestions = async () => {
     let allQuestions = []
     
     for (const { type, count } of questionTypes) {
-      // Fetch published question groups of this type
       const querySnapshot = await getDocs(
         query(
           collection(db, 'question-groups'),
@@ -189,7 +198,6 @@ const fetchTestQuestions = async () => {
       querySnapshot.docs.forEach(doc => {
         const groupData = doc.data()
         if (groupData.questions && groupData.questions.length > 0) {
-          // Add questions from this group to the test
           allQuestions = [...allQuestions, ...groupData.questions]
         }
       })
@@ -205,41 +213,12 @@ const fetchTestQuestions = async () => {
   }
 }
 
-// Fetch questions on component mount
-await fetchTestQuestions()
-
-// Store questions in sessionStorage when fetched
-watch(questions, (newQuestions) => {
-  if (newQuestions && newQuestions.length > 0) {
-    const testData = {
-      questions: newQuestions,
-      userAnswers: {},
-      startTime: new Date().toISOString()
-    }
-    sessionStorage.setItem('testData', JSON.stringify(testData))
-  }
-}, { immediate: true })
-
-// Watch for answer changes and update sessionStorage
-watch(userAnswers, (newAnswers) => {
-  const testData = JSON.parse(sessionStorage.getItem('testData') || '{}')
-  if (testData.questions) {
-    testData.userAnswers = newAnswers
-    sessionStorage.setItem('testData', JSON.stringify(testData))
-  }
-}, { deep: true })
-
 const currentQuestion = computed(() => questions.value[currentQuestionIndex.value])
 const isLastQuestion = computed(() => currentQuestionIndex.value === questions.value.length - 1)
-const answeredCount = computed(() => Object.keys(userAnswers.value).length)
+const answeredCount = computed(() => Object.keys(userAnswers).length)
 
 const nextQuestion = () => {
   if (isLastQuestion.value) {
-    // Update sessionStorage with final completion time
-    const testData = JSON.parse(sessionStorage.getItem('testData') || '{}')
-    testData.completedTime = new Date().toISOString()
-    sessionStorage.setItem('testData', JSON.stringify(testData))
-    
     navigateTo('/result')
   } else {
     currentQuestionIndex.value++
@@ -257,4 +236,19 @@ const goToQuestion = (index) => {
     currentQuestionIndex.value = index
   }
 }
+
+onMounted(() => {
+  let testData
+  try {
+    testData =  JSON.parse(sessionStorage.getItem('testData'))
+  } catch {}
+
+  if (testData) {
+    questions.value = testData.questions
+    Object.assign(userAnswers, testData.userAnswers)
+    currentQuestionIndex.value = testData.currentQuestionIndex
+  } else {
+    fetchTestQuestions()
+  }
+})
 </script> 

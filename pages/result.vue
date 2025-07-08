@@ -1,13 +1,6 @@
 <template>
   <div class="flex-1 flex flex-col py-4 justify-center items-center min-h-screen">
-    <div v-if="error" class="max-w-md w-full p-8 bg-white border border-red-200 rounded-lg shadow-sm text-center">
-      <div class="text-red-500 text-6xl mb-4">⚠️</div>
-      <h2 class="text-2xl font-bold text-red-800 mb-4">Error Loading Results</h2>
-      <p class="text-red-600 mb-6">{{ error }}</p>
-      <UButton color="red" @click="$router.go(0)">Reload Page</UButton>
-    </div>
-
-    <div v-else-if="questions && questions.length > 0" class="max-w-2xl w-full p-8 bg-white border border-gray-200 rounded-lg shadow-sm text-center">
+    <div v-if="questions && questions.length > 0" class="max-w-2xl w-full p-8 bg-white border border-gray-200 rounded-lg shadow-sm text-center">
       <h1 class="text-3xl font-bold mb-8">🎉 Test Complete!</h1>
       
       <div class="my-8">
@@ -30,14 +23,14 @@
               <div 
                 class="px-3 py-1 rounded-full text-sm font-medium"
                 :class="{
-                  'bg-green-100 text-green-800': userAnswers[index] !== undefined && question.options[userAnswers[index]] === question.correct,
-                  'bg-red-100 text-red-800': userAnswers[index] !== undefined && question.options[userAnswers[index]] !== question.correct,
+                  'bg-green-100 text-green-800': userAnswers[index] !== undefined && userAnswers[index] === (question.correct ?? question.correctAnswerIndex),
+                  'bg-red-100 text-red-800': userAnswers[index] !== undefined && userAnswers[index] !== (question.correct ?? question.correctAnswerIndex),
                   'bg-gray-100 text-gray-800': userAnswers[index] === undefined
                 }"
               >
                 {{ 
                   userAnswers[index] === undefined ? 'No Answer' :
-                  question.options[userAnswers[index]] === question.correct ? 'Correct' : 'Incorrect' 
+                  userAnswers[index] === (question.correct ?? question.correctAnswerIndex) ? 'Correct' : 'Incorrect' 
                 }}
               </div>
             </div>
@@ -59,9 +52,9 @@
               :key="optionIndex"
               class="flex items-center p-3 rounded-lg border-2"
               :class="{
-                'border-green-500 bg-green-50': optionIndex === question.correct,
-                'border-red-500 bg-red-50': userAnswers[index] === optionIndex && optionIndex !== question.correct,
-                'border-gray-200 bg-gray-50': optionIndex !== question.correct && userAnswers[index] !== optionIndex
+                'border-green-500 bg-green-50': optionIndex === (question.correct ?? question.correctAnswerIndex),
+                'border-red-500 bg-red-50': userAnswers[index] === optionIndex && optionIndex !== (question.correct ?? question.correctAnswerIndex),
+                'border-gray-200 bg-gray-50': optionIndex !== (question.correct ?? question.correctAnswerIndex) && userAnswers[index] !== optionIndex
               }"
             >
               <div class="flex items-center justify-between w-full">
@@ -74,7 +67,7 @@
                     Your Answer
                   </span>
                   <span 
-                    v-if="optionIndex === question.correct"
+                    v-if="optionIndex === (question.correct ?? question.correctAnswerIndex)"
                     class="px-2 py-1 text-xs bg-green-200 text-green-800 rounded-full"
                   >
                     Correct
@@ -110,36 +103,31 @@ useHead({
 
 const questions = ref([])
 const userAnswers = ref({})
-const error = ref('')
 
-try {
-  const storedTestData = sessionStorage.getItem('testData')
-  
-  if (storedTestData) {
-    questions.value = JSON.parse(storedTestData).questions
-    userAnswers.value = JSON.parse(storedTestData).userAnswers
-    
-    sessionStorage.removeItem('testData')
-  } else {
+// Load test data and clear sessionStorage on mount
+onMounted(() => {
+  try {
+    const testData = JSON.parse(sessionStorage.getItem('testData'))
+    if (testData.questions && testData.questions.length > 0) {
+      questions.value = testData.questions
+      userAnswers.value = testData.userAnswers
+      
+      sessionStorage.removeItem('testData')
+    } else {
+      navigateTo('/')
+    }
+  } catch (err) {
+    console.error('Error loading test data:', err)
     navigateTo('/')
   }
-} catch (err) {
-  console.error('Error parsing test data from sessionStorage:', err)
-  error.value = 'Failed to load test results'
-}
-
-const score = computed(() => {
-  let correct = 0
-  
-  questions.value.forEach((question, index) => {
-    const userAnswerIndex = userAnswers.value[index]
-    if (userAnswerIndex !== undefined && question.options[userAnswerIndex] === question.correct) {
-      correct++
-    }
-  })
-  
-  return correct
 })
+
+const score = computed(() =>
+  questions.value.reduce((correct, question, index) => 
+    userAnswers.value[index] !== undefined && userAnswers.value[index] === question.correct 
+      ? correct + 1 
+      : correct
+  , 0))
 
 
 </script> 
