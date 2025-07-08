@@ -37,7 +37,7 @@
           </div>
 
           <div v-if="question.imageUrl" class="mb-4">
-            <img :src="question.imageUrl" :alt="question.text || 'Question image'" class="max-w-full h-auto rounded-lg border border-gray-200">
+            <img :src="question.imageUrl" :alt="question.text || 'Question image'" class="max-w-80 mx-auto rounded-lg shadow-lg">
           </div>
 
           <div v-if="question.text" class="mb-4 p-4 bg-gray-50 rounded-lg">
@@ -46,32 +46,32 @@
 
           <p class="text-gray-800 mb-4 font-medium">{{ question.question }}</p>
 
-          <div class="space-y-2">
-            <div 
-              v-for="(option, optionIndex) in question.options" 
-              :key="optionIndex"
-              class="flex items-center p-3 rounded-lg border-2"
-              :class="{
-                'border-green-500 bg-green-50': optionIndex === (question.correct ?? question.correctAnswerIndex),
-                'border-red-500 bg-red-50': userAnswers[index] === optionIndex && optionIndex !== (question.correct ?? question.correctAnswerIndex),
-                'border-gray-200 bg-gray-50': optionIndex !== (question.correct ?? question.correctAnswerIndex) && userAnswers[index] !== optionIndex
-              }"
-            >
-              <div class="flex items-center justify-between w-full">
-                <span class="flex-1">{{ option }}</span>
-                <div class="flex items-center gap-2 ml-4">
-                  <span 
-                    v-if="userAnswers[index] === optionIndex"
-                    class="px-2 py-1 text-xs rounded-full"
-                  >
-                    Your Answer
-                  </span>
-                  <span 
-                    v-if="optionIndex === (question.correct ?? question.correctAnswerIndex)"
-                    class="px-2 py-1 text-xs bg-green-200 text-green-800 rounded-full"
-                  >
-                    Correct
-                  </span>
+          <div v-if="question.options && question.options.length > 0" class="space-y-1 mb-4">
+            <div v-for="(option, optionIndex) in question.options" :key="optionIndex" class="flex items-center gap-1 flex-1">
+              <span class="w-8 h-8 bg-gray-200 flex items-center justify-center">
+                {{ String.fromCharCode(65 + optionIndex) }}
+              </span>
+              <span class="flex-1">{{ option }}</span>
+            </div>
+          </div>
+          
+          <div>
+            <div class="font-semibold mb-2">Answer Review</div>
+            <div class="flex items-center gap-2">
+              <div v-for="(option, optionIndex) in question.options" :key="optionIndex" class="flex flex-col gap-1 items-center">
+                <span class="text-sm">
+                  {{ String.fromCharCode(65 + optionIndex) }}
+                </span>
+                <div
+                  class="w-8 h-8 border-2 rounded flex items-center justify-center"
+                  :class="{
+                    'bg-green-500 border-green-500 text-white': optionIndex === (question.correct ?? question.correctAnswerIndex),
+                    'bg-red-500 border-red-500 text-white': userAnswers[index] === optionIndex && optionIndex !== (question.correct ?? question.correctAnswerIndex),
+                    'bg-gray-100 border-gray-400': optionIndex !== (question.correct ?? question.correctAnswerIndex) && userAnswers[index] !== optionIndex
+                  }"
+                >
+                  <span v-if="optionIndex === (question.correct ?? question.correctAnswerIndex)" class="text-white font-bold">✓</span>
+                  <span v-else-if="userAnswers[index] === optionIndex && optionIndex !== (question.correct ?? question.correctAnswerIndex)" class="text-white font-bold">✗</span>
                 </div>
               </div>
             </div>
@@ -128,6 +128,4 @@ const score = computed(() =>
       ? correct + 1 
       : correct
   , 0))
-
-
 </script> 

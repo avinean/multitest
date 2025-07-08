@@ -61,49 +61,51 @@
 
       <div class="flex-1 overflow-auto p-4">
         <div v-if="currentQuestion" class="max-w-4xl mx-auto space-y-6">
-          <div class="flex items-center justify-between">
-            <h2 class="text-xl font-semibold text-gray-800">
-              Question {{ currentQuestionIndex + 1 }} of {{ questions.length }}
-            </h2>
-            <div class="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
-              {{ currentQuestion.groupType }}
-            </div>
-          </div>
-          <div v-if="currentQuestion.imageUrl" class="text-center">
-            <img
-              :src="currentQuestion.imageUrl" 
-              :alt="`Question ${currentQuestionIndex + 1} image`" 
-              class="max-w-full h-auto rounded-lg shadow-lg mx-auto"
-            >
-          </div>
+          <img
+            v-if="currentQuestion.imageUrl"
+            :src="currentQuestion.imageUrl" 
+            :alt="`Question ${currentQuestionIndex + 1} image`" 
+            class="max-w-80 mx-auto rounded-lg shadow-lg"
+          >
 
-          <div>
-            <div v-if="currentQuestion.text" class="text-lg font-medium mb-6 prose prose-lg max-w-none whitespace-pre-wrap">
-              {{ currentQuestion.text }}
-            </div>
-            
-            <div v-if="currentQuestion.question" class="text-lg font-medium mb-6 text-gray-800">
-              {{ currentQuestion.question }}
-            </div>
+          <div v-if="currentQuestion.text" class="text-lg font-medium mb-6 prose prose-lg max-w-none whitespace-pre-wrap">
+            {{ currentQuestion.text }}
+          </div>
           
-            <div v-if="currentQuestion.options && currentQuestion.options.length > 0" class="space-y-3">
-              <label 
-                v-for="(option, index) in currentQuestion.options" 
-                :key="index"
-                class="flex items-center p-4 bg-gray-50 border-2 rounded-lg cursor-pointer transition-all hover:bg-gray-100"
-                :class="{
-                  'border-primary-500 bg-primary-50': userAnswers[currentQuestionIndex] === index,
-                  'border-gray-200': userAnswers[currentQuestionIndex] !== index
-                }"
-              >
+          <div v-if="currentQuestion.question" class="text-lg font-medium mb-6 text-gray-800">
+            {{ currentQuestion.question }}
+          </div>
+          
+          <div v-if="currentQuestion.options && currentQuestion.options.length > 0" class="space-y-1">
+            <div v-for="(option, index) in currentQuestion.options" :key="index" class="flex items-center gap-1 flex-1">
+              <span class="w-8 h-8 bg-gray-200 flex items-center justify-center">
+                {{ String.fromCharCode(65 + index) }}
+              </span>
+              <span class="flex-1">{{ option }}</span>
+            </div>
+          </div>
+          <div>
+            <div class="font-semibold">Select the correct answer</div>
+            <div class="flex items-center gap-1">
+              <label v-for="(option, index) in currentQuestion.options" :key="index" class="flex flex-col gap-1 items-center">
+                <span>
+                  {{ String.fromCharCode(65 + index) }}
+                </span>
                 <input
                   v-model="userAnswers[currentQuestionIndex]"
                   type="radio"
                   :name="`question-${currentQuestionIndex}`"
                   :value="index"
-                  class="mr-3"
+                  class="sr-only"
                 >
-                <span class="flex-1">{{ option }}</span>
+                <div
+                  class="w-8 h-8 border-2 border-gray-400 rounded flex items-center justify-center cursor-pointer"
+                  :class="{
+                    'bg-primary-500 border-primary-500 text-white': userAnswers[currentQuestionIndex] === index,
+                    'bg-white': userAnswers[currentQuestionIndex] !== index
+                }">
+                   <span v-if="userAnswers[currentQuestionIndex] === index" class="text-white font-bold">✓</span>
+                 </div>
               </label>
             </div>
           </div>
@@ -241,8 +243,10 @@ const goToQuestion = (index) => {
 onMounted(() => {
   let testData
   try {
-    testData =  JSON.parse(sessionStorage.getItem('testData'))
-  } catch {}
+    testData = JSON.parse(sessionStorage.getItem('testData'))
+  } catch {
+    // Ignore parsing errors, will fetch fresh questions
+  }
 
   if (testData) {
     questions.value = testData.questions

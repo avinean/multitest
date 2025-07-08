@@ -809,11 +809,8 @@ const duplicateQuestion = async (index) => {
     // Create a deep copy of the question
     const duplicatedQuestion = {
       ...questionToDuplicate,
-      imageUrl: questionToDuplicate.imageUrl || undefined,
-      text: questionToDuplicate.text || undefined,
-      question: questionToDuplicate.question || undefined,
       options: [...(questionToDuplicate.options || [])],
-      correct: questionToDuplicate.correct || 0
+      correct: questionToDuplicate.correct ?? 0
     }
     
     // Add the duplicated question after the original
