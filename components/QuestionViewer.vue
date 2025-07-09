@@ -1,6 +1,6 @@
 <template>
   <div v-if="question" class="space-y-6">
-    <NuxtImg
+    <img
       v-if="question.imageUrl"
       :key="question.imageUrl" 
       :src="question.imageUrl"
@@ -8,7 +8,7 @@
       width="320"
       height="320"
       class="mx-auto rounded-lg shadow-lg"
-    />
+    >
     <div v-if="question.text" class="prose prose-lg max-w-none" v-html="question.text" />
     <div v-if="question.question" class="text-lg font-medium prose prose-lg max-w-none" v-html="question.question" />
     <div v-if="question.options && question.options.length > 0" class="space-y-3">

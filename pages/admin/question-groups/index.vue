@@ -152,14 +152,15 @@
 
 <script setup>
 import { collection } from 'firebase/firestore'
-import { useCollection } from 'vuefire'
+import { useCollection, useFirestore } from 'vuefire'
 
 definePageMeta({
-  title: 'Admin - Question Groups Management',
+  middleware: 'admin-auth',
   layout: 'admin'
 })
 
-const db = inject('db')
+
+const db = useFirestore()
 
 const { data: questionGroups, pending: questionGroupsLoading, error: questionGroupsError } = useCollection(
   collection(db, 'question-groups')

@@ -591,10 +591,12 @@ import { ref as storageRef, uploadBytes, getDownloadURL, deleteObject } from 'fi
 import { useDocument, useFirestore, useFirebaseStorage } from 'vuefire'
 
 definePageMeta({
+  middleware: 'admin-auth',
   layout: 'admin'
 })
 
 const route = useRoute()
+
 const db = useFirestore()
 const storage = useFirebaseStorage()
 

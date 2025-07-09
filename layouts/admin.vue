@@ -1,6 +1,5 @@
 <template>
   <div class="min-h-screen bg-gray-50">
-    <!-- Navigation -->
     <nav class="bg-white shadow-sm border-b">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-16">
@@ -40,21 +39,10 @@
 
 <script setup>
 import { signOut as firebaseSignOut, onAuthStateChanged, getAuth } from 'firebase/auth'
-import { getStorage } from 'firebase/storage'
-import { useFirestore } from 'vuefire'
-
-definePageMeta({
-  middleware: 'admin-auth',
-  ssr: false,
-})
 
 const auth = getAuth()
 const user = ref(null)
-const db = useFirestore()
-const storage = getStorage()
 
-provide('db', db)
-provide('storage', storage)
 provide('user', user)
 
 const signOut = async () => {

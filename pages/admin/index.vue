@@ -15,7 +15,8 @@
 import { onAuthStateChanged, getAuth } from 'firebase/auth'
 
 definePageMeta({
-  ssr: false
+  middleware: 'admin-auth',
+  layout: 'admin'
 })
 
 const auth = getAuth()
