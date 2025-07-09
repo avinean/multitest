@@ -349,7 +349,67 @@
             label="Answer Options *" 
             :hint="`Add answer options and select the correct one. Maximum ${getMaxOptionsForGroupType()} options allowed for ${groupForm.type} type.`"
           >
-            <div class="space-y-3">
+            <!-- Options Mode Toggle -->
+            <div class="mb-4 flex gap-2">
+              <UButton 
+                type="button" 
+                variant="outline" 
+                size="sm"
+                :disabled="savingSubQuestion"
+                @click="toggleBulkOptions"
+              >
+                {{ showBulkOptions ? 'Individual Options' : 'Bulk Add Options' }}
+              </UButton>
+            </div>
+
+            <!-- Bulk Options Mode -->
+            <div v-if="showBulkOptions" class="space-y-3">
+              <div>
+                <UTextarea 
+                  v-model="bulkOptionsText"
+                  placeholder="Enter one option per line&#10;Option 1&#10;Option 2&#10;Option 3&#10;Option 4"
+                  :disabled="savingSubQuestion"
+                  :rows="10"
+                  class="w-full text-sm"
+                />
+                <div class="text-xs text-gray-500 mt-1 space-y-1">
+                  <p>
+                    Enter each option on a new line. Maximum {{ getMaxOptionsForGroupType() }} options will be used.
+                  </p>
+                  <p v-if="bulkOptionsText.trim()" class="text-blue-600">
+                    Preview: {{ bulkOptionsText.split('\n').filter(line => line.trim()).length }} options will be created
+                    {{ bulkOptionsText.split('\n').filter(line => line.trim()).length > getMaxOptionsForGroupType() ? 
+                       `(${bulkOptionsText.split('\n').filter(line => line.trim()).length - getMaxOptionsForGroupType()} will be truncated)` : '' }}
+                  </p>
+                  <p v-if="bulkOptionsText.trim()" class="text-amber-600">
+                    💡 After applying, you can switch back to individual mode to select the correct answer.
+                  </p>
+                </div>
+              </div>
+              
+              <div class="flex gap-2">
+                <UButton 
+                  type="button" 
+                  size="sm"
+                  :disabled="savingSubQuestion || !bulkOptionsText.trim()"
+                  @click="applyBulkOptions"
+                >
+                  Apply Options
+                </UButton>
+                <UButton 
+                  type="button" 
+                  variant="outline" 
+                  size="sm"
+                  :disabled="savingSubQuestion"
+                  @click="showBulkOptions = false"
+                >
+                  Cancel
+                </UButton>
+              </div>
+            </div>
+
+            <!-- Individual Options Mode -->
+            <div v-else class="space-y-3">
               <div 
                 v-for="(option, index) in subQuestionForm.options" 
                 :key="index" 
@@ -375,7 +435,7 @@
                 <UButton 
                   v-if="subQuestionForm.options.length > 1"
                   type="button" 
-                  color="red" 
+                  color="error" 
                   variant="outline" 
                   size="sm"
                   :disabled="savingSubQuestion"
@@ -384,18 +444,30 @@
                   Remove
                 </UButton>
               </div>
+              
+              <div class="flex gap-2">
+                <UButton 
+                  type="button" 
+                  variant="outline" 
+                  size="sm" 
+                  :disabled="savingSubQuestion || subQuestionForm.options.length >= getMaxOptionsForGroupType()"
+                  @click="addSubQuestionOption"
+                >
+                  Add Option ({{ subQuestionForm.options.length }}/{{ getMaxOptionsForGroupType() }})
+                </UButton>
+                
+                <UButton 
+                  type="button" 
+                  variant="outline" 
+                  size="sm"
+                  :disabled="savingSubQuestion || subQuestionForm.options.length === 0"
+                  @click="toggleBulkOptions"
+                >
+                  Switch to Bulk Mode
+                </UButton>
+              </div>
             </div>
           </UFormField>
-          
-          <UButton 
-            type="button" 
-            variant="outline" 
-            size="sm" 
-            :disabled="savingSubQuestion || subQuestionForm.options.length >= getMaxOptionsForGroupType()"
-            @click="addSubQuestionOption"
-          >
-            Add Option ({{ subQuestionForm.options.length }}/{{ getMaxOptionsForGroupType() }})
-          </UButton>
         </UForm>
       </template>
 
@@ -648,6 +720,10 @@ const subQuestionForm = ref({
   correct: 0
 })
 
+// Bulk options management
+const bulkOptionsText = ref('')
+const showBulkOptions = ref(false)
+
 // Sub-question image upload state
 const uploadingSubQuestionImage = ref(false)
 const subQuestionImageUploadError = ref('')
@@ -707,6 +783,38 @@ const removeSubQuestionOption = (index) => {
   subQuestionForm.value.options.splice(index, 1)
 }
 
+// Bulk options management
+const toggleBulkOptions = () => {
+  if (!showBulkOptions.value) {
+    // Switching to bulk mode - populate textarea with current options
+    bulkOptionsText.value = subQuestionForm.value.options.join('\n')
+  }
+  showBulkOptions.value = !showBulkOptions.value
+}
+
+const applyBulkOptions = () => {
+  const lines = bulkOptionsText.value
+    .split('\n')
+    .map(line => line.trim())
+    .filter(line => line.length > 0)
+  
+  const maxOptions = getMaxOptionsForGroupType()
+  
+  // Take only up to the maximum allowed options
+  const newOptions = lines.slice(0, maxOptions)
+  
+  // Update the options
+  subQuestionForm.value.options = newOptions
+  
+  // Ensure correct answer index is valid
+  if (subQuestionForm.value.correct >= newOptions.length) {
+    subQuestionForm.value.correct = Math.max(0, newOptions.length - 1)
+  }
+  
+  // Switch back to individual mode
+  showBulkOptions.value = false
+}
+
 // Initialize sub-question form
 const initSubQuestionForm = () => {
   // Clean up preview URL
@@ -725,6 +833,8 @@ const initSubQuestionForm = () => {
   }
   subQuestionSaveError.value = ''
   subQuestionImageUploadError.value = ''
+  bulkOptionsText.value = ''
+  showBulkOptions.value = false
 }
 
 // Sub-question image upload functions
@@ -850,6 +960,8 @@ const editQuestion = (index) => {
   
   subQuestionSaveError.value = ''
   subQuestionImageUploadError.value = ''
+  bulkOptionsText.value = ''
+  showBulkOptions.value = false
   showSubQuestionModal.value = true
 }
 
@@ -857,6 +969,8 @@ const closeSubQuestionModal = () => {
   showSubQuestionModal.value = false
   editingSubQuestionIndex.value = null
   subQuestionSaveError.value = ''
+  showBulkOptions.value = false
+  bulkOptionsText.value = ''
   initSubQuestionForm()
 }
 
