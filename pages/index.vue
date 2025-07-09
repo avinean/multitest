@@ -43,23 +43,117 @@
 
       <div class="space-y-6">
         <UButton 
-          to="/test" 
           size="xl" 
           class="px-12 py-4 text-lg font-semibold"
           color="primary"
+          @click="handleStartTest"
         >
           Start Test
         </UButton>
+
         <p class="text-sm">
           The test contains multiple question types and takes approximately 30-45 minutes to complete.
         </p>
       </div>
     </UContainer>
-  </div>
-</template>
+    
+    <!-- Email Modal -->
+    <UModal 
+      v-model:open="showEmailModal" 
+      title="Before You Begin"
+    >
+      <template #body>
+        <UForm 
+          class="space-y-4" 
+          :state="emailForm" 
+          :validate-on="[]"
+          @submit="startTest"
+        >
+          <UInput 
+            v-model="emailForm.email"
+            type="email"
+            placeholder="Enter your email address..."
+            :disabled="submitting"
+            required
+            icon="i-heroicons-envelope"
+            class="w-full"
+          />
+
+          <UInput 
+            v-model="emailForm.name"
+            placeholder="Enter your name..."
+            :disabled="submitting"
+            icon="i-heroicons-user"
+            class="w-full"
+          />
+        </UForm>
+      </template>
+
+      <template #footer>
+        <div class="w-full flex justify-end">
+          <UButton 
+            :loading="submitting"
+            :disabled="!isEmailValid"
+            @click="startTest"
+          >
+            Start Test
+          </UButton>
+        </div>
+       </template>
+     </UModal>
+   </div>
+ </template>
 
 <script setup>
 useHead({
   title: 'English Proficiency Test - Home'
 })
+
+const showEmailModal = ref(false)
+const submitting = ref(false)
+
+const emailForm = ref({
+  email: '',
+  name: ''
+})
+
+const isEmailValid = computed(() => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  return emailRegex.test(emailForm.value.email)
+})
+
+const handleStartTest = () => {
+  // Check if user info already exists
+  const existingUserInfo = sessionStorage.getItem('userInfo')
+  
+  if (existingUserInfo) {
+    // User info exists, go directly to test
+    navigateTo('/test')
+  } else {
+    // No user info, show email modal
+    showEmailModal.value = true
+  }
+}
+
+const startTest = async () => {
+  if (!isEmailValid.value) return
+  
+  submitting.value = true
+  
+  try {    
+    sessionStorage.setItem('userInfo', JSON.stringify({
+      ...emailForm.value,
+      startTime: new Date().toISOString()
+    }))
+    
+    // Navigate to test page
+    await navigateTo('/test')
+  } catch (error) {
+    console.error('Error starting test:', error)
+  } finally {
+    submitting.value = false
+  }
+}
+
+
 </script> 

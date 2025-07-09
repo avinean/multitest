@@ -8,7 +8,8 @@ export default defineNuxtConfig({
     '@nuxt/scripts',
     '@nuxt/ui',
     'nuxt-vuefire',
-    '@vueuse/nuxt'
+    '@vueuse/nuxt',
+    '@nuxt/image'
   ],
   css: ['~/assets/css/main.css'],
   colorMode: {

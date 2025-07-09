@@ -11,7 +11,7 @@
           </div>
           
           <nav class="flex items-center space-x-4">
-            <UButton 
+            <!-- <UButton 
               to="/" 
               variant="ghost" 
               size="sm"
@@ -24,14 +24,15 @@
               size="sm"
             >
               Take Test
-            </UButton>
-            <!-- <UButton 
+            </UButton> -->
+            <UButton 
+              v-if="hasAdminAccess"
               to="/admin/login" 
               variant="ghost" 
               size="sm"
             >
               Admin
-            </UButton> -->
+            </UButton>
           </nav>
         </div>
       </UContainer>
@@ -53,4 +54,8 @@
       </UContainer>
     </footer>
   </div>
-</template> 
+</template>
+
+<script setup>
+const hasAdminAccess = useLocalStorage('hasAdminAccess', false)
+</script> 

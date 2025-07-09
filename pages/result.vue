@@ -1,7 +1,13 @@
 <template>
   <div class="flex-1 flex flex-col py-4 justify-center items-center min-h-screen">
     <div v-if="questions && questions.length > 0" class="max-w-2xl w-full p-8 bg-white border border-gray-200 rounded-lg shadow-sm text-center">
-      <h1 class="text-3xl font-bold mb-8">🎉 Test Complete!</h1>
+      <h1 class="text-3xl font-bold mb-4">🎉 Test Complete!</h1>
+      <p v-if="userInfo?.name" class="text-lg text-gray-600 mb-6">
+        Great job, {{ userInfo.name }}!
+      </p>
+      <p v-else-if="userInfo?.email" class="text-lg text-gray-600 mb-6">
+        Great job! Your results have been sent to {{ userInfo.email }}
+      </p>
       
       <div class="my-8">
         <div class="inline-flex items-center justify-center w-32 h-32 border-8 border-primary-500 rounded-full mb-4">
@@ -9,6 +15,12 @@
           <span class="text-xl">/ {{ questions.length }}</span>
         </div>
         <p class="text-2xl font-semibold">{{ Math.round((score / questions.length) * 100) }}%</p>
+        
+        <!-- Time Spent Display -->
+        <div v-if="timeSpent" class="mt-6 p-4 bg-gray-50 rounded-lg">
+          <p class="text-sm text-gray-600 mb-1">Time Spent</p>
+          <p class="text-lg font-semibold">{{ formatTimeSpent(timeSpent) }}</p>
+        </div>
       </div>
     </div>
 
@@ -101,18 +113,31 @@ useHead({
 
 const questions = ref([])
 const userAnswers = ref({})
+const userInfo = ref(null)
+const timeSpent = ref(null)
 
-// Load test data and clear sessionStorage on mount
+// Load test data and user info on mount
 onMounted(() => {
   try {
+    // Load test data
     const testData = JSON.parse(sessionStorage.getItem('testData'))
     if (testData.questions && testData.questions.length > 0) {
       questions.value = testData.questions
       userAnswers.value = testData.userAnswers
       
+      // Calculate time spent
+      calculateTimeSpent(testData)
+      
       sessionStorage.removeItem('testData')
     } else {
       navigateTo('/')
+      return
+    }
+    
+    // Load user info
+    const storedUserInfo = sessionStorage.getItem('userInfo')
+    if (storedUserInfo) {
+      userInfo.value = JSON.parse(storedUserInfo)
     }
   } catch (err) {
     console.error('Error loading test data:', err)
@@ -126,4 +151,42 @@ const score = computed(() =>
       ? correct + 1 
       : correct
   , 0))
+
+const calculateTimeSpent = (testData) => {
+  try {
+    const userInfoData = JSON.parse(sessionStorage.getItem('userInfo'))
+    if (!userInfoData?.startTime) return
+
+    const startTime = new Date(userInfoData.startTime).getTime()
+    const endTime = Date.now()
+    
+    // Calculate total elapsed time
+    let totalElapsed = endTime - startTime
+    
+    // Subtract pause time if any
+    if (testData.pausedAt && testData.resumeAllowedAt) {
+      // If test was completed while paused, subtract the pause duration
+      const pauseDuration = testData.resumeAllowedAt - testData.pausedAt
+      totalElapsed -= pauseDuration
+    }
+    
+    // Ensure we don't show negative time
+    timeSpent.value = Math.max(0, totalElapsed)
+  } catch (err) {
+    console.error('Error calculating time spent:', err)
+    timeSpent.value = null
+  }
+}
+
+const formatTimeSpent = (milliseconds) => {
+  const totalSeconds = Math.floor(milliseconds / 1000)
+  const minutes = Math.floor(totalSeconds / 60)
+  const seconds = totalSeconds % 60
+  
+  if (minutes > 0) {
+    return `${minutes}m ${seconds}s`
+  } else {
+    return `${seconds}s`
+  }
+}
 </script> 

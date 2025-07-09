@@ -94,14 +94,7 @@
         <UFormField label="Type *" hint="Select the type of question group you want to create.">
           <USelect 
             v-model="groupForm.type"
-            :items="[
-              { value: 'image', label: 'Image-based Questions' },
-              { value: 'long_text', label: 'Long Text Questions' },
-              { value: 'short_text', label: 'Short Text Questions' },
-              { value: 'blanks_8', label: 'Fill in Blanks (8 options)' },
-              { value: 'blanks_4_vocabulary', label: 'Fill in Blanks (4 options) - Vocabulary' },
-              { value: 'blanks_4_grammar', label: 'Fill in Blanks (4 options) - Grammar' }
-            ]"
+            :items="questionGroupTypes"
             :disabled="saving"
             placeholder="Select question group type"
             required
@@ -260,11 +253,11 @@
               <p class="text-sm text-red-700">{{ subQuestionImageUploadError }}</p>
             </div>
             
-            <!-- Current Image Display -->
-            <div v-if="subQuestionForm.imageUrl" class="mb-3">
+            <!-- Current/Preview Image Display -->
+            <div v-if="subQuestionImagePreview || subQuestionForm.imageUrl" class="mb-3">
               <div class="relative inline-block">
                 <img 
-                  :src="subQuestionForm.imageUrl" 
+                  :src="subQuestionImagePreview || subQuestionForm.imageUrl" 
                   alt="Sub-question image"
                   class="max-w-full h-32 object-contain rounded-lg border border-gray-200"
                 >
@@ -277,7 +270,9 @@
                   ✕
                 </button>
               </div>
-              <p class="text-xs text-gray-500 mt-1">Current image</p>
+              <p class="text-xs text-gray-500 mt-1">
+                {{ subQuestionImagePreview ? 'New image preview' : 'Current image' }}
+              </p>
             </div>
             
             <!-- File Input -->
@@ -285,7 +280,7 @@
               <input
                 ref="subQuestionImageInput"
                 type="file"
-                accept="image/*"
+                accept="image/jpeg,image/jpg,image/png,image/gif,image/webp"
                 :disabled="savingSubQuestion || uploadingSubQuestionImage"
                 class="hidden"
                 @change="handleSubQuestionImageSelect"
@@ -305,11 +300,11 @@
                     :loading="uploadingSubQuestionImage"
                     @click="$refs.subQuestionImageInput.click()"
                   >
-                    {{ subQuestionForm.imageUrl ? 'Change Image' : 'Select Image' }}
+                    {{ subQuestionImagePreview ? 'Change Image' : (subQuestionForm.imageUrl ? 'Change Image' : 'Select Image') }}
                   </UButton>
                 </div>
                 <p class="text-xs text-gray-500">
-                  PNG, JPG, GIF up to 5MB
+                  JPEG, PNG, GIF, WebP up to 5MB
                 </p>
               </div>
             </div>
@@ -656,6 +651,7 @@ const subQuestionForm = ref({
 // Sub-question image upload state
 const uploadingSubQuestionImage = ref(false)
 const subQuestionImageUploadError = ref('')
+const subQuestionImagePreview = ref('')
 
 // Preview modal state
 const showPreviewModal = ref(false)
@@ -713,6 +709,12 @@ const removeSubQuestionOption = (index) => {
 
 // Initialize sub-question form
 const initSubQuestionForm = () => {
+  // Clean up preview URL
+  if (subQuestionImagePreview.value) {
+    URL.revokeObjectURL(subQuestionImagePreview.value)
+    subQuestionImagePreview.value = ''
+  }
+  
   subQuestionForm.value = {
     imageUrl: '',
     imageFile: null,
@@ -728,20 +730,35 @@ const initSubQuestionForm = () => {
 // Sub-question image upload functions
 const handleSubQuestionImageSelect = (event) => {
   const file = event.target.files[0]
+  
+  // Clean up previous preview URL
+  if (subQuestionImagePreview.value) {
+    URL.revokeObjectURL(subQuestionImagePreview.value)
+    subQuestionImagePreview.value = ''
+  }
+  
   if (file) {
     // Validate file type
     if (!file.type.startsWith('image/')) {
       subQuestionImageUploadError.value = 'Please select a valid image file'
+      subQuestionForm.value.imageFile = null
       return
     }
     
     // Validate file size (max 5MB)
     if (file.size > 5 * 1024 * 1024) {
       subQuestionImageUploadError.value = 'Image size must be less than 5MB'
+      subQuestionForm.value.imageFile = null
       return
     }
     
+    // Create preview URL for the selected image
+    subQuestionImagePreview.value = URL.createObjectURL(file)
     subQuestionForm.value.imageFile = file
+    subQuestionImageUploadError.value = ''
+  } else {
+    // No file selected, clear the form
+    subQuestionForm.value.imageFile = null
     subQuestionImageUploadError.value = ''
   }
 }
@@ -785,6 +802,12 @@ const removeSubQuestionImage = async () => {
     }
   }
   
+  // Clean up preview URL
+  if (subQuestionImagePreview.value) {
+    URL.revokeObjectURL(subQuestionImagePreview.value)
+    subQuestionImagePreview.value = ''
+  }
+  
   subQuestionForm.value.imageUrl = ''
   subQuestionForm.value.imageFile = null
   subQuestionImageUploadError.value = ''
@@ -800,6 +823,12 @@ const addQuestion = () => {
 const editQuestion = (index) => {
   editingSubQuestionIndex.value = index
   const question = groupData.value.questions[index]
+  
+  // Clean up any existing preview
+  if (subQuestionImagePreview.value) {
+    URL.revokeObjectURL(subQuestionImagePreview.value)
+    subQuestionImagePreview.value = ''
+  }
   
   // Ensure options exist, initialize with empty options if not
   let existingOptions = question.options || ['', '']
@@ -901,7 +930,7 @@ const saveSubQuestion = async (event) => {
 const duplicateQuestion = async (index) => {
   try {
     const currentQuestions = [...(groupData.value?.questions || [])]
-    const questionToDuplicate = currentQuestions[index]
+    const { imageUrl, ...questionToDuplicate } = currentQuestions[index]
     
     // Create a deep copy of the question
     const duplicatedQuestion = {
@@ -956,4 +985,11 @@ const closePreview = () => {
   showPreviewModal.value = false
   previewQuestionIndex.value = 0
 }
+
+// Cleanup preview URL on component unmount
+onUnmounted(() => {
+  if (subQuestionImagePreview.value) {
+    URL.revokeObjectURL(subQuestionImagePreview.value)
+  }
+})
 </script> 

@@ -81,7 +81,7 @@ const signIn = async () => {
   
   try {
     await signInWithEmailAndPassword(auth, email.value, password.value)
-    // Redirect to admin tests page after successful login
+    localStorage.setItem('hasAdminAccess', 'true')
     navigateTo('/admin/question-groups')
   } catch (error) {
     authError.value = error.message
