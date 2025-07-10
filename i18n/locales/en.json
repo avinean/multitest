@@ -1,0 +1,168 @@
+{
+  "nav": {
+    "englishTest": "English Test",
+    "admin": "Admin"
+  },
+  "home": {
+    "title": "English Proficiency Test",
+    "subtitle": "Test your English skills with our comprehensive assessment featuring reading comprehension, grammar, and vocabulary exercises.",
+    "features": {
+      "reading": {
+        "title": "Reading Comprehension",
+        "description": "Test your understanding of written English texts"
+      },
+      "grammar": {
+        "title": "Grammar & Vocabulary",
+        "description": "Assess your knowledge of English grammar rules"
+      },
+      "cloze": {
+        "title": "Cloze Tests",
+        "description": "Fill in the blanks to complete passages"
+      }
+    },
+    "startTest": "Start Test",
+    "testInfo": "The test contains multiple question types and takes approximately 30-45 minutes to complete.",
+    "emailModal": {
+      "title": "Before You Begin",
+      "emailPlaceholder": "Enter your email address...",
+      "namePlaceholder": "Enter your name...",
+      "startTest": "Start Test"
+    }
+  },
+  "test": {
+    "loading": "Loading test questions...",
+    "error": "Error loading test",
+    "question": "Question",
+    "of": "of",
+    "next": "Next",
+    "previous": "Previous",
+    "submit": "Submit Test",
+    "selectAnswer": "Please select an answer",
+    "timeRemaining": "Time remaining",
+    "timeRemainingShort": "Time Remaining",
+    "percentLeft": "% left",
+    "pauseTest": "Pause Test",
+    "resume": "Resume",
+    "canResumeIn": "Can resume in:",
+    "startNewTest": "Start New Test",
+    "pauseModal": {
+      "title": "Pause Test",
+      "message": "Are you sure you want to pause the test?",
+      "warning": "Once paused, you must wait 30 minutes before you can resume the test. This restriction prevents abuse of the pause feature."
+    },
+    "newTestModal": {
+      "title": "Start New Test",
+      "message": "Are you sure you want to start a completely new test?",
+      "warning": "This will permanently delete all your current progress and answers. You will start with fresh questions and a new 60-minute timer."
+    },
+    "reloadPage": "Reload Page",
+    "noTestAvailable": {
+      "title": "No Test Available",
+      "message": "No published question groups were found to create a test.",
+      "action": "Go to Home"
+    },
+    "navigation": {
+      "title": "Question Navigation",
+      "answered": "answered",
+      "current": "Current",
+      "unanswered": "Unanswered"
+    },
+    "finishTest": "Finish Test",
+    "previousButton": "← Previous",
+    "nextButton": "Next →"
+  },
+  "result": {
+    "title": "🎉 Test Complete!",
+    "greatJob": "Great job",
+    "resultsSent": "Your results have been sent to",
+    "score": "Your Score",
+    "retakeTest": "Take Another Test",
+    "timeSpent": "Time Spent",
+    "questionReview": "Question Review",
+    "correct": "Correct",
+    "incorrect": "Incorrect",
+    "noAnswer": "No Answer",
+    "noAnswerSelected": "No answer selected",
+    "answerReview": "Answer Review"
+  },
+  "admin": {
+    "title": "Test Admin",
+    "welcome": "Welcome",
+    "signOut": "Sign Out",
+    "navigation": {
+      "home": "Home",
+      "questionGroups": "Question Groups"
+    },
+    "login": {
+      "title": "Admin Login",
+      "subtitle": "Sign in to manage tests and questions",
+      "email": "Email",
+      "password": "Password",
+      "signIn": "Sign In",
+      "backToHome": "← Back to Home",
+      "error": "Invalid credentials"
+    },
+    "questionGroups": {
+      "title": "Question Groups Management",
+      "subtitle": "View and manage your question groups",
+      "create": "Create New Question Group",
+      "createFirst": "Create Your First Question Group",
+      "edit": "Edit",
+      "delete": "Delete",
+      "preview": "Preview",
+      "published": "Published",
+      "draft": "Draft",
+      "questions": "questions",
+      "subQuestions": "sub-questions",
+      "search": "Search question groups by name...",
+      "filterByType": "Filter by type",
+      "filterByStatus": "Filter by status",
+      "clearFilters": "Clear Filters",
+      "showing": "Showing",
+      "of": "of",
+      "filtered": "(filtered)",
+      "errorLoading": "Error loading question groups",
+      "noGroupsFound": "No question groups found",
+      "noGroupsMessage": "Create your first question group and start building your test content",
+      "noMatchingFilters": "No question groups match your filters",
+      "adjustFilters": "Try adjusting your search criteria or clear the filters to see all groups",
+      "untitledGroup": "Untitled Group",
+      "created": "Created"
+    },
+    "questionGroup": {
+      "createTitle": "Create New Question Group",
+      "editTitle": "Edit Question Group",
+      "name": "Name",
+      "namePlaceholder": "Enter question group name...",
+      "type": "Type",
+      "selectType": "Select question group type",
+      "published": "Published",
+      "publishedStatus": "Published (Visible to users)",
+      "draftStatus": "Draft (Hidden from users)",
+      "save": "Save",
+      "cancel": "Cancel",
+      "addQuestion": "Add Sub-Question",
+      "editQuestion": "Edit",
+      "deleteQuestion": "Delete",
+      "duplicateQuestion": "Duplicate"
+    }
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "yes": "Yes",
+    "no": "No",
+    "back": "Back",
+    "warning": "Warning"
+  },
+  "footer": {
+    "copyright": "All rights reserved",
+    "instagram": "Instagram",
+    "telegram": "Telegram",
+    "facebook": "Facebook"
+  }
+} 

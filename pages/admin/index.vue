@@ -21,13 +21,14 @@ definePageMeta({
 
 const auth = getAuth()
 const checking = ref(true)
+const localePath = useLocalePath()
 
 onMounted(() => {
   onAuthStateChanged(auth, (user) => {
     if (user) {
-      navigateTo('/admin/question-groups')
+      navigateTo(localePath('/admin/question-groups'))
     } else {
-      navigateTo('/admin/login')
+      navigateTo(localePath('/admin/login'))
     }
     checking.value = false
   })

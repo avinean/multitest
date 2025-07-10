@@ -8,7 +8,8 @@ export default defineNuxtConfig({
     '@nuxt/scripts',
     '@nuxt/ui',
     'nuxt-vuefire',
-    '@vueuse/nuxt'
+    '@vueuse/nuxt',
+    '@nuxtjs/i18n'
   ],
   css: ['~/assets/css/main.css'],
   colorMode: {
@@ -26,6 +27,30 @@ export default defineNuxtConfig({
       storageBucket: process.env.NUXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
       messagingSenderId: process.env.NUXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
       appId: process.env.NUXT_PUBLIC_FIREBASE_APP_ID
+    }
+  },
+  i18n: {
+    defaultLocale: 'en',
+    locales: [
+      {
+        code: 'en',
+        iso: 'en-US',
+        name: 'English',
+        file: 'en.json'
+      },
+      {
+        code: 'uk',
+        iso: 'uk-UA',
+        name: 'Українська',
+        file: 'uk.json'
+      }
+    ],
+    lazy: true,
+    strategy: 'prefix_except_default',
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieKey: 'i18n_redirected',
+      redirectOn: 'root'
     }
   }
 })

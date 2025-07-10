@@ -1,12 +1,12 @@
 <template>
   <div class="flex-1 flex flex-col py-4 justify-center items-center min-h-screen">
     <div v-if="questions && questions.length > 0" class="max-w-2xl w-full p-8 bg-white border border-gray-200 rounded-lg shadow-sm text-center">
-      <h1 class="text-3xl font-bold mb-4">🎉 Test Complete!</h1>
+      <h1 class="text-3xl font-bold mb-4">{{ $t('result.title') }}</h1>
       <p v-if="userInfo?.name" class="text-lg text-gray-600 mb-6">
-        Great job, {{ userInfo.name }}!
+        {{ $t('result.greatJob') }}, {{ userInfo.name }}!
       </p>
       <p v-else-if="userInfo?.email" class="text-lg text-gray-600 mb-6">
-        Great job! Your results have been sent to {{ userInfo.email }}
+        {{ $t('result.greatJob') }}! {{ $t('result.resultsSent') }} {{ userInfo.email }}
       </p>
       
       <div class="my-8">
@@ -18,35 +18,35 @@
         
         <!-- Time Spent Display -->
         <div v-if="timeSpent" class="mt-6 p-4 bg-gray-50 rounded-lg">
-          <p class="text-sm text-gray-600 mb-1">Time Spent</p>
+          <p class="text-sm text-gray-600 mb-1">{{ $t('result.timeSpent') }}</p>
           <p class="text-lg font-semibold">{{ formatTimeSpent(timeSpent) }}</p>
         </div>
       </div>
     </div>
 
     <div v-if="questions && questions.length > 0" class="max-w-4xl mx-auto mt-8 p-6 bg-white border border-gray-200 rounded-lg shadow-sm">
-      <h2 class="text-2xl font-bold mb-6">Question Review</h2>
+      <h2 class="text-2xl font-bold mb-6">{{ $t('result.questionReview') }}</h2>
       
-      <div class="space-y-8">
-        <div v-for="(question, index) in questions" :key="index" class="border-b border-gray-200 pb-6 last:border-b-0">
-          <div class="flex items-center justify-between mb-4">
-            <h3 class="text-lg font-semibold">Question {{ index + 1 }}</h3>
-            <div class="flex items-center gap-2">
-              <div 
-                class="px-3 py-1 rounded-full text-sm font-medium"
-                :class="{
-                  'bg-green-100 text-green-800': userAnswers[index] !== undefined && userAnswers[index] === (question.correct ?? question.correctAnswerIndex),
-                  'bg-red-100 text-red-800': userAnswers[index] !== undefined && userAnswers[index] !== (question.correct ?? question.correctAnswerIndex),
-                  'bg-gray-100 text-gray-800': userAnswers[index] === undefined
-                }"
-              >
-                {{ 
-                  userAnswers[index] === undefined ? 'No Answer' :
-                  userAnswers[index] === (question.correct ?? question.correctAnswerIndex) ? 'Correct' : 'Incorrect' 
-                }}
+              <div class="space-y-8">
+          <div v-for="(question, index) in questions" :key="index" class="border-b border-gray-200 pb-6 last:border-b-0">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-lg font-semibold">{{ $t('test.question') }} {{ index + 1 }}</h3>
+              <div class="flex items-center gap-2">
+                <div 
+                  class="px-3 py-1 rounded-full text-sm font-medium"
+                  :class="{
+                    'bg-green-100 text-green-800': userAnswers[index] !== undefined && userAnswers[index] === (question.correct ?? question.correctAnswerIndex),
+                    'bg-red-100 text-red-800': userAnswers[index] !== undefined && userAnswers[index] !== (question.correct ?? question.correctAnswerIndex),
+                    'bg-gray-100 text-gray-800': userAnswers[index] === undefined
+                  }"
+                >
+                  {{ 
+                    userAnswers[index] === undefined ? $t('result.noAnswer') :
+                    userAnswers[index] === (question.correct ?? question.correctAnswerIndex) ? $t('result.correct') : $t('result.incorrect') 
+                  }}
+                </div>
               </div>
             </div>
-          </div>
 
           <div v-if="question.imageUrl" class="mb-4">
             <img :src="question.imageUrl" :alt="question.text || 'Question image'" class="max-w-80 mx-auto rounded-lg shadow-lg">
@@ -66,7 +66,7 @@
           </div>
           
           <div>
-            <div class="font-semibold mb-2">Answer Review</div>
+            <div class="font-semibold mb-2">{{ $t('result.answerReview') }}</div>
             <div class="flex items-center gap-2">
               <div v-for="(option, optionIndex) in question.options" :key="optionIndex" class="flex flex-col gap-1 items-center">
                 <span class="text-sm">
@@ -88,14 +88,14 @@
           </div>
 
           <div v-if="userAnswers[index] === undefined" class="mt-3 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
-            <span class="text-yellow-800 text-sm font-medium">No answer selected</span>
+            <span class="text-yellow-800 text-sm font-medium">{{ $t('result.noAnswerSelected') }}</span>
           </div>
         </div>
       </div>
 
       <div class="mt-8 text-center">
-        <UButton size="lg" @click="navigateTo('/')">
-          Take Another Test
+        <UButton size="lg" @click="navigateTo($localePath('/'))">
+          {{ $t('result.retakeTest') }}
         </UButton>
       </div>
     </div>
@@ -115,6 +115,7 @@ const questions = ref([])
 const userAnswers = ref({})
 const userInfo = ref(null)
 const timeSpent = ref(null)
+const localePath = useLocalePath()
 
 // Load test data and user info on mount
 onMounted(() => {
@@ -130,7 +131,7 @@ onMounted(() => {
       
       sessionStorage.removeItem('testData')
     } else {
-      navigateTo('/')
+      navigateTo(localePath('/'))
       return
     }
     
@@ -141,7 +142,7 @@ onMounted(() => {
     }
   } catch (err) {
     console.error('Error loading test data:', err)
-    navigateTo('/')
+    navigateTo(localePath('/'))
   }
 })
 

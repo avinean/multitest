@@ -4,12 +4,12 @@
     <div class="mb-8">
       <div class="flex justify-between items-center">
         <div>
-          <h2 class="text-2xl font-bold text-gray-900">Question Groups Management</h2>
-          <p class="text-gray-600 mt-1">View and manage your question groups</p>
+          <h2 class="text-2xl font-bold text-gray-900">{{ $t('admin.questionGroups.title') }}</h2>
+          <p class="text-gray-600 mt-1">{{ $t('admin.questionGroups.subtitle') }}</p>
         </div>
         <div>
-          <UButton to="/admin/question-groups/new" size="lg">
-            Create New Question Group
+          <UButton :to="$localePath('/admin/question-groups/new')" size="lg">
+            {{ $t('admin.questionGroups.create') }}
           </UButton>
         </div>
       </div>
@@ -20,20 +20,20 @@
       <div class="grid grid-cols-1 lg:grid-cols-4 gap-4">
           <UInput 
             v-model="searchQuery"
-            placeholder="Search question groups by name..."
+            :placeholder="$t('admin.questionGroups.search')"
             icon="i-heroicons-magnifying-glass"
             size="md"
           />
           <USelect 
             v-model="selectedType"
             :items="questionGroupTypes"
-            placeholder="Filter by type"
+            :placeholder="$t('admin.questionGroups.filterByType')"
             size="md"
           />
           <USelect 
             v-model="selectedStatus"
             :items="statusOptions"
-            placeholder="Filter by status"
+            :placeholder="$t('admin.questionGroups.filterByStatus')"
             size="md"
           />
           <UButton 
@@ -43,14 +43,14 @@
             size="md"
             @click="clearFilters"
           >
-            Clear Filters
+            {{ $t('admin.questionGroups.clearFilters') }}
           </UButton>
       </div>
       
       <!-- Results count -->
       <div v-if="!questionGroupsLoading && questionGroups" class="mt-3 text-sm text-gray-600">
-        Showing {{ filteredQuestionGroups.length }} of {{ questionGroups.length }} question groups
-        <span v-if="hasActiveFilters" class="font-medium">(filtered)</span>
+        {{ $t('admin.questionGroups.showing') }} {{ filteredQuestionGroups.length }} {{ $t('admin.questionGroups.of') }} {{ questionGroups.length }} question groups
+        <span v-if="hasActiveFilters" class="font-medium">{{ $t('admin.questionGroups.filtered') }}</span>
       </div>
     </div>
 
@@ -72,7 +72,7 @@
           </svg>
         </div>
         <div class="ml-3">
-          <h3 class="text-sm font-medium text-red-800">Error loading question groups</h3>
+          <h3 class="text-sm font-medium text-red-800">{{ $t('admin.questionGroups.errorLoading') }}</h3>
           <p class="mt-1 text-sm text-red-700">{{ questionGroupsError }}</p>
         </div>
       </div>
@@ -88,7 +88,7 @@
         <div class="flex justify-between items-start">
           <div class="flex-1">
             <div class="flex items-center gap-3 mb-2">
-              <h3 class="text-lg font-semibold text-gray-900">{{ group.name || 'Untitled Group' }}</h3>
+              <h3 class="text-lg font-semibold text-gray-900">{{ group.name || $t('admin.questionGroups.untitledGroup') }}</h3>
               <UBadge 
                 color="primary"
                 variant="outline"
@@ -101,13 +101,13 @@
                 :variant="group.published ? 'solid' : 'outline'"
                 size="sm"
               >
-                {{ group.published ? 'Published' : 'Draft' }}
+                {{ group.published ? $t('admin.questionGroups.published') : $t('admin.questionGroups.draft') }}
               </UBadge>
             </div>
             <div class="flex items-center gap-4 text-sm text-gray-500">
               <span>ID: {{ group.id }}</span>
-              <span>{{ group.questions?.length || 0 }} sub-questions</span>
-              <span v-if="group.createdAt">Created: {{ new Date(group.createdAt?.toDate?.() || group.createdAt).toLocaleDateString() }}</span>
+              <span>{{ group.questions?.length || 0 }} {{ $t('admin.questionGroups.subQuestions') }}</span>
+              <span v-if="group.createdAt">{{ $t('admin.questionGroups.created') }}: {{ new Date(group.createdAt?.toDate?.() || group.createdAt).toLocaleDateString() }}</span>
             </div>
           </div>
           <div class="flex gap-2 ml-4">
@@ -116,7 +116,7 @@
               size="sm" 
               variant="outline"
             >
-              Edit
+              {{ $t('admin.questionGroups.edit') }}
             </UButton>
           </div>
         </div>
@@ -132,18 +132,18 @@
       </div>
       <!-- No groups at all -->
       <template v-if="!questionGroups || questionGroups.length === 0">
-        <h3 class="text-lg font-medium text-gray-900 mb-2">No question groups found</h3>
-        <p class="text-gray-500 mb-6">Create your first question group and start building your test content</p>
-        <UButton to="/admin/question-groups/new">
-          Create Your First Question Group
+        <h3 class="text-lg font-medium text-gray-900 mb-2">{{ $t('admin.questionGroups.noGroupsFound') }}</h3>
+        <p class="text-gray-500 mb-6">{{ $t('admin.questionGroups.noGroupsMessage') }}</p>
+        <UButton :to="$localePath('/admin/question-groups/new')">
+          {{ $t('admin.questionGroups.createFirst') }}
         </UButton>
       </template>
       <!-- No filtered results -->
       <template v-else>
-        <h3 class="text-lg font-medium text-gray-900 mb-2">No question groups match your filters</h3>
-        <p class="text-gray-500 mb-6">Try adjusting your search criteria or clear the filters to see all groups</p>
+        <h3 class="text-lg font-medium text-gray-900 mb-2">{{ $t('admin.questionGroups.noMatchingFilters') }}</h3>
+        <p class="text-gray-500 mb-6">{{ $t('admin.questionGroups.adjustFilters') }}</p>
         <UButton variant="outline" @click="clearFilters">
-          Clear Filters
+          {{ $t('admin.questionGroups.clearFilters') }}
         </UButton>
       </template>
     </div>

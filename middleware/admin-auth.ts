@@ -4,6 +4,7 @@ export default defineNuxtRouteMiddleware((_to, _from) => {
   // Since admin pages are client-only, we can use a simpler auth check
   return new Promise((resolve) => {
     const auth = getAuth()
+    const localePath = useLocalePath()
     
     onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -11,7 +12,7 @@ export default defineNuxtRouteMiddleware((_to, _from) => {
         resolve()
       } else {
         // User is not authenticated, redirect to login
-        resolve(navigateTo('/admin/login'))
+        resolve(navigateTo(localePath('/admin/login')))
       }
     })
   })

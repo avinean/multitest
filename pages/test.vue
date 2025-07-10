@@ -4,12 +4,12 @@
 v-if="!pending && !error && questions.length > 0" 
          class="fixed top-4 right-4 z-50 bg-white border border-gray-300 rounded-lg shadow-lg p-3 min-w-[160px]">
       <div class="text-center">
-        <div class="text-xs text-gray-500 mb-1">Time Remaining</div>
+        <div class="text-xs text-gray-500 mb-1">{{ $t('test.timeRemainingShort') }}</div>
         <div class="text-lg font-bold" :class="timeRemainingClass">
           {{ formatTime(timeRemaining) }}
         </div>
         <div class="text-xs text-gray-400 mt-1">
-          {{ Math.round((timeRemaining / TOTAL_TIME) * 100) }}% left
+          {{ Math.round((timeRemaining / TOTAL_TIME) * 100) }}{{ $t('test.percentLeft') }}
         </div>
         
         <hr class="my-2">
@@ -22,7 +22,7 @@ v-if="!pending && !error && questions.length > 0"
             class="mx-auto"
             @click="showPauseWarning"
           >
-            Pause Test
+            {{ $t('test.pauseTest') }}
           </UButton>
           
           <template v-else-if="isPaused">
@@ -34,10 +34,10 @@ v-if="!pending && !error && questions.length > 0"
               :disabled="!canResume"
               @click="resumeTest"
             >
-              Resume
+              {{ $t('test.resume') }}
             </UButton>
             <div class="text-xs text-red-600 mt-1 text-center">
-              <div>Can resume in:</div>
+              <div>{{ $t('test.canResumeIn') }}</div>
               <div class="font-semibold">{{ formatTime(timeUntilResume) }}</div>
             </div>
           </template>
@@ -50,23 +50,22 @@ v-if="!pending && !error && questions.length > 0"
             class="mx-auto"
             @click="showNewTestModal = true"
           >
-            Start New Test
+            {{ $t('test.startNewTest') }}
           </UButton>
         </div>
       </div>
     </div>
 
     <!-- Pause Warning Modal -->
-    <UModal v-model:open="showPauseModal" title="Pause Test">
+    <UModal v-model:open="showPauseModal" :title="$t('test.pauseModal.title')">
       <template #body>
         <div class="space-y-4">
           <p class="text-gray-700">
-            Are you sure you want to pause the test?
+            {{ $t('test.pauseModal.message') }}
           </p>
           <div class="p-3 bg-orange-50 border border-orange-200 rounded-md">
             <p class="text-sm text-orange-800">
-              <strong>Warning:</strong> Once paused, you must wait 30 minutes before you can resume the test. 
-              This restriction prevents abuse of the pause feature.
+              <strong>{{ $t('common.warning') }}:</strong> {{ $t('test.pauseModal.warning') }}
             </p>
           </div>
         </div>
@@ -79,30 +78,29 @@ v-if="!pending && !error && questions.length > 0"
             variant="outline"
             @click="showPauseModal = false"
           >
-            Cancel
+            {{ $t('common.cancel') }}
           </UButton>
           <UButton 
             color="primary"
             variant="subtle"
             @click="pauseTest"
           >
-            Pause Test
+            {{ $t('test.pauseTest') }}
           </UButton>
         </div>
       </template>
     </UModal>
 
     <!-- Start New Test Modal -->
-    <UModal v-model:open="showNewTestModal" title="Start New Test">
+    <UModal v-model:open="showNewTestModal" :title="$t('test.newTestModal.title')">
       <template #body>
         <div class="space-y-4">
           <p class="text-gray-700">
-            Are you sure you want to start a completely new test?
+            {{ $t('test.newTestModal.message') }}
           </p>
           <div class="p-3 bg-red-50 border border-red-200 rounded-md">
             <p class="text-sm text-red-800">
-              <strong>Warning:</strong> This will permanently delete all your current progress and answers. 
-              You will start with fresh questions and a new 60-minute timer.
+              <strong>{{ $t('common.warning') }}:</strong> {{ $t('test.newTestModal.warning') }}
             </p>
           </div>
         </div>
@@ -115,13 +113,13 @@ v-if="!pending && !error && questions.length > 0"
             variant="outline"
             @click="showNewTestModal = false"
           >
-            Cancel
+            {{ $t('common.cancel') }}
           </UButton>
           <UButton 
             color="error"
             @click="startNewTest"
           >
-            Start New Test
+            {{ $t('test.startNewTest') }}
           </UButton>
         </div>
       </template>
@@ -130,16 +128,16 @@ v-if="!pending && !error && questions.length > 0"
     <div v-if="pending" class="flex-1 flex justify-center items-center min-h-screen">
       <div class="text-center">
         <div class="animate-spin rounded-full h-32 w-32 border-b-2 border-primary-500 mx-auto mb-4"/>
-        <p class="text-lg">Loading test questions...</p>
+        <p class="text-lg">{{ $t('test.loading') }}</p>
       </div>
     </div>
 
     <div v-else-if="error" class="flex-1 flex justify-center items-center min-h-screen">
       <div class="max-w-md w-full p-8 bg-white border border-red-200 rounded-lg shadow-sm text-center">
         <div class="text-red-500 text-6xl mb-4">⚠️</div>
-        <h2 class="text-2xl font-bold text-red-800 mb-4">Error Loading Test</h2>
+        <h2 class="text-2xl font-bold text-red-800 mb-4">{{ $t('test.error') }}</h2>
         <p class="text-red-600 mb-6">{{ error }}</p>
-        <UButton color="red" @click="$router.go(0)">Reload Page</UButton>
+        <UButton color="red" @click="$router.go(0)">{{ $t('test.reloadPage') }}</UButton>
       </div>
     </div>
 
@@ -147,9 +145,9 @@ v-if="!pending && !error && questions.length > 0"
       <div class="sticky top-0 bg-white border-b border-gray-200 p-4 z-10">
         <div class="max-w-6xl mx-auto">
           <div class="flex items-center justify-between mb-4">
-            <h3 class="text-lg font-semibold">Question Navigation</h3>
+            <h3 class="text-lg font-semibold">{{ $t('test.navigation.title') }}</h3>
             <div class="text-sm">
-              {{ answeredCount }} of {{ questions.length }} answered
+              {{ answeredCount }} {{ $t('test.of') }} {{ questions.length }} {{ $t('test.navigation.answered') }}
             </div>
           </div>
 
@@ -172,15 +170,15 @@ v-if="!pending && !error && questions.length > 0"
           <div class="flex items-center gap-4 text-xs">
             <div class="flex items-center gap-2">
               <div class="w-4 h-4 border-2 border-primary-500 bg-primary-100 rounded"/>
-              <span>Current</span>
+              <span>{{ $t('test.navigation.current') }}</span>
             </div>
             <div class="flex items-center gap-2">
               <div class="w-4 h-4 border-2 border-green-500 bg-green-100 rounded"/>
-              <span>Answered</span>
+              <span>{{ $t('test.navigation.answered') }}</span>
             </div>
             <div class="flex items-center gap-2">
               <div class="w-4 h-4 border-2 border-gray-300 bg-gray-50 rounded"/>
-              <span>Unanswered</span>
+              <span>{{ $t('test.navigation.unanswered') }}</span>
             </div>
           </div>
         </div>
@@ -205,14 +203,14 @@ v-if="!pending && !error && questions.length > 0"
             variant="outline"
             @click="previousQuestion"
           >
-            ← Previous
+            {{ $t('test.previousButton') }}
           </UButton>
           
           <UButton 
             color="primary"
             @click="nextQuestion"
           >
-            {{ isLastQuestion ? 'Finish Test' : 'Next →' }}
+            {{ isLastQuestion ? $t('test.finishTest') : $t('test.nextButton') }}
           </UButton>
         </div>
       </div>
@@ -221,16 +219,16 @@ v-if="!pending && !error && questions.length > 0"
     <div v-else class="flex-1 flex justify-center items-center min-h-screen">
       <div class="max-w-md w-full p-8 bg-white border border-gray-200 rounded-lg shadow-sm text-center">
         <div class="text-gray-400 text-6xl mb-4">📝</div>
-        <h2 class="text-2xl font-bold text-gray-800 mb-4">No Test Available</h2>
-        <p class="text-gray-600 mb-6">No published question groups were found to create a test.</p>
-        <UButton @click="navigateTo('/')">Go to Home</UButton>
+        <h2 class="text-2xl font-bold text-gray-800 mb-4">{{ $t('test.noTestAvailable.title') }}</h2>
+        <p class="text-gray-600 mb-6">{{ $t('test.noTestAvailable.message') }}</p>
+        <UButton @click="navigateTo($localePath('/'))">{{ $t('test.noTestAvailable.action') }}</UButton>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { query, where, collection, getDocs, limit } from 'firebase/firestore'
+import { query, where, collection, getDocs } from 'firebase/firestore'
 import { useFirestore } from 'vuefire'
 import { onBeforeRouteLeave } from 'vue-router'
 
@@ -282,28 +280,17 @@ const fetchTestQuestions = async () => {
   try {
     pending.value = true
     error.value = null
-    let allQuestions = []
     
-    for (const { value } of questionGroupTypes) {
-      const querySnapshot = await getDocs(
+    questions.value = (await Promise.all(questionGroupTypes.map(({ value }) =>
+      getDocs(
         query(
           collection(db, 'question-groups'),
           where('type', '==', value),
-          where('published', '==', true),
-          limit(1)
+          where('published', '==', true)
         )
-      )
-      
-      querySnapshot.docs.forEach(doc => {
-        const groupData = doc.data()
-        if (groupData.questions && groupData.questions.length > 0) {
-          allQuestions = [...allQuestions, ...groupData.questions]
-        }
-      })
-    }
-    
-    questions.value = allQuestions
-    
+      ).then(({ docs }) =>
+        docs[Math.floor(Math.random() * docs.length)].data().questions
+      )))).flat()
   } catch (err) {
     console.error('Error fetching question groups:', err)
     error.value = err.message || 'Failed to load test questions'
@@ -370,6 +357,8 @@ const timeExpired = () => {
   finishTest()
 }
 
+const localePath = useLocalePath()
+
 const finishTest = () => {
   testCompleted.value = true
   stopTimer()
@@ -382,7 +371,7 @@ const finishTest = () => {
     completed: true
   }))
   
-  navigateTo('/result')
+  navigateTo(localePath('/result'))
 }
 
 const formatTime = (milliseconds) => {

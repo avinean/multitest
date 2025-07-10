@@ -1,57 +1,52 @@
 <template>
   <div class="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
     <div class="max-w-md w-full space-y-8">
-      <div>
-        <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-          Admin Login
-        </h2>
-        <p class="mt-2 text-center text-sm text-gray-600">
-          Sign in to manage tests and questions
-        </p>
-      </div>
+      <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+        {{ $t('admin.login.title') }}
+      </h2>
+      <p class="mt-2 text-center text-sm text-gray-600">
+        {{ $t('admin.login.subtitle') }}
+      </p>
       
-      <div class="bg-white rounded-lg shadow-sm p-8">
-        <form class="space-y-6" @submit.prevent="signIn">
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
-            <UInput 
-              v-model="email" 
-              type="email" 
-              placeholder="admin@example.com"
-              required
-              size="lg"
-            />
-          </div>
-          
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
-            <UInput 
-              v-model="password" 
-              type="password" 
-              placeholder="Password"
-              required
-              size="lg"
-            />
-          </div>
+      <form class="bg-white rounded-lg shadow-sm p-8 space-y-6" @submit.prevent="signIn">
+        <UFormField :label="$t('admin.login.email')">
+          <UInput 
+            v-model="email" 
+            type="email"
+            required
+            size="lg"
+            class="w-full"
+          />
+        </UFormField>
+        
+        <UFormField :label="$t('admin.login.password')">
+          <UInput 
+            v-model="password" 
+            type="password"
+            required
+            size="lg"
+            class="w-full"
+          />
+        </UFormField>
 
-          <div v-if="authError" class="p-3 bg-red-50 border border-red-200 rounded-md">
-            <p class="text-sm text-red-600">{{ authError }}</p>
-          </div>
+        <div v-if="authError" class="p-3 bg-red-50 border border-red-200 rounded-md">
+          <p class="text-sm text-red-600">{{ authError }}</p>
+        </div>
 
+        <div class="flex justify-end">
           <UButton 
             type="submit" 
             :loading="signingIn"
             size="lg"
-            class="w-full"
           >
-            Sign In
+            {{ $t('admin.login.signIn') }}
           </UButton>
-        </form>
-      </div>
+        </div>
+      </form>
       
       <div class="text-center">
-        <NuxtLink to="/" class="text-sm text-gray-500 hover:text-gray-700">
-          ← Back to Home
+        <NuxtLink :to="$localePath('/')" class="text-sm text-gray-500 hover:text-gray-700">
+          {{ $t('admin.login.backToHome') }}
         </NuxtLink>
       </div>
     </div>
@@ -73,6 +68,7 @@ const signingIn = ref(false)
 const authError = ref('')
 const email = ref('')
 const password = ref('')
+const localePath = useLocalePath()
 
 // Auth methods
 const signIn = async () => {
@@ -82,7 +78,7 @@ const signIn = async () => {
   try {
     await signInWithEmailAndPassword(auth, email.value, password.value)
     localStorage.setItem('hasAdminAccess', 'true')
-    navigateTo('/admin/question-groups')
+    navigateTo(localePath('/admin/question-groups'))
   } catch (error) {
     authError.value = error.message
   } finally {
@@ -94,7 +90,7 @@ const signIn = async () => {
 onMounted(() => {
   onAuthStateChanged(auth, (user) => {
     if (user) {
-      navigateTo('/admin/question-groups')
+      navigateTo(localePath('/admin/question-groups'))
     }
   })
 })

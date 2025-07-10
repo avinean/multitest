@@ -2,11 +2,10 @@
   <div class="min-h-[calc(100vh-8rem)] flex items-center">
     <UContainer class="text-center">
       <h1 class="text-5xl lg:text-6xl font-bold mb-4 drop-shadow-lg">
-        English Proficiency Test
+        {{ $t('home.title') }}
       </h1>
       <p class="text-xl mb-12 opacity-90 max-w-2xl mx-auto leading-relaxed">
-        Test your English skills with our comprehensive assessment featuring reading comprehension, 
-        grammar, and vocabulary exercises.
+        {{ $t('home.subtitle') }}
       </p>
       
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
@@ -14,30 +13,30 @@
           <template #header>
             <div class="text-center">
               <div class="text-5xl mb-4">📖</div>
-              <h3 class="text-xl font-semibold">Reading Comprehension</h3>
+              <h3 class="text-xl font-semibold">{{ $t('home.features.reading.title') }}</h3>
             </div>
           </template>
-          <p class="text-center">Test your understanding of written English texts</p>
+          <p class="text-center">{{ $t('home.features.reading.description') }}</p>
         </UCard>
         
         <UCard class="bg-white/10 backdrop-blur-md border border-white/20">
           <template #header>
             <div class="text-center">
               <div class="text-5xl mb-4">✏️</div>
-              <h3 class="text-xl font-semibold">Grammar & Vocabulary</h3>
+              <h3 class="text-xl font-semibold">{{ $t('home.features.grammar.title') }}</h3>
             </div>
           </template>
-          <p class="text-center">Assess your knowledge of English grammar rules</p>
+          <p class="text-center">{{ $t('home.features.grammar.description') }}</p>
         </UCard>
         
         <UCard class="bg-white/10 backdrop-blur-md border border-white/20">
           <template #header>
             <div class="text-center">
               <div class="text-5xl mb-4">🧩</div>
-              <h3 class="text-xl font-semibold">Cloze Tests</h3>
+              <h3 class="text-xl font-semibold">{{ $t('home.features.cloze.title') }}</h3>
             </div>
           </template>
-          <p class="text-center">Fill in the blanks to complete passages</p>
+          <p class="text-center">{{ $t('home.features.cloze.description') }}</p>
         </UCard>
       </div>
 
@@ -48,11 +47,11 @@
           color="primary"
           @click="handleStartTest"
         >
-          Start Test
+          {{ $t('home.startTest') }}
         </UButton>
 
         <p class="text-sm">
-          The test contains multiple question types and takes approximately 30-45 minutes to complete.
+          {{ $t('home.testInfo') }}
         </p>
       </div>
     </UContainer>
@@ -60,7 +59,7 @@
     <!-- Email Modal -->
     <UModal 
       v-model:open="showEmailModal" 
-      title="Before You Begin"
+      :title="$t('home.emailModal.title')"
     >
       <template #body>
         <UForm 
@@ -72,7 +71,7 @@
           <UInput 
             v-model="emailForm.email"
             type="email"
-            placeholder="Enter your email address..."
+            :placeholder="$t('home.emailModal.emailPlaceholder')"
             :disabled="submitting"
             required
             icon="i-heroicons-envelope"
@@ -81,7 +80,7 @@
 
           <UInput 
             v-model="emailForm.name"
-            placeholder="Enter your name..."
+            :placeholder="$t('home.emailModal.namePlaceholder')"
             :disabled="submitting"
             icon="i-heroicons-user"
             class="w-full"
@@ -96,7 +95,7 @@
             :disabled="!isEmailValid"
             @click="startTest"
           >
-            Start Test
+            {{ $t('home.emailModal.startTest') }}
           </UButton>
         </div>
        </template>
@@ -105,8 +104,10 @@
  </template>
 
 <script setup>
+const { t } = useI18n()
+
 useHead({
-  title: 'English Proficiency Test - Home'
+  title: computed(() => `${t('home.title')} - Home`)
 })
 
 const showEmailModal = ref(false)
@@ -122,13 +123,15 @@ const isEmailValid = computed(() => {
   return emailRegex.test(emailForm.value.email)
 })
 
+const localePath = useLocalePath()
+
 const handleStartTest = () => {
   // Check if user info already exists
   const existingUserInfo = sessionStorage.getItem('userInfo')
   
   if (existingUserInfo) {
     // User info exists, go directly to test
-    navigateTo('/test')
+    navigateTo(localePath('/test'))
   } else {
     // No user info, show email modal
     showEmailModal.value = true
@@ -147,7 +150,7 @@ const startTest = async () => {
     }))
     
     // Navigate to test page
-    await navigateTo('/test')
+    await navigateTo(localePath('/test'))
   } catch (error) {
     console.error('Error starting test:', error)
   } finally {

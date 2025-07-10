@@ -4,7 +4,7 @@
     <div class="mb-8">
       <div class="flex items-center gap-4">
         <UButton 
-          to="/admin/question-groups" 
+          :to="localePath('/admin/question-groups')" 
           color="gray" 
           variant="outline" 
           icon="i-heroicons-arrow-left"
@@ -199,7 +199,7 @@
             color="gray" 
             variant="outline"
             :disabled="saving"
-            @click="navigateTo('/admin/question-groups')"
+            @click="navigateTo(localePath('/admin/question-groups'))"
           >
             Cancel
           </UButton>
@@ -596,6 +596,7 @@ definePageMeta({
 })
 
 const route = useRoute()
+const localePath = useLocalePath()
 
 const db = useFirestore()
 const storage = useFirebaseStorage()
@@ -686,7 +687,7 @@ const saveGroup = async (event) => {
       console.log('Question group created with ID:', docRef.id)
       
       // Navigate to edit page
-      await navigateTo(`/admin/question-groups/${docRef.id}`)
+      await navigateTo(localePath(`/admin/question-groups/${docRef.id}`))
     } else {
       // Update existing question group
       await updateDoc(doc(db, 'question-groups', slug.value), groupDataToSave)
@@ -875,6 +876,21 @@ const handleSubQuestionImageSelect = (event) => {
   }
 }
 
+// Helper function to extract storage path from download URL
+const getStoragePathFromUrl = (url) => {
+  if (!url) return null
+  try {
+    const urlObj = new URL(url)
+    const pathMatch = urlObj.pathname.match(/\/o\/(.+?)(\?|$)/)
+    if (pathMatch) {
+      return decodeURIComponent(pathMatch[1])
+    }
+  } catch (error) {
+    console.log('Could not extract storage path from URL:', error)
+  }
+  return null
+}
+
 const uploadSubQuestionImage = async () => {
   if (!subQuestionForm.value.imageFile) return null
   
@@ -902,17 +918,25 @@ const uploadSubQuestionImage = async () => {
   }
 }
 
-const removeSubQuestionImage = async () => {
-  if (subQuestionForm.value.imageUrl) {
-    try {
-      // Extract storage path from URL to delete the old image
-      const imageRef = storageRef(storage, subQuestionForm.value.imageUrl)
+const deleteImageFromStorage = async (imageUrl) => {
+  if (!imageUrl) return
+  
+  try {
+    const storagePath = getStoragePathFromUrl(imageUrl)
+    if (storagePath) {
+      const imageRef = storageRef(storage, storagePath)
       await deleteObject(imageRef)
-    } catch (error) {
-      console.log('Could not delete old sub-question image:', error)
-      // Don't throw error as the main operation should continue
+      console.log('Successfully deleted image from storage:', storagePath)
     }
+  } catch (error) {
+    console.log('Could not delete image from storage:', error)
+    // Don't throw error as the main operation should continue
   }
+}
+
+const removeSubQuestionImage = async () => {
+  // Delete from storage if URL exists
+  await deleteImageFromStorage(subQuestionForm.value.imageUrl)
   
   // Clean up preview URL
   if (subQuestionImagePreview.value) {
@@ -991,6 +1015,11 @@ const saveSubQuestion = async (event) => {
     // Upload image if a new file was selected
     let imageUrl = subQuestionForm.value.imageUrl
     if (subQuestionForm.value.imageFile) {
+      // Delete old image from storage before uploading new one
+      if (subQuestionForm.value.imageUrl) {
+        await deleteImageFromStorage(subQuestionForm.value.imageUrl)
+      }
+      
       imageUrl = await uploadSubQuestionImage()
       if (!imageUrl && subQuestionImageUploadError.value) {
         // If upload failed, don't save the sub-question
@@ -1077,6 +1106,13 @@ const deleteQuestion = async (index) => {
   
   try {
     const currentQuestions = [...(groupData.value?.questions || [])]
+    const questionToDelete = currentQuestions[index]
+    
+    // Delete associated image from storage if it exists
+    if (questionToDelete?.imageUrl) {
+      await deleteImageFromStorage(questionToDelete.imageUrl)
+    }
+    
     currentQuestions.splice(index, 1)
     
     await updateDoc(doc(db, 'question-groups', slug.value), {
