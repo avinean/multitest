@@ -11,30 +11,22 @@
           </div>
           
           <nav class="flex items-center space-x-4">
-            <LanguageSelector />
-            
-            <!-- <UButton 
-              to="/" 
+            <!-- <UButton
+              :to="$localePath('/blog')" 
               variant="ghost" 
               size="sm"
-            >
-              Home
-            </UButton>
-            <UButton 
-              to="/test" 
-              variant="ghost" 
-              size="sm"
-            >
-              Take Test
+              >
+              {{ $t('nav.blog') }}
             </UButton> -->
             <UButton 
               v-if="hasAdminAccess"
               :to="$localePath('/admin/login')" 
               variant="ghost" 
               size="sm"
-            >
+              >
               {{ $t('nav.admin') }}
             </UButton>
+            <LanguageSelector />
           </nav>
         </div>
       </UContainer>

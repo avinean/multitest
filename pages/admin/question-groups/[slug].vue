@@ -602,7 +602,7 @@ const db = useFirestore()
 const storage = useFirebaseStorage()
 
 // Get the slug from route params
-const slug = computed(() => route.params.slug?.[0] || 'new')
+const slug = computed(() => route.params.slug || 'new')
 const isNewGroup = computed(() => slug.value === 'new')
 
 // Set page title dynamically

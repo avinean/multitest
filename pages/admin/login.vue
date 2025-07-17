@@ -59,7 +59,6 @@ import { signInWithEmailAndPassword, onAuthStateChanged, getAuth  } from 'fireba
 definePageMeta({
   title: 'Admin Login',
   layout: false,
-  ssr: false
 })
 
 // Auth

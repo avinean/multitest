@@ -16,7 +16,6 @@ export default defineNuxtConfig({
     preference: 'light'
   },
   routeRules: {
-    // Make all admin routes client-only (disable SSR)
     '/admin/**': { ssr: false }
   },
   vuefire: {
