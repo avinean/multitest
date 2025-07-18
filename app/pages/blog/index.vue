@@ -35,7 +35,7 @@
     <!-- Blog Posts Section -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <!-- Loading State -->
-      <div v-if="blogPostsLoading" class="space-y-8">
+      <div v-if="pending" class="space-y-8">
         <div v-for="i in 6" :key="i" class="bg-white rounded-xl shadow-sm p-6 animate-pulse">
           <div class="h-6 bg-gray-200 rounded w-3/4 mb-4"/>
           <div class="h-4 bg-gray-200 rounded w-1/2 mb-3"/>
@@ -49,7 +49,7 @@
       </div>
 
       <!-- Error State -->
-      <div v-else-if="blogPostsError" class="text-center py-12">
+      <div v-else-if="error" class="text-center py-12">
         <div class="bg-red-50 border border-red-200 rounded-xl p-8 max-w-md mx-auto">
           <div class="text-red-400 mb-4">
             <svg class="w-16 h-16 mx-auto" fill="currentColor" viewBox="0 0 20 20">
@@ -57,7 +57,7 @@
             </svg>
           </div>
           <h3 class="text-lg font-medium text-red-800 mb-2">{{ $t('blog.error.title') }}</h3>
-          <p class="text-red-700">{{ blogPostsError }}</p>
+          <p class="text-red-700">{{ error }}</p>
         </div>
       </div>
 
@@ -66,7 +66,7 @@
         <!-- Results count -->
         <div class="text-center mb-8">
           <p class="text-gray-600">
-            {{ $t('blog.showing') }} {{ filteredBlogPosts.length }} {{ $t('blog.of') }} {{ publishedBlogPosts.length }} {{ $t('blog.posts') }}
+            {{ $t('blog.showing') }} {{ filteredBlogPosts.length }} {{ $t('blog.of') }} {{ filteredBlogPosts.length }} {{ $t('blog.posts') }}
             <span v-if="searchQuery" class="font-medium text-blue-600">{{ $t('blog.filtered') }}</span>
           </p>
         </div>
@@ -83,7 +83,7 @@
               <img 
                 v-if="post.posterUrl" 
                 :src="post.posterUrl" 
-                :alt="post.title || 'Blog post image'"
+                :alt="post[locale].title || 'Blog post image'"
                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
               >
               <div v-else class="h-full bg-gradient-to-br from-blue-100 to-purple-100 flex items-center justify-center">
@@ -99,17 +99,14 @@
                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
                   {{ $t('blog.published') }}
                 </span>
-                <span v-if="post.author" class="text-sm text-gray-500">
-                  {{ $t('blog.by') }} {{ post.author }}
-                </span>
               </div>
 
               <h2 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">
-                {{ post.title || $t('blog.untitledPost') }}
+                {{ post[locale].title || $t('blog.untitledPost') }}
               </h2>
 
-              <p v-if="post.excerpt" class="text-gray-600 mb-4 line-clamp-3">
-                {{ post.excerpt }}
+              <p v-if="post[locale].excerpt" class="text-gray-600 mb-4 line-clamp-3">
+                {{ post[locale].excerpt }}
               </p>
 
               <div class="flex items-center justify-between text-sm text-gray-500">
@@ -158,7 +155,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { collection, query, where, orderBy } from 'firebase/firestore'
 import { useCollection, useFirestore } from 'vuefire'
 
@@ -167,35 +164,27 @@ definePageMeta({
   description: 'Read our latest blog posts and insights'
 })
 
+const { locale } = useI18n()
 const db = useFirestore()
 
 // Fetch only published blog posts
-const { data: blogPosts, pending: blogPostsLoading, error: blogPostsError } = useCollection(
+const { data, pending, error } = useCollection<BlogPost>(
   query(
     collection(db, 'blog'),
-    where('published', '==', true),
     orderBy('createdAt', 'desc')
   )
 )
 
-// Search functionality
 const searchQuery = ref('')
-
-// Computed properties
-const publishedBlogPosts = computed(() => {
-  return blogPosts.value || []
-})
-
 const filteredBlogPosts = computed(() => {
-  if (!searchQuery.value) return publishedBlogPosts.value
+  if (!searchQuery.value) return data.value
   
   const query = searchQuery.value.toLowerCase()
-  return publishedBlogPosts.value.filter(post => {
-    const title = (post.title || '').toLowerCase()
-    const excerpt = (post.excerpt || '').toLowerCase()
-    const author = (post.author || '').toLowerCase()
+  return data.value.filter(post => {
+    const title = (post[locale.value].title || '').toLowerCase()
+    const excerpt = (post[locale.value].excerpt || '').toLowerCase()
     
-    return title.includes(query) || excerpt.includes(query) || author.includes(query)
+    return title.includes(query) || excerpt.includes(query)
   })
 })
 

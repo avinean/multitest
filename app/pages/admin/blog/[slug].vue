@@ -5,7 +5,7 @@
       <div class="flex items-center gap-4">
         <UButton 
           :to="localePath('/admin/blog')" 
-          color="gray" 
+          color="neutral" 
           variant="outline" 
           icon="i-heroicons-arrow-left"
         >
@@ -13,14 +13,14 @@
         </UButton>
         <div class="flex-1">
           <h2 class="text-2xl font-bold text-gray-900">
-            {{ isNewPost ? $t('admin.blog.createTitle') : `${$t('admin.blog.editTitle')}: ${postData?.title || $t('admin.blog.untitledPost')}` }}
+            {{ isNewPost ? $t('admin.blog.createTitle') : `${$t('admin.blog.editTitle')}: ${postData?.[currentLocale]?.title || $t('admin.blog.untitledPost')}` }}
           </h2>
           <p class="text-gray-600 mt-1">
             {{ isNewPost ? $t('admin.blog.createSubtitle') : $t('admin.blog.editSubtitle') }}
           </p>
         </div>
         <UButton 
-          v-if="!isNewPost && postData?.published"
+          v-if="!isNewPost && postData?.[currentLocale]?.published"
           color="primary" 
           variant="outline" 
           icon="i-heroicons-eye"
@@ -76,12 +76,44 @@
         </div>
       </div>
 
+      <!-- Language Selector -->
+      <div class="mb-6">
+        <div class="bg-white rounded-lg border border-gray-200 p-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <h3 class="text-lg font-medium text-gray-900">Content Language</h3>
+              <p class="text-sm text-gray-600">Select the language for the content below</p>
+            </div>
+            <div class="flex gap-2">
+              <UButton
+                v-for="locale in availableLocales"
+                :key="locale.code"
+                :variant="currentLocale === locale.code ? 'solid' : 'outline'"
+                :color="currentLocale === locale.code ? 'primary' : 'neutral'"
+                @click="currentLocale = locale.code"
+                :disabled="saving"
+              >
+                {{ locale.name }}
+              </UButton>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <UForm 
         class="space-y-6" 
         :state="postForm" 
         :validate-on="[]"
         @submit="savePost"
       >
+        <UFormField :label="$t('admin.blog.poster')" :hint="$t('admin.blog.posterHint')">
+          <BaseImageUpload
+            v-model="postForm.posterUrl"
+            storage-path="blog"
+            :disabled="saving"
+            auto-upload
+          />
+        </UFormField>
         <!-- Tabs -->
         <UTabs 
           :items="tabItems" 
@@ -94,7 +126,7 @@
               <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <UFormField :label="$t('admin.blog.title') + ' *'" hint="Give this blog post a descriptive title.">
                   <UInput 
-                    v-model="postForm.title"
+                    v-model="postForm[currentLocale].title"
                     :placeholder="$t('admin.blog.titlePlaceholder')"
                     :disabled="saving"
                     required
@@ -102,18 +134,9 @@
                   />
                 </UFormField>
 
-                <UFormField :label="$t('admin.blog.author')" hint="Enter the author name for this blog post.">
-                  <UInput 
-                    v-model="postForm.author"
-                    :placeholder="$t('admin.blog.authorPlaceholder')"
-                    :disabled="saving"
-                    class="w-full"
-                  />
-                </UFormField>
-
                 <UFormField :label="$t('admin.blog.excerpt')" hint="A brief summary or excerpt of the blog post content.">
                   <UTextarea 
-                    v-model="postForm.excerpt"
+                    v-model="postForm[currentLocale].excerpt"
                     :placeholder="$t('admin.blog.excerptPlaceholder')"
                     :disabled="saving"
                     :rows="3"
@@ -121,25 +144,16 @@
                   />
                 </UFormField>
 
-                <UFormField :label="$t('admin.blog.poster')" :hint="$t('admin.blog.posterHint')">
-                  <BaseImageUpload
-                    v-model="postForm.posterUrl"
-                    storage-path="blog"
+                <UFormField label="Publication Status" hint="Control whether this blog post is published and visible to visitors.">
+                  <USwitch 
+                    v-model="postForm[currentLocale].published"
                     :disabled="saving"
-                    auto-upload
                   />
+                  <span class="text-sm" :class="postForm[currentLocale].published ? 'text-green-600 font-medium' : 'text-gray-500'">
+                    {{ postForm[currentLocale].published ? $t('admin.blog.publishedStatus') : $t('admin.blog.draftStatus') }}
+                  </span>
                 </UFormField>
               </div>
-
-              <UFormField label="Publication Status" hint="Control whether this blog post is published and visible to visitors.">
-                <USwitch 
-                  v-model="postForm.published"
-                  :disabled="saving"
-                />
-                <span class="text-sm" :class="postForm.published ? 'text-green-600 font-medium' : 'text-gray-500'">
-                  {{ postForm.published ? $t('admin.blog.publishedStatus') : $t('admin.blog.draftStatus') }}
-                </span>
-              </UFormField>
             </div>
           </template>
 
@@ -148,7 +162,7 @@
             <div class="space-y-6 py-4">
               <UFormField :label="$t('admin.blog.contentSections')" :hint="$t('admin.blog.contentSectionsHint')">
                 <AdminSectionBuilder
-                  v-model="postForm.sections"
+                  v-model="postForm[currentLocale].sections"
                   :disabled="saving"
                 />
               </UFormField>
@@ -161,7 +175,7 @@
               <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <UFormField label="Meta Title" hint="The title that appears in search engine results. Leave empty to use the blog post title.">
                   <UInput 
-                    v-model="postForm.seo.title"
+                    v-model="postForm[currentLocale].seo.title"
                     placeholder="Enter meta title..."
                     :disabled="saving"
                     class="w-full"
@@ -170,7 +184,7 @@
 
                 <UFormField label="Meta Description" hint="A brief description that appears in search engine results.">
                   <UTextarea 
-                    v-model="postForm.seo.description"
+                    v-model="postForm[currentLocale].seo.description"
                     placeholder="Enter meta description..."
                     :disabled="saving"
                     :rows="3"
@@ -180,7 +194,7 @@
 
                 <UFormField label="Keywords" hint="Comma-separated keywords for SEO (optional).">
                   <UInput 
-                    v-model="postForm.seo.keywords"
+                    v-model="postForm[currentLocale].seo.keywords"
                     placeholder="keyword1, keyword2, keyword3"
                     :disabled="saving"
                     class="w-full"
@@ -189,7 +203,7 @@
 
                 <UFormField label="Canonical URL" hint="The canonical URL for this page (optional).">
                   <UInput 
-                    v-model="postForm.seo.canonical"
+                    v-model="postForm[currentLocale].seo.canonical"
                     placeholder="https://example.com/blog/post-slug"
                     :disabled="saving"
                     class="w-full"
@@ -198,7 +212,7 @@
 
                 <UFormField label="Open Graph Image" hint="Image URL for social media sharing (optional).">
                   <UInput 
-                    v-model="postForm.seo.ogImage"
+                    v-model="postForm[currentLocale].seo.ogImage"
                     placeholder="https://example.com/image.jpg"
                     :disabled="saving"
                     class="w-full"
@@ -207,7 +221,7 @@
 
                 <UFormField label="Twitter Card Type" hint="Type of Twitter card to display.">
                   <USelect 
-                    v-model="postForm.seo.twitterCard"
+                    v-model="postForm[currentLocale].seo.twitterCard"
                     :items="twitterCardOptions"
                     :disabled="saving"
                     class="w-full"
@@ -219,13 +233,13 @@
                 <h4 class="font-medium text-gray-900 mb-2">SEO Preview</h4>
                 <div class="space-y-2 text-sm">
                   <div class="font-medium text-blue-600">
-                    {{ postForm.seo.title || postForm.title || 'Your Title Here' }}
+                    {{ postForm[currentLocale].seo.title || postForm[currentLocale].title || 'Your Title Here' }}
                   </div>
                   <div class="text-gray-600">
-                    {{ postForm.seo.description || postForm.excerpt || 'Your description here...' }}
+                    {{ postForm[currentLocale].seo.description || postForm[currentLocale].excerpt || 'Your description here...' }}
                   </div>
                   <div class="text-green-600">
-                    {{ postForm.seo.canonical || 'https://example.com/blog/post-slug' }}
+                    {{ postForm[currentLocale].seo.canonical || 'https://example.com/blog/post-slug' }}
                   </div>
                 </div>
               </div>
@@ -237,7 +251,7 @@
         <div class="flex justify-end gap-3 py-6 sticky bottom-0 bg-white border-t">
           <UButton 
             type="button" 
-            color="gray" 
+            color="neutral" 
             variant="outline"
             :disabled="saving"
             @click="navigateTo(localePath('/admin/blog'))"
@@ -257,8 +271,8 @@
   </div>
 </template>
 
-<script setup>
-import { doc, getDoc, setDoc, addDoc, collection, serverTimestamp } from 'firebase/firestore'
+<script setup lang="ts">
+import { doc, getDoc, setDoc, addDoc, collection } from 'firebase/firestore'
 import { useFirestore } from 'vuefire'
 
 definePageMeta({
@@ -272,10 +286,19 @@ const db = useFirestore()
 
 const isNewPost = computed(() => route.params.slug === 'new')
 
+// Available locales for content editing
+const availableLocales = [
+  { code: 'en', name: 'English' },
+  { code: 'uk', name: 'Українська' }
+] as const
+
+// Current editing locale
+const currentLocale = ref<'en' | 'uk'>('en')
+
 // Post data state
-const postData = ref(null)
+const postData = ref<BlogPost | null>(null)
 const postLoading = ref(false)
-const postError = ref(null)
+const postError = ref<string | null>(null)
 
 // Tab items configuration
 const tabItems = [
@@ -304,15 +327,14 @@ const twitterCardOptions = [
   { label: 'Player', value: 'player' }
 ]
 
-// Form state
-const postForm = ref({
+// Initialize form structure for a locale
+const initializeForm = () => ({
   title: '',
-  content: '', // Keep for backward compatibility
+  content: '',
   excerpt: '',
-  author: '',
   published: false,
-  posterUrl: '',
-  sections: [], // New CMS sections array
+  publishedAt: '',
+  sections: [],
   seo: {
     title: '',
     description: '',
@@ -323,11 +345,17 @@ const postForm = ref({
   }
 })
 
+// Form state - structured according to BlogPost type
+const postForm = ref<BlogPost>({
+  createdAt: '',
+  updatedAt: '',
+  posterUrl: '',
+  ...(Object.fromEntries(availableLocales.map(({ code }) => [code, initializeForm()])) as Record<'en' | 'uk', any>)
+})
+
 // Save state
 const saving = ref(false)
-const saveError = ref(null)
-
-
+const saveError = ref<string | null>(null)
 
 // Load existing post data
 const loadPost = async () => {
@@ -340,27 +368,33 @@ const loadPost = async () => {
     const postDoc = await getDoc(doc(db, 'blog', String(route.params.slug)))
     
     if (postDoc.exists()) {
-      postData.value = { id: postDoc.id, ...postDoc.data() }
+      const data = postDoc.data() as BlogPost
+      postData.value = { id: postDoc.id, ...data }
       console.log('Loaded post data:', postData.value)
       
       // Populate form with existing data
       postForm.value = {
-        title: postData.value.title || '',
-        content: postData.value.content || '', // Keep for backward compatibility
-        excerpt: postData.value.excerpt || '',
-        author: postData.value.author || '',
-        published: postData.value.published || false,
-        posterUrl: postData.value.posterUrl || '',
-        imageFile: null,
-        sections: postData.value.sections || [], // Load sections if they exist
-        seo: {
-          title: postData.value.seo?.title || '',
-          description: postData.value.seo?.description || '',
-          keywords: postData.value.seo?.keywords || '',
-          canonical: postData.value.seo?.canonical || '',
-          ogImage: postData.value.seo?.ogImage || '',
-          twitterCard: postData.value.seo?.twitterCard || 'summary_large_image'
-        }
+        createdAt: data.createdAt || '',
+        updatedAt: data.updatedAt || '',
+        posterUrl: data.posterUrl || '',
+        ...(Object.fromEntries(availableLocales.map(({ code }) => [code, 
+            {
+            title: data[code]?.title || '',
+            content: data[code]?.content || '',
+            excerpt: data[code]?.excerpt || '',
+            published: data[code]?.published || false,
+            publishedAt: data[code]?.publishedAt || '',
+            sections: data[code]?.sections || [],
+            seo: {
+              title: data[code]?.seo?.title || '',
+              description: data[code]?.seo?.description || '',
+              keywords: data[code]?.seo?.keywords || '',
+              canonical: data[code]?.seo?.canonical || '',
+              ogImage: data[code]?.seo?.ogImage || '',
+              twitterCard: data[code]?.seo?.twitterCard || 'summary_large_image'
+            }
+          }
+        ])) as Record<'en' | 'uk', any>)
       }
       console.log('Populated form data:', postForm.value)
     } else {
@@ -368,13 +402,11 @@ const loadPost = async () => {
     }
   } catch (error) {
     console.error('Error loading blog post:', error)
-    postError.value = error.message || 'Failed to load blog post'
+    postError.value = (error as Error).message || 'Failed to load blog post'
   } finally {
     postLoading.value = false
   }
 }
-
-
 
 // Save post
 const savePost = async () => {
@@ -382,44 +414,45 @@ const savePost = async () => {
   saveError.value = null
 
   try {
-    const postData = {
-      title: postForm.value.title.trim(),
-      content: postForm.value.content.trim(), // Keep for backward compatibility
-      excerpt: postForm.value.excerpt.trim(),
-      author: postForm.value.author.trim(),
-      published: postForm.value.published,
-      sections: postForm.value.sections, // Save the sections array
-      seo: {
-        title: postForm.value.seo.title.trim(),
-        description: postForm.value.seo.description.trim(),
-        keywords: postForm.value.seo.keywords.trim(),
-        canonical: postForm.value.seo.canonical.trim(),
-        ogImage: postForm.value.seo.ogImage.trim(),
-        twitterCard: postForm.value.seo.twitterCard
-      },
-      updatedAt: serverTimestamp()
-    }
-
-    // Add poster URL if it exists
-    if (postForm.value.posterUrl?.trim()) {
-      postData.posterUrl = postForm.value.posterUrl.trim()
+    // Prepare data for saving
+    const dataToSave = {
+      posterUrl: postForm.value.posterUrl,
+      ...(Object.fromEntries(availableLocales.map(({ code }) => [code, 
+          {
+          title: postForm.value[code]?.title || '',
+          content: postForm.value[code]?.content || '',
+          excerpt: postForm.value[code]?.excerpt || '',
+          published: postForm.value[code]?.published || false,
+          publishedAt: postForm.value[code]?.publishedAt || '',
+          sections: postForm.value[code]?.sections || [],
+          seo: {
+            title: postForm.value[code]?.seo?.title || '',
+            description: postForm.value[code]?.seo?.description || '',
+            keywords: postForm.value[code]?.seo?.keywords || '',
+            canonical: postForm.value[code]?.seo?.canonical || '',
+            ogImage: postForm.value[code]?.seo?.ogImage || '',
+            twitterCard: postForm.value[code]?.seo?.twitterCard || 'summary_large_image'
+          }
+        }
+      ])) as Record<'en' | 'uk', any>),
+      createdAt: isNewPost.value ? new Date().toISOString() : postData.value?.createdAt || new Date().toISOString(),
+      updatedAt: new Date().toISOString()
     }
 
     if (isNewPost.value) {
       // Create new post
-      postData.createdAt = serverTimestamp()
-      const docRef = await addDoc(collection(db, 'blog'), postData)
+      const docRef = await addDoc(collection(db, 'blog'), dataToSave)
       await navigateTo(localePath(`/admin/blog/${docRef.id}`))
     } else {
       // Update existing post
-      await setDoc(doc(db, 'blog', String(route.params.slug)), postData, { merge: true })
+      await setDoc(doc(db, 'blog', String(route.params.slug)), dataToSave, { merge: true })
       
       // Reload post data to get updated timestamps
       await loadPost()
     }
   } catch (error) {
     console.error('Error saving blog post:', error)
-    saveError.value = error.message || 'Failed to save blog post'
+    saveError.value = (error as Error).message || 'Failed to save blog post'
   } finally {
     saving.value = false
   }
@@ -427,7 +460,8 @@ const savePost = async () => {
 
 // Form validation
 const isFormValid = () => {
-  return postForm.value.title.trim() && postForm.value.sections.length > 0
+  const currentData = postForm.value[currentLocale.value as keyof typeof postForm.value] as any
+  return currentData.title.trim()
 }
 
 // Preview function (placeholder for now)
@@ -436,31 +470,10 @@ const openPreview = () => {
   console.log('Preview functionality to be implemented')
 }
 
-// SEO Meta setup
-useSeoMeta({
-  title: computed(() => postForm.value.seo.title || postForm.value.title || 'Blog Post'),
-  description: computed(() => postForm.value.seo.description || postForm.value.excerpt || ''),
-  keywords: computed(() => postForm.value.seo.keywords || ''),
-  canonical: computed(() => postForm.value.seo.canonical || ''),
-  ogTitle: computed(() => postForm.value.seo.title || postForm.value.title || 'Blog Post'),
-  ogDescription: computed(() => postForm.value.seo.description || postForm.value.excerpt || ''),
-  ogImage: computed(() => postForm.value.seo.ogImage || postForm.value.posterUrl || ''),
-  ogType: 'article',
-  twitterCard: computed(() => postForm.value.seo.twitterCard || 'summary_large_image'),
-  twitterTitle: computed(() => postForm.value.seo.title || postForm.value.title || 'Blog Post'),
-  twitterDescription: computed(() => postForm.value.seo.description || postForm.value.excerpt || ''),
-  twitterImage: computed(() => postForm.value.seo.ogImage || postForm.value.posterUrl || '')
-})
-
 // Load post data on mount
 onMounted(() => {
   if (!isNewPost.value) {
     loadPost()
   }
-})
-
-// Cleanup on unmount
-onUnmounted(() => {
-  // Component handles its own cleanup
 })
 </script> 

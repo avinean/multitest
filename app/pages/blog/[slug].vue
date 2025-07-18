@@ -1,7 +1,7 @@
 <template>
   <div class="min-h-screen bg-gradient-to-br from-gray-50 to-white">
     <!-- Loading State -->
-    <div v-if="postLoading" class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div v-if="pending" class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div class="bg-white rounded-xl shadow-sm p-8 animate-pulse">
         <div class="h-8 bg-gray-200 rounded w-3/4 mb-6"/>
         <div class="h-4 bg-gray-200 rounded w-1/2 mb-4"/>
@@ -15,7 +15,7 @@
     </div>
 
     <!-- Error State -->
-    <div v-else-if="postError" class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div v-else-if="error" class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div class="bg-red-50 border border-red-200 rounded-xl p-8 text-center">
         <div class="text-red-400 mb-4">
           <svg class="w-16 h-16 mx-auto" fill="currentColor" viewBox="0 0 20 20">
@@ -23,7 +23,7 @@
           </svg>
         </div>
         <h3 class="text-lg font-medium text-red-800 mb-2">{{ $t('blog.post.error.title') }}</h3>
-        <p class="text-red-700 mb-4">{{ postError }}</p>
+        <p class="text-red-700 mb-4">{{ error }}</p>
         <UButton :to="$localePath('/blog')" variant="outline">
           {{ $t('blog.post.backToBlog') }}
         </UButton>
@@ -31,7 +31,7 @@
     </div>
 
     <!-- Post Not Found -->
-    <div v-else-if="!postData" class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div v-else-if="!data" class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div class="bg-yellow-50 border border-yellow-200 rounded-xl p-8 text-center">
         <div class="text-yellow-400 mb-4">
           <svg class="w-16 h-16 mx-auto" fill="currentColor" viewBox="0 0 20 20">
@@ -52,7 +52,7 @@
       <div class="mb-8">
         <UButton 
           :to="$localePath('/blog')" 
-          color="gray" 
+          color="neutral" 
           variant="outline" 
           icon="i-heroicons-arrow-left"
           size="sm"
@@ -62,13 +62,13 @@
       </div>
 
       <!-- Post Header -->
-      <article class="bg-white rounded-xl shadow-sm overflow-hidden">
+      <article v-if="data" class="bg-white rounded-xl shadow-sm overflow-hidden">
         <!-- Post Image -->
         <div class="h-64 overflow-hidden">
           <img 
-            v-if="postData.posterUrl" 
-            :src="postData.posterUrl" 
-            :alt="postData.title || 'Blog post image'"
+            v-if="data.posterUrl" 
+            :src="data.posterUrl" 
+            :alt="data[locale].title || 'Blog post image'"
             class="w-full h-full object-cover"
           >
           <div v-else class="h-full bg-gradient-to-br from-blue-100 to-purple-100 flex items-center justify-center">
@@ -85,35 +85,32 @@
             <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
               {{ $t('blog.published') }}
             </span>
-            <span v-if="postData.author">
-              {{ $t('blog.by') }} {{ postData.author }}
-            </span>
-            <span v-if="postData.createdAt">
-              {{ formatDate(postData.createdAt) }}
+            <span v-if="data[locale].createdAt">
+              {{ formatDate(data[locale].createdAt) }}
             </span>
           </div>
 
           <!-- Post Title -->
           <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-            {{ postData.title || $t('blog.untitledPost') }}
+            {{ data[locale].title || $t('blog.untitledPost') }}
           </h1>
 
           <!-- Post Excerpt -->
-          <div v-if="postData.excerpt" class="text-xl text-gray-600 mb-8 p-4 bg-gray-50 rounded-lg border-l-4 border-blue-500">
-            {{ postData.excerpt }}
+          <div v-if="data[locale].excerpt" class="text-xl text-gray-600 mb-8 p-4 bg-gray-50 rounded-lg border-l-4 border-blue-500">
+            {{ data[locale].excerpt }}
           </div>
 
           <!-- Post Content -->
         <div class="space-y-4">
-          <CmsSection v-for="section, key in postData.sections" :key :section="section" />
+          <CmsSection v-for="section, key in data[locale].sections" :key :section="section" />
         </div>
 
           <!-- Post Footer -->
           <div class="mt-12 pt-8 border-t border-gray-200">
             <div class="flex items-center justify-between">
               <div class="text-sm text-gray-500">
-                <span v-if="postData.updatedAt && postData.updatedAt !== postData.createdAt">
-                  {{ $t('blog.post.lastUpdated') }}: {{ formatDate(postData.updatedAt) }}
+                <span v-if="data[locale].updatedAt && data[locale].updatedAt !== data[locale].createdAt">
+                  {{ $t('blog.post.lastUpdated') }}: {{ formatDate(data[locale].updatedAt) }}
                 </span>
               </div>
               
@@ -139,46 +136,15 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { doc, getDoc } from 'firebase/firestore'
 import { useFirestore } from 'vuefire'
 
+const { locale } = useI18n()
 const route = useRoute()
 const db = useFirestore()
 
-// Post data state
-const postData = ref(null)
-const postLoading = ref(true)
-const postError = ref(null)
-
-// Load post data
-const loadPost = async () => {
-  postLoading.value = true
-  postError.value = null
-
-  try {
-    const postDoc = await getDoc(doc(db, 'blog', String(route.params.slug)))
-    
-    if (postDoc.exists()) {
-      const data = postDoc.data()
-      
-      // Only show published posts
-      if (!data.published) {
-        postError.value = 'Post not found'
-        return
-      }
-      
-      postData.value = { id: postDoc.id, ...data }
-    } else {
-      postData.value = null
-    }
-  } catch (error) {
-    console.error('Error loading blog post:', error)
-    postError.value = error.message || 'Failed to load blog post'
-  } finally {
-    postLoading.value = false
-  }
-}
+const { data, pending, error } = useAsyncData(async () => (await getDoc(doc(db, 'blog', String(route.params.slug)))).data())
 
 // Utility functions
 const formatDate = (timestamp) => {
@@ -191,43 +157,36 @@ const formatDate = (timestamp) => {
     day: 'numeric'
   }).format(date)
 }
-
-// Load post on mount
-onMounted(() => {
-  loadPost()
-})
-
 // SEO Meta setup using data from the blog post
 useSeoMeta({
   title: computed(() => {
-    if (!postData.value) return 'Blog Post'
-    return postData.value.seo?.title || postData.value.title || 'Blog Post'
+    if (!data.value) return 'Blog Post'
+    return data.value[locale.value].seo?.title || data.value[locale.value].title || 'Blog Post'
   }),
   description: computed(() => {
-    if (!postData.value) return 'Read our latest blog post'
-    return postData.value.seo?.description || postData.value.excerpt || 'Read our latest blog post'
+    if (!data.value) return 'Read our latest blog post'
+    return data.value[locale.value].seo?.description || data.value[locale.value].excerpt || 'Read our latest blog post'
   }),
-  keywords: computed(() => postData.value?.seo?.keywords || ''),
-  canonical: computed(() => postData.value?.seo?.canonical || ''),
+  keywords: computed(() => data.value?.[locale.value]?.seo?.keywords || ''),
   ogTitle: computed(() => {
-    if (!postData.value) return 'Blog Post'
-    return postData.value.seo?.title || postData.value.title || 'Blog Post'
+    if (!data.value) return 'Blog Post'
+    return data.value[locale.value].seo?.title || data.value[locale.value].title || 'Blog Post'
   }),
   ogDescription: computed(() => {
-    if (!postData.value) return 'Read our latest blog post'
-    return postData.value.seo?.description || postData.value.excerpt || 'Read our latest blog post'
+    if (!data.value) return 'Read our latest blog post'
+    return data.value[locale.value].seo?.description || data.value[locale.value].excerpt || 'Read our latest blog post'
   }),
-  ogImage: computed(() => postData.value?.seo?.ogImage || postData.value?.posterUrl || ''),
+  ogImage: computed(() => data.value?.[locale.value]?.seo?.ogImage || data.value?.[locale.value]?.posterUrl || ''),
   ogType: 'article',
-  twitterCard: computed(() => postData.value?.seo?.twitterCard || 'summary_large_image'),
+  twitterCard: computed(() => data.value?.[locale.value]?.seo?.twitterCard || 'summary_large_image'),
   twitterTitle: computed(() => {
-    if (!postData.value) return 'Blog Post'
-    return postData.value.seo?.title || postData.value.title || 'Blog Post'
+    if (!data.value) return 'Blog Post'
+    return data.value[locale.value].seo?.title || data.value[locale.value].title || 'Blog Post'
   }),
   twitterDescription: computed(() => {
-    if (!postData.value) return 'Read our latest blog post'
-    return postData.value.seo?.description || postData.value.excerpt || 'Read our latest blog post'
+    if (!data.value) return 'Read our latest blog post'
+    return data.value[locale.value].seo?.description || data.value[locale.value].excerpt || 'Read our latest blog post'
   }),
-  twitterImage: computed(() => postData.value?.seo?.ogImage || postData.value?.posterUrl || '')
+  twitterImage: computed(() => data.value?.[locale.value]?.seo?.ogImage || data.value?.[locale.value]?.posterUrl || '')
 })
 </script>
