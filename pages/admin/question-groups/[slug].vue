@@ -248,74 +248,12 @@
             label="Image" 
             hint="Upload an image for this sub-question."
           >
-            <!-- Image Upload Error -->
-            <div v-if="subQuestionImageUploadError" class="mb-3 p-3 bg-red-50 border border-red-200 rounded-lg">
-              <p class="text-sm text-red-700">{{ subQuestionImageUploadError }}</p>
-            </div>
-            
-            <!-- Current/Preview Image Display -->
-            <div v-if="subQuestionImagePreview || subQuestionForm.imageUrl" class="mb-3">
-              <div class="relative inline-block">
-                <img 
-                  :src="subQuestionImagePreview || subQuestionForm.imageUrl" 
-                  alt="Sub-question image"
-                  class="max-w-full h-32 object-contain rounded-lg border border-gray-200"
-                >
-                <button
-                  type="button"
-                  :disabled="savingSubQuestion || uploadingSubQuestionImage"
-                  class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-red-600 disabled:opacity-50"
-                  @click="removeSubQuestionImage"
-                >
-                  ✕
-                </button>
-              </div>
-              <p class="text-xs text-gray-500 mt-1">
-                {{ subQuestionImagePreview ? 'New image preview' : 'Current image' }}
-              </p>
-            </div>
-            
-            <!-- File Input -->
-            <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-gray-400 transition-colors">
-              <input
-                ref="subQuestionImageInput"
-                type="file"
-                accept="image/jpeg,image/jpg,image/png,image/gif,image/webp"
-                :disabled="savingSubQuestion || uploadingSubQuestionImage"
-                class="hidden"
-                @change="handleSubQuestionImageSelect"
-              >
-              <div class="space-y-2">
-                <div class="text-gray-400">
-                  <svg class="w-8 h-8 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 002 2z"/>
-                  </svg>
-                </div>
-                <div>
-                  <UButton
-                    type="button"
-                    size="sm"
-                    variant="outline"
-                    :disabled="savingSubQuestion || uploadingSubQuestionImage"
-                    :loading="uploadingSubQuestionImage"
-                    @click="$refs.subQuestionImageInput.click()"
-                  >
-                    {{ subQuestionImagePreview ? 'Change Image' : (subQuestionForm.imageUrl ? 'Change Image' : 'Select Image') }}
-                  </UButton>
-                </div>
-                <p class="text-xs text-gray-500">
-                  JPEG, PNG, GIF, WebP up to 5MB
-                </p>
-              </div>
-            </div>
-            
-            <!-- Selected File Info -->
-            <div v-if="subQuestionForm.imageFile" class="mt-2 p-2 bg-blue-50 border border-blue-200 rounded text-sm">
-              <span class="font-medium">Selected:</span> {{ subQuestionForm.imageFile.name }}
-              <span class="text-gray-500 ml-2">
-                ({{ Math.round(subQuestionForm.imageFile.size / 1024) }}KB)
-              </span>
-            </div>
+            <BaseImageUpload
+              v-model="subQuestionForm.imageUrl"
+              storage-path="question-images"
+              :disabled="savingSubQuestion"
+              auto-upload
+            />
           </UFormField>
 
           <!-- Text field -->
@@ -323,9 +261,8 @@
             label="Text Content" 
             hint="Text content for this sub-question. You can use rich formatting like bold, italic, lists, etc."
           >
-            <WysiwygEditor 
-              v-model="subQuestionForm.text" 
-              placeholder="Enter text content with rich formatting..."
+            <AdminRichText 
+              v-model="subQuestionForm.text"
               :disabled="savingSubQuestion"
               style="min-height: 120px;"
             />
@@ -336,9 +273,8 @@
             label="Question" 
             hint="The question text for this sub-question. You can use rich formatting like bold, italic, lists, etc."
           >
-            <WysiwygEditor 
-              v-model="subQuestionForm.question" 
-              placeholder="Enter your question here with rich formatting..."
+            <AdminRichText 
+              v-model="subQuestionForm.question"
               :disabled="savingSubQuestion"
               style="min-height: 100px;"
             />
@@ -587,8 +523,7 @@
 
 <script setup>
 import { addDoc, collection, doc, updateDoc, serverTimestamp } from 'firebase/firestore'
-import { ref as storageRef, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage'
-import { useDocument, useFirestore, useFirebaseStorage } from 'vuefire'
+import { useDocument, useFirestore } from 'vuefire'
 
 definePageMeta({
   middleware: 'admin-auth',
@@ -599,7 +534,6 @@ const route = useRoute()
 const localePath = useLocalePath()
 
 const db = useFirestore()
-const storage = useFirebaseStorage()
 
 // Get the slug from route params
 const slug = computed(() => route.params.slug || 'new')
@@ -716,7 +650,6 @@ const subQuestionSaveError = ref('')
 // Sub-question form state matching QuestionGroup interface
 const subQuestionForm = ref({
   imageUrl: '',
-  imageFile: null,
   text: '',
   question: '',
   options: [],
@@ -728,9 +661,7 @@ const bulkOptionsText = ref('')
 const showBulkOptions = ref(false)
 
 // Sub-question image upload state
-const uploadingSubQuestionImage = ref(false)
 const subQuestionImageUploadError = ref('')
-const subQuestionImagePreview = ref('')
 
 // Preview modal state
 const showPreviewModal = ref(false)
@@ -820,15 +751,8 @@ const applyBulkOptions = () => {
 
 // Initialize sub-question form
 const initSubQuestionForm = () => {
-  // Clean up preview URL
-  if (subQuestionImagePreview.value) {
-    URL.revokeObjectURL(subQuestionImagePreview.value)
-    subQuestionImagePreview.value = ''
-  }
-  
   subQuestionForm.value = {
     imageUrl: '',
-    imageFile: null,
     text: '',
     question: '',
     options: ['', ''], // Start with 2 empty options
@@ -840,114 +764,7 @@ const initSubQuestionForm = () => {
   showBulkOptions.value = false
 }
 
-// Sub-question image upload functions
-const handleSubQuestionImageSelect = (event) => {
-  const file = event.target.files[0]
-  
-  // Clean up previous preview URL
-  if (subQuestionImagePreview.value) {
-    URL.revokeObjectURL(subQuestionImagePreview.value)
-    subQuestionImagePreview.value = ''
-  }
-  
-  if (file) {
-    // Validate file type
-    if (!file.type.startsWith('image/')) {
-      subQuestionImageUploadError.value = 'Please select a valid image file'
-      subQuestionForm.value.imageFile = null
-      return
-    }
-    
-    // Validate file size (max 5MB)
-    if (file.size > 5 * 1024 * 1024) {
-      subQuestionImageUploadError.value = 'Image size must be less than 5MB'
-      subQuestionForm.value.imageFile = null
-      return
-    }
-    
-    // Create preview URL for the selected image
-    subQuestionImagePreview.value = URL.createObjectURL(file)
-    subQuestionForm.value.imageFile = file
-    subQuestionImageUploadError.value = ''
-  } else {
-    // No file selected, clear the form
-    subQuestionForm.value.imageFile = null
-    subQuestionImageUploadError.value = ''
-  }
-}
 
-// Helper function to extract storage path from download URL
-const getStoragePathFromUrl = (url) => {
-  if (!url) return null
-  try {
-    const urlObj = new URL(url)
-    const pathMatch = urlObj.pathname.match(/\/o\/(.+?)(\?|$)/)
-    if (pathMatch) {
-      return decodeURIComponent(pathMatch[1])
-    }
-  } catch (error) {
-    console.log('Could not extract storage path from URL:', error)
-  }
-  return null
-}
-
-const uploadSubQuestionImage = async () => {
-  if (!subQuestionForm.value.imageFile) return null
-  
-  uploadingSubQuestionImage.value = true
-  subQuestionImageUploadError.value = ''
-  
-  try {
-    // Create a unique filename
-    const filename = `question-images/${Date.now()}-${subQuestionForm.value.imageFile.name}`
-    const imageRef = storageRef(storage, filename)
-    
-    // Upload the file
-    await uploadBytes(imageRef, subQuestionForm.value.imageFile)
-    
-    // Get download URL
-    const downloadURL = await getDownloadURL(imageRef)
-    
-    return downloadURL
-  } catch (error) {
-    console.error('Error uploading sub-question image:', error)
-    subQuestionImageUploadError.value = error.message || 'Failed to upload image'
-    return null
-  } finally {
-    uploadingSubQuestionImage.value = false
-  }
-}
-
-const deleteImageFromStorage = async (imageUrl) => {
-  if (!imageUrl) return
-  
-  try {
-    const storagePath = getStoragePathFromUrl(imageUrl)
-    if (storagePath) {
-      const imageRef = storageRef(storage, storagePath)
-      await deleteObject(imageRef)
-      console.log('Successfully deleted image from storage:', storagePath)
-    }
-  } catch (error) {
-    console.log('Could not delete image from storage:', error)
-    // Don't throw error as the main operation should continue
-  }
-}
-
-const removeSubQuestionImage = async () => {
-  // Delete from storage if URL exists
-  await deleteImageFromStorage(subQuestionForm.value.imageUrl)
-  
-  // Clean up preview URL
-  if (subQuestionImagePreview.value) {
-    URL.revokeObjectURL(subQuestionImagePreview.value)
-    subQuestionImagePreview.value = ''
-  }
-  
-  subQuestionForm.value.imageUrl = ''
-  subQuestionForm.value.imageFile = null
-  subQuestionImageUploadError.value = ''
-}
 
 // Question management functions
 const addQuestion = () => {
@@ -960,12 +777,6 @@ const editQuestion = (index) => {
   editingSubQuestionIndex.value = index
   const question = groupData.value.questions[index]
   
-  // Clean up any existing preview
-  if (subQuestionImagePreview.value) {
-    URL.revokeObjectURL(subQuestionImagePreview.value)
-    subQuestionImagePreview.value = ''
-  }
-  
   // Ensure options exist, initialize with empty options if not
   let existingOptions = question.options || ['', '']
   
@@ -977,7 +788,6 @@ const editQuestion = (index) => {
   
   subQuestionForm.value = {
     imageUrl: question.imageUrl || '',
-    imageFile: null,
     text: question.text || '',
     question: question.question || '',
     options: [...existingOptions],
@@ -1012,21 +822,6 @@ const saveSubQuestion = async (event) => {
   subQuestionSaveError.value = ''
   
   try {
-    // Upload image if a new file was selected
-    let imageUrl = subQuestionForm.value.imageUrl
-    if (subQuestionForm.value.imageFile) {
-      // Delete old image from storage before uploading new one
-      if (subQuestionForm.value.imageUrl) {
-        await deleteImageFromStorage(subQuestionForm.value.imageUrl)
-      }
-      
-      imageUrl = await uploadSubQuestionImage()
-      if (!imageUrl && subQuestionImageUploadError.value) {
-        // If upload failed, don't save the sub-question
-        return
-      }
-    }
-    
     // Prepare sub-question data
     const filteredOptions = subQuestionForm.value.options.filter(o => o.trim())
     const subQuestionData = {
@@ -1035,8 +830,8 @@ const saveSubQuestion = async (event) => {
     }
     
     // Add optional fields if they have values
-    if (imageUrl?.trim()) {
-      subQuestionData.imageUrl = imageUrl.trim()
+    if (subQuestionForm.value.imageUrl?.trim()) {
+      subQuestionData.imageUrl = subQuestionForm.value.imageUrl.trim()
     }
     if (subQuestionForm.value.text?.trim()) {
       subQuestionData.text = subQuestionForm.value.text.trim()
@@ -1106,13 +901,6 @@ const deleteQuestion = async (index) => {
   
   try {
     const currentQuestions = [...(groupData.value?.questions || [])]
-    const questionToDelete = currentQuestions[index]
-    
-    // Delete associated image from storage if it exists
-    if (questionToDelete?.imageUrl) {
-      await deleteImageFromStorage(questionToDelete.imageUrl)
-    }
-    
     currentQuestions.splice(index, 1)
     
     await updateDoc(doc(db, 'question-groups', slug.value), {
@@ -1138,10 +926,5 @@ const closePreview = () => {
   previewQuestionIndex.value = 0
 }
 
-// Cleanup preview URL on component unmount
-onUnmounted(() => {
-  if (subQuestionImagePreview.value) {
-    URL.revokeObjectURL(subQuestionImagePreview.value)
-  }
-})
+
 </script> 

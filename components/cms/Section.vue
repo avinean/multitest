@@ -1,20 +1,29 @@
 <template>
-  <template v-if="section.type === 'text'">
-    <!-- cms text -->
-    {{ section.text }}
+  <template v-if="section.type === 'rich-text'">
+    <!-- cms rich text -->
+    <CmsRichText :section />
   </template>
-  <template v-else-if="section.type === 'paragraph'">
-    <!-- cms paragraph -->
-    <p>
-      <CmsSection v-for="child in section.children" :section="child" />
-    </p>
+  <template v-else-if="section.type === 'image'">
+    <!-- cms image -->
+    <CmsImage :section />
+  </template>
+  <template v-else-if="section.type === 'grid'">
+    <!-- cms grid -->
+    <CmsGrid :section />
+  </template>
+  <template v-else-if="section.type === 'question-group'">
+    <!-- cms question group -->
+    <CmsQuestionGroup :section />
+  </template>
+  <template v-else>
+    <pre>{{ section }}</pre>
   </template>
 </template>
 
 <script setup lang="ts">
 import type { Section } from '~/types/cms';
 
-const props = defineProps<{
+defineProps<{
   section: Section;
 }>();
 </script>

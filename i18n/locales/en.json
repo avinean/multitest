@@ -1,6 +1,7 @@
 {
   "nav": {
     "englishTest": "English Test",
+    "blog": "Blog",
     "admin": "Admin"
   },
   "home": {
@@ -85,13 +86,55 @@
     "noAnswerSelected": "No answer selected",
     "answerReview": "Answer Review"
   },
+  "blog": {
+    "hero": {
+      "title": "Our Blog",
+      "subtitle": "Discover insights, tips, and stories from our team"
+    },
+    "search": {
+      "placeholder": "Search blog posts..."
+    },
+    "published": "Published",
+    "by": "by",
+    "readMore": "Read More",
+    "showing": "Showing",
+    "of": "of",
+    "posts": "posts",
+    "filtered": "(filtered)",
+    "clearSearch": "Clear Search",
+    "untitledPost": "Untitled Post",
+    "error": {
+      "title": "Error Loading Posts"
+    },
+    "empty": {
+      "noPosts": "No blog posts yet",
+      "noPostsMessage": "Check back soon for our latest articles and insights.",
+      "noResults": "No posts found",
+      "noResultsMessage": "Try adjusting your search terms or browse all posts."
+    },
+    "post": {
+      "backToBlog": "Back to Blog",
+      "error": {
+        "title": "Error Loading Post"
+      },
+      "notFound": {
+        "title": "Post Not Found",
+        "message": "The blog post you're looking for doesn't exist or has been removed."
+      },
+      "lastUpdated": "Last updated",
+      "share": "Share",
+      "relatedPosts": "Related Posts",
+      "relatedPostsMessage": "More posts coming soon..."
+    }
+  },
   "admin": {
     "title": "Test Admin",
     "welcome": "Welcome",
     "signOut": "Sign Out",
     "navigation": {
       "home": "Home",
-      "questionGroups": "Question Groups"
+      "questionGroups": "Question Groups",
+      "blog": "Blog"
     },
     "login": {
       "title": "Admin Login",
@@ -128,6 +171,84 @@
       "adjustFilters": "Try adjusting your search criteria or clear the filters to see all groups",
       "untitledGroup": "Untitled Group",
       "created": "Created"
+    },
+    "blog": {
+      "title": "Blog Management",
+      "subtitle": "View and manage your blog posts",
+      "create": "Create New Post",
+      "createFirst": "Create Your First Blog Post",
+      "edit": "Edit",
+      "delete": "Delete",
+      "preview": "Preview",
+      "published": "Published",
+      "draft": "Draft",
+      "search": "Search posts by title...",
+      "filterByStatus": "Filter by status",
+      "clearFilters": "Clear Filters",
+      "showing": "Showing",
+      "of": "of",
+      "filtered": "(filtered)",
+      "errorLoading": "Error loading blog posts",
+      "noPostsFound": "No blog posts found",
+      "noPostsMessage": "Create your first blog post and start sharing content with your audience",
+      "noMatchingFilters": "No blog posts match your filters",
+      "adjustFilters": "Try adjusting your search criteria or clear the filters to see all posts",
+      "untitledPost": "Untitled Post",
+      "created": "Created",
+      "updated": "Updated",
+      "author": "Author",
+      "excerpt": "Excerpt",
+      "backToBlog": "Back to Blog",
+      "createTitle": "Create New Blog Post",
+      "editTitle": "Edit Blog Post",
+      "createSubtitle": "Add a new blog post to your site",
+      "editSubtitle": "Modify blog post content and settings",
+      "title": "Title",
+      "titlePlaceholder": "Enter blog post title...",
+      "content": "Content",
+      "contentPlaceholder": "Write your blog post content here...",
+      "excerptPlaceholder": "Enter a brief excerpt or summary...",
+      "authorPlaceholder": "Enter author name...",
+      "publishedStatus": "Published (Visible to visitors)",
+      "draftStatus": "Draft (Hidden from visitors)",
+      "save": "Save",
+      "cancel": "Cancel",
+      "createPost": "Create Post",
+      "updatePost": "Update Post",
+      "errorCreating": "Error creating blog post",
+      "errorUpdating": "Error updating blog post",
+      "errorLoading": "Error loading blog post",
+      "loading": "Loading blog post...",
+      "poster": "Poster Image",
+      "posterHint": "Upload a main image for this blog post. This will be displayed as the featured image.",
+      "selectImage": "Select Image",
+      "changeImage": "Change Image",
+      "imageUploadError": "Error uploading image",
+      "imageSizeLimit": "Image size must be less than 5MB",
+      "invalidImageType": "Please select a valid image file",
+      "newImagePreview": "New image preview",
+      "currentImage": "Current image",
+      "contentSections": "Content Sections",
+      "contentSectionsHint": "Add and organize content sections for your blog post",
+      "addSection": "Add Section",
+      "richText": "Rich Text",
+      "richTextHint": "Add formatted text content with rich editing capabilities",
+      "image": "Image",
+      "imageHint": "Add an image with SEO metadata",
+      "imageAlt": "Alt Text",
+      "imageAltHint": "Alternative text for accessibility and SEO",
+      "imageCaption": "Caption",
+      "imageCaptionHint": "Optional caption text below the image",
+      "imageTitle": "Image Title",
+      "imageTitleHint": "Title attribute for the image (tooltip on hover)",
+      "sectionType": "Section Type",
+      "selectSectionType": "Select section type",
+      "moveUp": "Move Up",
+      "moveDown": "Move Down",
+      "deleteSection": "Delete Section",
+      "noSections": "No content sections yet. Add your first section to start building your post.",
+      "noCells": "No cells added yet",
+      "noCellsMessage": "Click 'Add Cell' to start building your grid"
     },
     "questionGroup": {
       "createTitle": "Create New Question Group",

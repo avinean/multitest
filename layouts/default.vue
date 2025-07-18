@@ -11,13 +11,13 @@
           </div>
           
           <nav class="flex items-center space-x-4">
-            <!-- <UButton
+            <UButton
               :to="$localePath('/blog')" 
               variant="ghost" 
               size="sm"
               >
               {{ $t('nav.blog') }}
-            </UButton> -->
+            </UButton>
             <UButton 
               v-if="hasAdminAccess"
               :to="$localePath('/admin/login')" 
@@ -26,7 +26,7 @@
               >
               {{ $t('nav.admin') }}
             </UButton>
-            <LanguageSelector />
+            <GlobalLanguageSelector />
           </nav>
         </div>
       </UContainer>

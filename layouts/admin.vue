@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-gray-50">
+  <div class="min-h-screen bg-white">
     <nav class="bg-white shadow-sm border-b">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-16">
@@ -22,10 +22,18 @@
                 <UIcon name="i-heroicons-question-mark-circle" class="w-4 h-4" />
                 {{ $t('admin.navigation.questionGroups') }}
               </UButton>
+              <UButton
+                variant="ghost" 
+                size="sm"
+                :to="$localePath('/admin/blog')"
+              >
+                <UIcon name="i-heroicons-document-text" class="w-4 h-4" />
+                {{ $t('admin.navigation.blog') }}
+              </UButton>
             </div>
           </div>
           <div class="flex items-center gap-4">
-            <LanguageSelector />
+            <GlobalLanguageSelector />
             <span class="text-sm text-gray-600">{{ $t('admin.welcome') }}, {{ user?.email }}</span>
             <UButton color="error" variant="outline" @click="signOut">{{ $t('admin.signOut') }}</UButton>
           </div>
@@ -53,7 +61,8 @@ const localePath = useLocalePath()
 const signOut = async () => {
   try {
     await firebaseSignOut(auth)
-    await navigateTo(localePath('/admin/login'))
+    const currentPath = useRoute().fullPath
+    await navigateTo(localePath(`/admin/login?redirect=${encodeURIComponent(currentPath)}`))
   } catch (error) {
     console.error('Error signing out:', error)
   }

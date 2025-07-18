@@ -77,7 +77,10 @@ const signIn = async () => {
   try {
     await signInWithEmailAndPassword(auth, email.value, password.value)
     localStorage.setItem('hasAdminAccess', 'true')
-    navigateTo(localePath('/admin/question-groups'))
+    
+    // Redirect to intended destination or default to admin home
+    const intendedPath = useRoute().query.redirect || '/admin'
+    navigateTo(localePath(String(intendedPath)))
   } catch (error) {
     authError.value = error.message
   } finally {
@@ -89,7 +92,8 @@ const signIn = async () => {
 onMounted(() => {
   onAuthStateChanged(auth, (user) => {
     if (user) {
-      navigateTo(localePath('/admin/question-groups'))
+      const intendedPath = useRoute().query.redirect || '/admin'
+      navigateTo(localePath(String(intendedPath)))
     }
   })
 })
