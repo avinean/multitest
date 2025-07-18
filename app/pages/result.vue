@@ -90,6 +90,21 @@
           <div v-if="userAnswers[index] === undefined" class="mt-3 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
             <span class="text-yellow-800 text-sm font-medium">{{ $t('result.noAnswerSelected') }}</span>
           </div>
+
+          <!-- Explanation -->
+          <div v-if="question.explanation" class="mt-3 p-4 bg-amber-50 border border-amber-200 rounded-lg">
+            <div class="flex items-start gap-2">
+              <div class="text-amber-600 mt-0.5">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                </svg>
+              </div>
+              <div class="flex-1">
+                <h4 class="text-sm font-medium text-amber-800 mb-1">{{ $t('result.explanation') || 'Explanation' }}</h4>
+                <div class="text-sm text-amber-700 prose prose-sm max-w-none" v-html="question.explanation"></div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 

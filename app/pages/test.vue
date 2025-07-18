@@ -322,6 +322,7 @@ const userAnswers = reactive({})
 const currentQuestionIndex = ref(0)
 
 watch([questions, userAnswers, currentQuestionIndex, timeRemaining, testStartTime, isPaused, pausedAt, resumeAllowedAt], () => {
+  if (!questions.value.length) return
   sessionStorage.setItem('testData', JSON.stringify({
     questions: questions.value,
     userAnswers: userAnswers,
@@ -344,8 +345,7 @@ const fetchTestQuestions = async () => {
         query(
           collection(db, 'question-groups'),
           where('type', '==', value),
-          where('published', '==', true),
-          where('archived', '==', false)
+          where('published', '==', true)
         )
       ).then(({ docs }) =>
         docs[Math.floor(Math.random() * docs.length)].data().questions
@@ -442,14 +442,16 @@ const submitEmail = async () => {
 const finishTest = () => {
   testCompleted.value = true
   stopTimer()
-  sessionStorage.setItem('testData', JSON.stringify({
-    questions: questions.value,
-    userAnswers: userAnswers,
-    currentQuestionIndex: currentQuestionIndex.value,
-    timeRemaining: timeRemaining.value,
-    testStartTime: testStartTime.value,
-    completed: true
-  }))
+  if (questions.value.length) {
+    sessionStorage.setItem('testData', JSON.stringify({
+      questions: questions.value,
+      userAnswers: userAnswers,
+      currentQuestionIndex: currentQuestionIndex.value,
+      timeRemaining: timeRemaining.value,
+      testStartTime: testStartTime.value,
+      completed: true
+    }))
+  }
   
   // Check if user info exists
   const existingUserInfo = sessionStorage.getItem('userInfo')
@@ -554,16 +556,18 @@ const autoPauseTest = () => {
     testStartTime.value = Date.now() - elapsed
     
     // Save the paused state immediately
-    sessionStorage.setItem('testData', JSON.stringify({
-      questions: questions.value,
-      userAnswers: userAnswers,
-      currentQuestionIndex: currentQuestionIndex.value,
-      timeRemaining: timeRemaining.value,
-      testStartTime: testStartTime.value,
-      isPaused: isPaused.value,
-      pausedAt: pausedAt.value,
-      resumeAllowedAt: resumeAllowedAt.value,
-    }))
+    if (questions.value.length) {
+      sessionStorage.setItem('testData', JSON.stringify({
+        questions: questions.value,
+        userAnswers: userAnswers,
+        currentQuestionIndex: currentQuestionIndex.value,
+        timeRemaining: timeRemaining.value,
+        testStartTime: testStartTime.value,
+        isPaused: isPaused.value,
+        pausedAt: pausedAt.value,
+        resumeAllowedAt: resumeAllowedAt.value,
+      }))
+    }
     
     return true // Indicates test was paused
   }

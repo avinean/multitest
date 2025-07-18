@@ -414,6 +414,18 @@
               </div>
             </div>
           </UFormField>
+
+          <!-- Explanation field -->
+          <UFormField 
+            label="Explanation" 
+            hint="Provide an explanation for why the answer is correct or incorrect. This will be shown to users after they answer the question."
+          >
+            <AdminRichText 
+              v-model="subQuestionForm.explanation"
+              :disabled="savingSubQuestion"
+              style="min-height: 120px;"
+            />
+          </UFormField>
         </UForm>
       </template>
 
@@ -673,7 +685,8 @@ const subQuestionForm = ref({
   text: '',
   question: '',
   options: [],
-  correct: 0
+  correct: 0,
+  explanation: ''
 })
 
 // Bulk options management
@@ -776,7 +789,8 @@ const initSubQuestionForm = () => {
     text: '',
     question: '',
     options: ['', ''], // Start with 2 empty options
-    correct: 0
+    correct: 0,
+    explanation: ''
   }
   subQuestionSaveError.value = ''
   subQuestionImageUploadError.value = ''
@@ -809,7 +823,8 @@ const editQuestion = (index) => {
     text: question.text || '',
     question: question.question || '',
     options: [...existingOptions],
-    correct: Math.min(question.correct || 0, existingOptions.length - 1) // Ensure correct index is valid
+    correct: Math.min(question.correct || 0, existingOptions.length - 1), // Ensure correct index is valid
+    explanation: question.explanation || ''
   }
   
   subQuestionSaveError.value = ''
@@ -856,6 +871,9 @@ const saveSubQuestion = async (event) => {
     }
     if (subQuestionForm.value.question?.trim()) {
       subQuestionData.question = subQuestionForm.value.question.trim()
+    }
+    if (subQuestionForm.value.explanation?.trim()) {
+      subQuestionData.explanation = subQuestionForm.value.explanation.trim()
     }
     
     // Get current questions array
