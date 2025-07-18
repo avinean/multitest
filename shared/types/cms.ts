@@ -24,7 +24,7 @@ export type Grid = {
   cells: Section[];
 };
 
-export type QuestionGroup = {
+export type CMSQuestionGroup = {
   id: string;
   type: 'question-group';
   questionGroupId: string;
@@ -32,4 +32,4 @@ export type QuestionGroup = {
   description?: string;
 };
 
-export type Section = RichText | Image | Grid | QuestionGroup;
+export type Section = RichText | Image | Grid | CMSQuestionGroup;

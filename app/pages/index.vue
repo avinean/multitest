@@ -55,52 +55,7 @@
         </p>
       </div>
     </UContainer>
-    
-    <!-- Email Modal -->
-    <UModal 
-      v-model:open="showEmailModal" 
-      :title="$t('home.emailModal.title')"
-    >
-      <template #body>
-        <UForm 
-          class="space-y-4" 
-          :state="emailForm" 
-          :validate-on="[]"
-          @submit="startTest"
-        >
-          <UInput 
-            v-model="emailForm.email"
-            type="email"
-            :placeholder="$t('home.emailModal.emailPlaceholder')"
-            :disabled="submitting"
-            required
-            icon="i-heroicons-envelope"
-            class="w-full"
-          />
-
-          <UInput 
-            v-model="emailForm.name"
-            :placeholder="$t('home.emailModal.namePlaceholder')"
-            :disabled="submitting"
-            icon="i-heroicons-user"
-            class="w-full"
-          />
-        </UForm>
-      </template>
-
-      <template #footer>
-        <div class="w-full flex justify-end">
-          <UButton 
-            :loading="submitting"
-            :disabled="!isEmailValid"
-            @click="startTest"
-          >
-            {{ $t('home.emailModal.startTest') }}
-          </UButton>
-        </div>
-       </template>
-     </UModal>
-   </div>
+  </div>
  </template>
 
 <script setup>
@@ -110,52 +65,11 @@ useHead({
   title: computed(() => `${t('home.title')} - Home`)
 })
 
-const showEmailModal = ref(false)
-const submitting = ref(false)
-
-const emailForm = ref({
-  email: '',
-  name: ''
-})
-
-const isEmailValid = computed(() => {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-  return emailRegex.test(emailForm.value.email)
-})
-
 const localePath = useLocalePath()
 
 const handleStartTest = () => {
-  // Check if user info already exists
-  const existingUserInfo = sessionStorage.getItem('userInfo')
-  
-  if (existingUserInfo) {
-    // User info exists, go directly to test
-    navigateTo(localePath('/test'))
-  } else {
-    // No user info, show email modal
-    showEmailModal.value = true
-  }
-}
-
-const startTest = async () => {
-  if (!isEmailValid.value) return
-  
-  submitting.value = true
-  
-  try {    
-    sessionStorage.setItem('userInfo', JSON.stringify({
-      ...emailForm.value,
-      startTime: new Date().toISOString()
-    }))
-    
-    // Navigate to test page
-    await navigateTo(localePath('/test'))
-  } catch (error) {
-    console.error('Error starting test:', error)
-  } finally {
-    submitting.value = false
-  }
+  // Navigate directly to test page
+  navigateTo(localePath('/test'))
 }
 
 

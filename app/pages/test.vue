@@ -125,6 +125,51 @@ v-if="!pending && !error && questions.length > 0"
       </template>
     </UModal>
 
+    <!-- Email Modal -->
+    <UModal 
+      v-model:open="showEmailModal" 
+      :title="$t('test.emailModal.title')"
+    >
+      <template #body>
+        <UForm 
+          class="space-y-4" 
+          :state="emailForm" 
+          :validate-on="[]"
+          @submit="submitEmail"
+        >
+          <UInput 
+            v-model="emailForm.email"
+            type="email"
+            :placeholder="$t('test.emailModal.emailPlaceholder')"
+            :disabled="submitting"
+            required
+            icon="i-heroicons-envelope"
+            class="w-full"
+          />
+
+          <UInput 
+            v-model="emailForm.name"
+            :placeholder="$t('test.emailModal.namePlaceholder')"
+            :disabled="submitting"
+            icon="i-heroicons-user"
+            class="w-full"
+          />
+        </UForm>
+      </template>
+
+      <template #footer>
+        <div class="w-full flex justify-end">
+          <UButton 
+            :loading="submitting"
+            :disabled="!isEmailValid"
+            @click="submitEmail"
+          >
+            {{ $t('test.emailModal.viewResults') }}
+          </UButton>
+        </div>
+       </template>
+     </UModal>
+
     <div v-if="pending" class="flex-1 flex justify-center items-center min-h-screen">
       <div class="text-center">
         <div class="animate-spin rounded-full h-32 w-32 border-b-2 border-primary-500 mx-auto mb-4"/>
@@ -258,6 +303,19 @@ const timeUntilResume = ref(0)
 const showPauseModal = ref(false)
 const showNewTestModal = ref(false)
 
+// Email modal state
+const showEmailModal = ref(false)
+const submitting = ref(false)
+const emailForm = ref({
+  email: '',
+  name: ''
+})
+
+const isEmailValid = computed(() => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  return emailRegex.test(emailForm.value.email)
+})
+
 const db = useFirestore()
 const questions = ref([])
 const userAnswers = reactive({})
@@ -359,6 +417,27 @@ const timeExpired = () => {
 
 const localePath = useLocalePath()
 
+const submitEmail = async () => {
+  if (!isEmailValid.value) return
+  
+  submitting.value = true
+  
+  try {    
+    sessionStorage.setItem('userInfo', JSON.stringify({
+      ...emailForm.value,
+      startTime: new Date().toISOString()
+    }))
+    
+    showEmailModal.value = false
+    // Navigate to result page
+    await navigateTo(localePath('/result'))
+  } catch (error) {
+    console.error('Error submitting email:', error)
+  } finally {
+    submitting.value = false
+  }
+}
+
 const finishTest = () => {
   testCompleted.value = true
   stopTimer()
@@ -371,7 +450,16 @@ const finishTest = () => {
     completed: true
   }))
   
-  navigateTo(localePath('/result'))
+  // Check if user info exists
+  const existingUserInfo = sessionStorage.getItem('userInfo')
+  
+  if (existingUserInfo) {
+    // User info exists, go directly to results
+    navigateTo(localePath('/result'))
+  } else {
+    // No user info, show email modal
+    showEmailModal.value = true
+  }
 }
 
 const formatTime = (milliseconds) => {

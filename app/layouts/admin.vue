@@ -33,7 +33,7 @@
             </div>
           </div>
           <div class="flex items-center gap-4">
-            <GlobalLanguageSelector />
+            <LanguageSelector />
             <span class="text-sm text-gray-600">{{ $t('admin.welcome') }}, {{ user?.email }}</span>
             <UButton color="error" variant="outline" @click="signOut">{{ $t('admin.signOut') }}</UButton>
           </div>

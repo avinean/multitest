@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import type { RichText } from '~/types/cms';
+import type { RichText } from '~/shared/types/cms';
 
 defineProps<{
   section: RichText;

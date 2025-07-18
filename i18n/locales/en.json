@@ -22,13 +22,7 @@
       }
     },
     "startTest": "Start Test",
-    "testInfo": "The test contains multiple question types and takes approximately 30-45 minutes to complete.",
-    "emailModal": {
-      "title": "Before You Begin",
-      "emailPlaceholder": "Enter your email address...",
-      "namePlaceholder": "Enter your name...",
-      "startTest": "Start Test"
-    }
+    "testInfo": "The test contains multiple question types and takes approximately 30-45 minutes to complete."
   },
   "test": {
     "loading": "Loading test questions...",
@@ -70,7 +64,13 @@
     },
     "finishTest": "Finish Test",
     "previousButton": "← Previous",
-    "nextButton": "Next →"
+    "nextButton": "Next →",
+    "emailModal": {
+      "title": "Get Your Results",
+      "emailPlaceholder": "Enter your email address...",
+      "namePlaceholder": "Enter your name...",
+      "viewResults": "View Results"
+    }
   },
   "result": {
     "title": "🎉 Test Complete!",

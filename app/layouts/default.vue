@@ -26,7 +26,7 @@
               >
               {{ $t('nav.admin') }}
             </UButton>
-            <GlobalLanguageSelector />
+            <LanguageSelector />
           </nav>
         </div>
       </UContainer>

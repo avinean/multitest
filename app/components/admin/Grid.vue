@@ -167,7 +167,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Section } from '~/types/cms'
+import type { Section } from '~/shared/types/cms'
 
 interface Props {
   modelValue: Section

@@ -1,11 +1,8 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  compatibilityDate: '2025-05-15',
+  compatibilityDate: '2025-07-18',
   devtools: { enabled: true },
   modules: [
-    '@nuxt/eslint',
-    '@nuxt/fonts',
-    '@nuxt/scripts',
     '@nuxt/ui',
     'nuxt-vuefire',
     '@vueuse/nuxt',
@@ -16,7 +13,11 @@ export default defineNuxtConfig({
     preference: 'light'
   },
   routeRules: {
-    '/admin/**': { ssr: false }
+    '/admin/**': { ssr: false },
+    '/': { prerender: true },
+    '/blog/**': { prerender: true },
+    '/test': { ssr: false },
+    '/result': { ssr: false }
   },
   vuefire: {
     config: {
@@ -27,6 +28,9 @@ export default defineNuxtConfig({
       messagingSenderId: process.env.NUXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
       appId: process.env.NUXT_PUBLIC_FIREBASE_APP_ID
     }
+  },
+  typescript: {
+    strict: true
   },
   i18n: {
     defaultLocale: 'en',
@@ -50,6 +54,9 @@ export default defineNuxtConfig({
       useCookie: true,
       cookieKey: 'i18n_redirected',
       redirectOn: 'root'
+    },
+    bundle: {
+      optimizeTranslationDirective: false
     }
   }
 })

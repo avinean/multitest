@@ -51,7 +51,7 @@
 </template>
 
 <script setup lang="ts">
-import type { QuestionGroup } from '~/types';
+import type { QuestionGroup } from '~/shared/types';
 
 interface Props {
   question: QuestionGroup['questions'][number]
