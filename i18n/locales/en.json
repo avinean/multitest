@@ -220,6 +220,8 @@
       "loading": "Loading blog post...",
       "poster": "Poster Image",
       "posterHint": "Upload a main image for this blog post. This will be displayed as the featured image.",
+      "categories": "Categories",
+      "categoriesHint": "Select or create categories for this blog post. Categories help organize and filter your content.",
       "selectImage": "Select Image",
       "changeImage": "Change Image",
       "imageUploadError": "Error uploading image",

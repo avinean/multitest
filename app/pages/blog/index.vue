@@ -20,11 +20,6 @@
                 icon="i-heroicons-magnifying-glass"
                 size="lg"
                 class="w-full"
-                :ui="{ 
-                  base: 'relative block w-full',
-                  input: 'pl-12 pr-4 py-4 text-lg bg-white/10 backdrop-blur-sm border-white/20 text-white placeholder-white/70 focus:bg-white/20 focus:border-white/40',
-                  icon: 'text-white/70'
-                }"
               />
             </div>
           </div>
@@ -66,65 +61,21 @@
         <!-- Results count -->
         <div class="text-center mb-8">
           <p class="text-gray-600">
-            {{ $t('blog.showing') }} {{ filteredBlogPosts.length }} {{ $t('blog.of') }} {{ filteredBlogPosts.length }} {{ $t('blog.posts') }}
+            {{ $t('blog.showing') }} {{ filteredBlogPosts.length }} {{ $t('blog.of') }} {{ data?.length || 0 }} {{ $t('blog.posts') }}
             <span v-if="searchQuery" class="font-medium text-blue-600">{{ $t('blog.filtered') }}</span>
           </p>
         </div>
 
         <!-- Posts Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <article 
+          <BlogCard 
             v-for="post in filteredBlogPosts" 
             :key="post.id"
-            class="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden group"
-          >
-            <!-- Post Image -->
-            <div class="h-48 overflow-hidden">
-              <img 
-                v-if="post.posterUrl" 
-                :src="post.posterUrl" 
-                :alt="post[locale].title || 'Blog post image'"
-                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-              >
-              <div v-else class="h-full bg-gradient-to-br from-blue-100 to-purple-100 flex items-center justify-center">
-                <svg class="w-16 h-16 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
-                </svg>
-              </div>
-            </div>
-
-            <!-- Post Content -->
-            <div class="p-6">
-              <div class="flex items-center gap-2 mb-3">
-                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                  {{ $t('blog.published') }}
-                </span>
-              </div>
-
-              <h2 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">
-                {{ post[locale].title || $t('blog.untitledPost') }}
-              </h2>
-
-              <p v-if="post[locale].excerpt" class="text-gray-600 mb-4 line-clamp-3">
-                {{ post[locale].excerpt }}
-              </p>
-
-              <div class="flex items-center justify-between text-sm text-gray-500">
-                <span v-if="post.createdAt">
-                  {{ formatDate(post.createdAt) }}
-                </span>
-                <UButton 
-                  :to="`/blog/${post.id}`"
-                  variant="ghost" 
-                  size="sm"
-                  class="text-blue-600 hover:text-blue-700"
-                >
-                  {{ $t('blog.readMore') }}
-                  <UIcon name="i-heroicons-arrow-right" class="w-4 h-4 ml-1" />
-                </UButton>
-              </div>
-            </div>
-          </article>
+            :slug="post.id"
+            :posterUrl="post.posterUrl"
+            :categories="post.categories"
+            :post="post[locale]"
+          />
         </div>
       </div>
 
@@ -137,7 +88,7 @@
             </svg>
           </div>
           
-          <template v-if="!publishedBlogPosts || publishedBlogPosts.length === 0">
+          <template v-if="!data || data.length === 0">
             <h3 class="text-xl font-medium text-gray-900 mb-2">{{ $t('blog.empty.noPosts') }}</h3>
             <p class="text-gray-500">{{ $t('blog.empty.noPostsMessage') }}</p>
           </template>
@@ -176,17 +127,22 @@ const { data, pending, error } = useCollection<BlogPost>(
   )
 )
 
-const searchQuery = ref('')
+const searchQuery = useRouteQuery<string>('search', '')
+
 const filteredBlogPosts = computed(() => {
-  if (!searchQuery.value) return data.value
+  let posts = data.value || []
   
-  const query = searchQuery.value.toLowerCase()
-  return data.value.filter(post => {
-    const title = (post[locale.value].title || '').toLowerCase()
-    const excerpt = (post[locale.value].excerpt || '').toLowerCase()
-    
-    return title.includes(query) || excerpt.includes(query)
-  })
+  if (searchQuery.value) {
+    const query = searchQuery.value.toLowerCase()
+    posts = posts.filter(post => {
+      const title = (post[locale.value].title || '').toLowerCase()
+      const excerpt = (post[locale.value].excerpt || '').toLowerCase()
+      const categories = (post.categories || []).join(' ').toLowerCase()
+      
+      return title.includes(query) || excerpt.includes(query) || categories.includes(query)
+    })
+  }
+  return posts
 })
 
 // Utility functions

@@ -124,14 +124,6 @@
           </div>
         </div>
       </article>
-
-      <!-- Related Posts (placeholder for future) -->
-      <div class="mt-12">
-        <div class="bg-white rounded-xl shadow-sm p-8">
-          <h2 class="text-2xl font-bold text-gray-900 mb-6">{{ $t('blog.post.relatedPosts') }}</h2>
-          <p class="text-gray-600">{{ $t('blog.post.relatedPostsMessage') }}</p>
-        </div>
-      </div>
     </div>
   </div>
 </template>
@@ -144,10 +136,10 @@ const { locale } = useI18n()
 const route = useRoute()
 const db = useFirestore()
 
-const { data, pending, error } = useAsyncData(async () => (await getDoc(doc(db, 'blog', String(route.params.slug)))).data())
+const { data, pending, error } = useAsyncData(`blog-post-${route.params.slug}`, async () => (await getDoc(doc(db, 'blog', String(route.params.slug)))).data())
 
 // Utility functions
-const formatDate = (timestamp) => {
+const formatDate = (timestamp: any) => {
   if (!timestamp) return ''
   
   const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp)

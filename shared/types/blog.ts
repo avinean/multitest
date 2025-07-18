@@ -7,6 +7,7 @@ export type BlogPost = {
   posterUrl: string;
   publishedAt: string;
   published: boolean;
+  categories: string[]
 } & Record<'uk' | 'en', {
   title: string;
   content: string;
@@ -21,3 +22,10 @@ export type BlogPost = {
     twitterCard: string;
   }
 }>;
+
+export type BlogCategory = {
+  id?: string;
+  title: string;
+  createdAt: string;
+  updatedAt: string;
+}

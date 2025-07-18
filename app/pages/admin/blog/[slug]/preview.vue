@@ -1,5 +1,5 @@
 <template>
-  <UseBlogPost />
+  <BlogDetails />
 </template>
 
 <script setup lang="ts">

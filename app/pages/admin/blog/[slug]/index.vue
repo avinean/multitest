@@ -134,6 +134,19 @@
             auto-upload
           />
         </UFormField>
+        <UFormField :label="$t('admin.blog.categories')" :hint="$t('admin.blog.categoriesHint')">
+          <UInputMenu
+            v-model="postForm.categories"
+            :items="categories?.map(({ id }) => id)"
+            :search-attributes="['label']"
+            create-item
+            :disabled="saving"
+            multiple
+            placeholder="Select or create categories..."
+            class="w-full"
+            @create="onCreate"
+          />
+        </UFormField>
         <!-- Tabs -->
         <UTabs 
           :items="tabItems" 
@@ -282,7 +295,7 @@
 </template>
 
 <script setup lang="ts">
-import { doc, getDoc, setDoc, addDoc, collection } from 'firebase/firestore'
+import { doc, getDoc, setDoc, addDoc, collection, getDocs } from 'firebase/firestore'
 import { useFirestore } from 'vuefire'
 import slugify from 'slug'
 
@@ -365,12 +378,42 @@ const postForm = ref<BlogPost>({
   posterUrl: '',
   published: false,
   publishedAt: '',
+  categories: [],
   ...(Object.fromEntries(availableLocales.map(({ code }) => [code, initializeForm()])) as Record<'en' | 'uk', any>)
 })
 
 // Save state
 const saving = ref(false)
 const saveError = ref<string | null>(null)
+
+const { data: categories } = useAsyncData(
+  'blog-categories',
+  async () =>  (await getDocs(collection(db, 'blog-categories'))).docs.map(doc => ({
+    id: doc.id,
+    ...doc.data()
+  }))
+)
+
+// Handle category creation
+const onCreate = async (categoryName: string) => {
+    try {
+    const newCategory = categoryName.trim()
+    if (!newCategory) return null
+
+    // Create new category document
+    const categoryData = {
+      title: newCategory
+    }
+    
+    const docRef = await  setDoc(doc(db, 'blog-categories', newCategory), categoryData)
+    categories.value = [...categories.value!, { id: newCategory }]
+    postForm.value.categories = [...postForm.value.categories, newCategory]
+
+  } catch (error) {
+    console.error('Error creating category:', error)
+    return null
+  }
+}
 
 // Load existing post data
 const loadPost = async () => {
@@ -396,6 +439,7 @@ const loadPost = async () => {
         posterUrl: data.posterUrl || '',
         published: data.published || false,
         publishedAt: data.publishedAt || '',
+        categories: data.categories || [],
         ...(Object.fromEntries(availableLocales.map(({ code }) => [code, 
             {
             title: data[code]?.title || '',
@@ -436,6 +480,7 @@ const savePost = async () => {
       posterUrl: postForm.value.posterUrl,
       published: postForm.value.published || false,
       publishedAt: postForm.value.publishedAt || '',
+      categories: postForm.value.categories || [],
       ...(Object.fromEntries(availableLocales.map(({ code }) => [code, 
           {
           title: postForm.value[code]?.title || '',
@@ -478,7 +523,7 @@ const savePost = async () => {
 // Form validation
 const isFormValid = () => {
   return postForm.value[currentLocale.value]?.title?.trim()
-  && slug.value.trim()
+  && (!isNewPost.value || slug.value.trim())
 }
 
 // Load post data on mount

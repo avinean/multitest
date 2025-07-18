@@ -1,3 +1,4 @@
 <template>
-  <UseBlogPost />
+  <BlogDetails />
+  <BlogRelated />
 </template>
