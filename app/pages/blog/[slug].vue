@@ -197,16 +197,37 @@ onMounted(() => {
   loadPost()
 })
 
-// Update meta tags
-useHead(() => ({
-  title: postData.value?.title ? `${postData.value.title} - Blog` : 'Blog Post',
-  description: postData.value?.excerpt || 'Read our latest blog post',
-  meta: [
-    { property: 'og:title', content: postData.value?.title || 'Blog Post' },
-    { property: 'og:description', content: postData.value?.excerpt || 'Read our latest blog post' },
-    { property: 'og:type', content: 'article' },
-    { name: 'twitter:title', content: postData.value?.title || 'Blog Post' },
-    { name: 'twitter:description', content: postData.value?.excerpt || 'Read our latest blog post' }
-  ]
-}))
+// SEO Meta setup using data from the blog post
+useSeoMeta({
+  title: computed(() => {
+    if (!postData.value) return 'Blog Post'
+    return postData.value.seo?.title || postData.value.title || 'Blog Post'
+  }),
+  description: computed(() => {
+    if (!postData.value) return 'Read our latest blog post'
+    return postData.value.seo?.description || postData.value.excerpt || 'Read our latest blog post'
+  }),
+  keywords: computed(() => postData.value?.seo?.keywords || ''),
+  canonical: computed(() => postData.value?.seo?.canonical || ''),
+  ogTitle: computed(() => {
+    if (!postData.value) return 'Blog Post'
+    return postData.value.seo?.title || postData.value.title || 'Blog Post'
+  }),
+  ogDescription: computed(() => {
+    if (!postData.value) return 'Read our latest blog post'
+    return postData.value.seo?.description || postData.value.excerpt || 'Read our latest blog post'
+  }),
+  ogImage: computed(() => postData.value?.seo?.ogImage || postData.value?.posterUrl || ''),
+  ogType: 'article',
+  twitterCard: computed(() => postData.value?.seo?.twitterCard || 'summary_large_image'),
+  twitterTitle: computed(() => {
+    if (!postData.value) return 'Blog Post'
+    return postData.value.seo?.title || postData.value.title || 'Blog Post'
+  }),
+  twitterDescription: computed(() => {
+    if (!postData.value) return 'Read our latest blog post'
+    return postData.value.seo?.description || postData.value.excerpt || 'Read our latest blog post'
+  }),
+  twitterImage: computed(() => postData.value?.seo?.ogImage || postData.value?.posterUrl || '')
+})
 </script>

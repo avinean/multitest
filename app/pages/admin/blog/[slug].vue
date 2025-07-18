@@ -32,7 +32,7 @@
     </div>
 
     <!-- Loading State (for editing existing post) -->
-    <div v-if="!isNewPost && postLoading" class="max-w-4xl">
+    <div v-if="!isNewPost && postLoading" class="max-w-6xl">
       <div class="bg-white rounded-lg shadow-sm p-6 flex justify-center items-center">
         <div class="flex items-center gap-3">
           <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-500"/>
@@ -42,7 +42,7 @@
     </div>
 
     <!-- Error State -->
-    <div v-else-if="!isNewPost && postError" class="max-w-4xl">
+    <div v-else-if="!isNewPost && postError" class="max-w-6xl">
       <div class="bg-red-50 border border-red-200 rounded-lg p-6">
         <div class="flex">
           <div class="text-red-400">
@@ -58,8 +58,8 @@
       </div>
     </div>
 
-    <!-- Form (shown when ready) -->
-    <div v-else-if="isNewPost || (!postLoading && postData)" class="max-w-4xl mx-auto">
+    <!-- Form with Tabs (shown when ready) -->
+    <div v-else-if="isNewPost || (!postLoading && postData)" class="max-w-6xl mx-auto">
       <div v-if="saveError" class="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
         <div class="flex">
           <div class="text-red-400">
@@ -82,66 +82,159 @@
         :validate-on="[]"
         @submit="savePost"
       >
-        <!-- Compact Header Section -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <UFormField :label="$t('admin.blog.title') + ' *'" hint="Give this blog post a descriptive title.">
-            <UInput 
-              v-model="postForm.title"
-              :placeholder="$t('admin.blog.titlePlaceholder')"
-              :disabled="saving"
-              required
-              class="w-full"
-            />
-          </UFormField>
+        <!-- Tabs -->
+        <UTabs 
+          :items="tabItems" 
+          class="w-full"
+          :unmount-on-hide="false"
+        >
+          <!-- Main Info Tab -->
+          <template #main-info>
+            <div class="space-y-6 py-4">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <UFormField :label="$t('admin.blog.title') + ' *'" hint="Give this blog post a descriptive title.">
+                  <UInput 
+                    v-model="postForm.title"
+                    :placeholder="$t('admin.blog.titlePlaceholder')"
+                    :disabled="saving"
+                    required
+                    class="w-full"
+                  />
+                </UFormField>
 
-          <UFormField :label="$t('admin.blog.author')" hint="Enter the author name for this blog post.">
-            <UInput 
-              v-model="postForm.author"
-              :placeholder="$t('admin.blog.authorPlaceholder')"
-              :disabled="saving"
-              class="w-full"
-            />
-          </UFormField>
+                <UFormField :label="$t('admin.blog.author')" hint="Enter the author name for this blog post.">
+                  <UInput 
+                    v-model="postForm.author"
+                    :placeholder="$t('admin.blog.authorPlaceholder')"
+                    :disabled="saving"
+                    class="w-full"
+                  />
+                </UFormField>
 
-          <UFormField :label="$t('admin.blog.excerpt')" hint="A brief summary or excerpt of the blog post content.">
-            <UTextarea 
-              v-model="postForm.excerpt"
-              :placeholder="$t('admin.blog.excerptPlaceholder')"
-              :disabled="saving"
-              :rows="3"
-              class="w-full"
-            />
-          </UFormField>
+                <UFormField :label="$t('admin.blog.excerpt')" hint="A brief summary or excerpt of the blog post content.">
+                  <UTextarea 
+                    v-model="postForm.excerpt"
+                    :placeholder="$t('admin.blog.excerptPlaceholder')"
+                    :disabled="saving"
+                    :rows="3"
+                    class="w-full"
+                  />
+                </UFormField>
 
-          <UFormField :label="$t('admin.blog.poster')" :hint="$t('admin.blog.posterHint')">
-          <BaseImageUpload
-            v-model="postForm.posterUrl"
-            storage-path="blog"
-            :disabled="saving"
-            auto-upload
-          />
-        </UFormField>
-        </div>
+                <UFormField :label="$t('admin.blog.poster')" :hint="$t('admin.blog.posterHint')">
+                  <BaseImageUpload
+                    v-model="postForm.posterUrl"
+                    storage-path="blog"
+                    :disabled="saving"
+                    auto-upload
+                  />
+                </UFormField>
+              </div>
 
-        <UFormField :label="$t('admin.blog.contentSections')" :hint="$t('admin.blog.contentSectionsHint')">
-          <AdminSectionBuilder
-            v-model="postForm.sections"
-            :disabled="saving"
-          />
-        </UFormField>
+              <UFormField label="Publication Status" hint="Control whether this blog post is published and visible to visitors.">
+                <USwitch 
+                  v-model="postForm.published"
+                  :disabled="saving"
+                />
+                <span class="text-sm" :class="postForm.published ? 'text-green-600 font-medium' : 'text-gray-500'">
+                  {{ postForm.published ? $t('admin.blog.publishedStatus') : $t('admin.blog.draftStatus') }}
+                </span>
+              </UFormField>
+            </div>
+          </template>
 
-        <UFormField label="Publication Status" hint="Control whether this blog post is published and visible to visitors.">
-          <USwitch 
-            v-model="postForm.published"
-            :disabled="saving"
-          />
-          <span class="text-sm" :class="postForm.published ? 'text-green-600 font-medium' : 'text-gray-500'">
-            {{ postForm.published ? $t('admin.blog.publishedStatus') : $t('admin.blog.draftStatus') }}
-          </span>
-        </UFormField>
+          <!-- Content Builder Tab -->
+          <template #content-builder>
+            <div class="space-y-6 py-4">
+              <UFormField :label="$t('admin.blog.contentSections')" :hint="$t('admin.blog.contentSectionsHint')">
+                <AdminSectionBuilder
+                  v-model="postForm.sections"
+                  :disabled="saving"
+                />
+              </UFormField>
+            </div>
+          </template>
+
+          <!-- SEO Tab -->
+          <template #seo>
+            <div class="space-y-6 py-4">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <UFormField label="Meta Title" hint="The title that appears in search engine results. Leave empty to use the blog post title.">
+                  <UInput 
+                    v-model="postForm.seo.title"
+                    placeholder="Enter meta title..."
+                    :disabled="saving"
+                    class="w-full"
+                  />
+                </UFormField>
+
+                <UFormField label="Meta Description" hint="A brief description that appears in search engine results.">
+                  <UTextarea 
+                    v-model="postForm.seo.description"
+                    placeholder="Enter meta description..."
+                    :disabled="saving"
+                    :rows="3"
+                    class="w-full"
+                  />
+                </UFormField>
+
+                <UFormField label="Keywords" hint="Comma-separated keywords for SEO (optional).">
+                  <UInput 
+                    v-model="postForm.seo.keywords"
+                    placeholder="keyword1, keyword2, keyword3"
+                    :disabled="saving"
+                    class="w-full"
+                  />
+                </UFormField>
+
+                <UFormField label="Canonical URL" hint="The canonical URL for this page (optional).">
+                  <UInput 
+                    v-model="postForm.seo.canonical"
+                    placeholder="https://example.com/blog/post-slug"
+                    :disabled="saving"
+                    class="w-full"
+                  />
+                </UFormField>
+
+                <UFormField label="Open Graph Image" hint="Image URL for social media sharing (optional).">
+                  <UInput 
+                    v-model="postForm.seo.ogImage"
+                    placeholder="https://example.com/image.jpg"
+                    :disabled="saving"
+                    class="w-full"
+                  />
+                </UFormField>
+
+                <UFormField label="Twitter Card Type" hint="Type of Twitter card to display.">
+                  <USelect 
+                    v-model="postForm.seo.twitterCard"
+                    :items="twitterCardOptions"
+                    :disabled="saving"
+                    class="w-full"
+                  />
+                </UFormField>
+              </div>
+
+              <div class="bg-gray-50 p-4 rounded-lg">
+                <h4 class="font-medium text-gray-900 mb-2">SEO Preview</h4>
+                <div class="space-y-2 text-sm">
+                  <div class="font-medium text-blue-600">
+                    {{ postForm.seo.title || postForm.title || 'Your Title Here' }}
+                  </div>
+                  <div class="text-gray-600">
+                    {{ postForm.seo.description || postForm.excerpt || 'Your description here...' }}
+                  </div>
+                  <div class="text-green-600">
+                    {{ postForm.seo.canonical || 'https://example.com/blog/post-slug' }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </template>
+        </UTabs>
 
         <!-- Action Buttons -->
-        <div class="flex justify-end gap-3 py-6 sticky bottom-0 bg-white">
+        <div class="flex justify-end gap-3 py-6 sticky bottom-0 bg-white border-t">
           <UButton 
             type="button" 
             color="gray" 
@@ -162,8 +255,6 @@
       </UForm>
     </div>
   </div>
-
-
 </template>
 
 <script setup>
@@ -186,6 +277,33 @@ const postData = ref(null)
 const postLoading = ref(false)
 const postError = ref(null)
 
+// Tab items configuration
+const tabItems = [
+  {
+    slot: 'main-info',
+    label: 'Main Info',
+    icon: 'i-heroicons-information-circle'
+  },
+  {
+    slot: 'content-builder',
+    label: 'Content Builder',
+    icon: 'i-heroicons-pencil-square'
+  },
+  {
+    slot: 'seo',
+    label: 'SEO',
+    icon: 'i-heroicons-magnifying-glass'
+  }
+]
+
+// Twitter card options
+const twitterCardOptions = [
+  { label: 'Summary', value: 'summary' },
+  { label: 'Summary Large Image', value: 'summary_large_image' },
+  { label: 'App', value: 'app' },
+  { label: 'Player', value: 'player' }
+]
+
 // Form state
 const postForm = ref({
   title: '',
@@ -194,15 +312,20 @@ const postForm = ref({
   author: '',
   published: false,
   posterUrl: '',
-  sections: [] // New CMS sections array
+  sections: [], // New CMS sections array
+  seo: {
+    title: '',
+    description: '',
+    keywords: '',
+    canonical: '',
+    ogImage: '',
+    twitterCard: 'summary_large_image'
+  }
 })
 
 // Save state
 const saving = ref(false)
 const saveError = ref(null)
-
-// Image upload state
-const imageUploadError = ref('')
 
 
 
@@ -229,7 +352,15 @@ const loadPost = async () => {
         published: postData.value.published || false,
         posterUrl: postData.value.posterUrl || '',
         imageFile: null,
-        sections: postData.value.sections || [] // Load sections if they exist
+        sections: postData.value.sections || [], // Load sections if they exist
+        seo: {
+          title: postData.value.seo?.title || '',
+          description: postData.value.seo?.description || '',
+          keywords: postData.value.seo?.keywords || '',
+          canonical: postData.value.seo?.canonical || '',
+          ogImage: postData.value.seo?.ogImage || '',
+          twitterCard: postData.value.seo?.twitterCard || 'summary_large_image'
+        }
       }
       console.log('Populated form data:', postForm.value)
     } else {
@@ -258,6 +389,14 @@ const savePost = async () => {
       author: postForm.value.author.trim(),
       published: postForm.value.published,
       sections: postForm.value.sections, // Save the sections array
+      seo: {
+        title: postForm.value.seo.title.trim(),
+        description: postForm.value.seo.description.trim(),
+        keywords: postForm.value.seo.keywords.trim(),
+        canonical: postForm.value.seo.canonical.trim(),
+        ogImage: postForm.value.seo.ogImage.trim(),
+        twitterCard: postForm.value.seo.twitterCard
+      },
       updatedAt: serverTimestamp()
     }
 
@@ -296,6 +435,22 @@ const openPreview = () => {
   // TODO: Implement preview functionality
   console.log('Preview functionality to be implemented')
 }
+
+// SEO Meta setup
+useSeoMeta({
+  title: computed(() => postForm.value.seo.title || postForm.value.title || 'Blog Post'),
+  description: computed(() => postForm.value.seo.description || postForm.value.excerpt || ''),
+  keywords: computed(() => postForm.value.seo.keywords || ''),
+  canonical: computed(() => postForm.value.seo.canonical || ''),
+  ogTitle: computed(() => postForm.value.seo.title || postForm.value.title || 'Blog Post'),
+  ogDescription: computed(() => postForm.value.seo.description || postForm.value.excerpt || ''),
+  ogImage: computed(() => postForm.value.seo.ogImage || postForm.value.posterUrl || ''),
+  ogType: 'article',
+  twitterCard: computed(() => postForm.value.seo.twitterCard || 'summary_large_image'),
+  twitterTitle: computed(() => postForm.value.seo.title || postForm.value.title || 'Blog Post'),
+  twitterDescription: computed(() => postForm.value.seo.description || postForm.value.excerpt || ''),
+  twitterImage: computed(() => postForm.value.seo.ogImage || postForm.value.posterUrl || '')
+})
 
 // Load post data on mount
 onMounted(() => {
