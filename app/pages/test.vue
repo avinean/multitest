@@ -231,7 +231,7 @@ v-if="!pending && !error && questions.length > 0"
 
       <div class="flex-1 overflow-auto p-4">
         <div v-if="currentQuestion" class="max-w-4xl mx-auto">
-          <QuestionViewer 
+          <UseQuestionViewer 
             v-model:user-answer="userAnswers[currentQuestionIndex]"
             :question="currentQuestion"
             mode="test"
@@ -344,7 +344,8 @@ const fetchTestQuestions = async () => {
         query(
           collection(db, 'question-groups'),
           where('type', '==', value),
-          where('published', '==', true)
+          where('published', '==', true),
+          where('archived', '==', false)
         )
       ).then(({ docs }) =>
         docs[Math.floor(Math.random() * docs.length)].data().questions

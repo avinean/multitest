@@ -21,6 +21,7 @@ export interface QuestionGroup {
   name: string;
   type: 'image' | 'long_text' | 'short_text' | 'blanks_8' | 'blanks_4';
   published: boolean;
+  archived?: boolean;
   questions: {
     imageUrl?: string;
     text?: string;

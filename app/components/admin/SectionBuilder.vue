@@ -1,7 +1,7 @@
 <template>
   <div class="space-y-4">
     <!-- Add Section -->
-    <div class="flex justify-between items-center">
+    <div class="flex justify-between items-center py-2 sticky top-0 bg-white z-10">
       <h3 class="text-lg font-medium text-gray-900">{{ $t('admin.blog.contentSections') }}</h3>
       <div class="flex gap-2">
         <UButton
@@ -127,13 +127,9 @@
 </template>
 
 <script setup lang="ts">
-import type { Section } from '~/shared/types/cms'
-
-interface Props {
+const { disabled } = defineProps<{
   disabled?: boolean
-}
-
-const { disabled } = defineProps<Props>()
+}>()
 
 // Use defineModel for two-way binding
 const sections = defineModel<Section[]>('modelValue', { required: true })

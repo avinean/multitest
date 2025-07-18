@@ -97,11 +97,11 @@
                 {{ group.type }}
               </UBadge>
               <UBadge 
-                :color="group.published ? 'success' : 'neutral'"
-                :variant="group.published ? 'solid' : 'outline'"
+                :color="group.archived ? 'neutral' : (group.published ? 'success' : 'neutral')"
+                :variant="group.archived ? 'solid' : (group.published ? 'solid' : 'outline')"
                 size="sm"
               >
-                {{ group.published ? $t('admin.questionGroups.published') : $t('admin.questionGroups.draft') }}
+                {{ group.archived ? $t('admin.questionGroups.archived') : (group.published ? $t('admin.questionGroups.published') : $t('admin.questionGroups.draft')) }}
               </UBadge>
             </div>
             <div class="flex items-center gap-4 text-sm text-gray-500">
@@ -173,7 +173,8 @@ const selectedStatus = ref('')
 
 const statusOptions = [
   { value: 'published', label: 'Published' },
-  { value: 'draft', label: 'Draft' }
+  { value: 'draft', label: 'Draft' },
+  { value: 'archived', label: 'Archived' }
 ]
 
 // Computed properties
@@ -188,10 +189,16 @@ const filteredQuestionGroups = computed(() => {
     // Filter by type
     const matchesType = !selectedType.value || group.type === selectedType.value
     
-    // Filter by status
-    const matchesStatus = !selectedStatus.value || 
-      (selectedStatus.value === 'published' && group.published) ||
-      (selectedStatus.value === 'draft' && !group.published)
+    // Filter by status - exclude archived by default unless specifically requested
+    let matchesStatus = true
+    if (selectedStatus.value) {
+      matchesStatus = (selectedStatus.value === 'published' && group.published && !group.archived) ||
+                     (selectedStatus.value === 'draft' && !group.published && !group.archived) ||
+                     (selectedStatus.value === 'archived' && group.archived)
+    } else {
+      // Default behavior: exclude archived items
+      matchesStatus = !group.archived
+    }
     
     return matchesSearch && matchesType && matchesStatus
   })

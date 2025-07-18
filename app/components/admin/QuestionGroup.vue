@@ -121,12 +121,14 @@ const { data: questionGroups, pending: _questionGroupsLoading, error: _questionG
 const availableQuestionGroups = computed<QuestionGroupOption[]>(() => {
   if (!questionGroups.value) return []
   
-  return questionGroups.value.map(qg => ({
-    value: qg.id,
-    label: qg.title || qg.name || 'Untitled Question Group',
-    title: qg.title || qg.name || 'Untitled Question Group',
-    description: qg.description || ''
-  }))
+  return questionGroups.value
+    .filter(qg => !qg.archived) // Exclude archived question groups
+    .map(qg => ({
+      value: qg.id,
+      label: qg.title || qg.name || 'Untitled Question Group',
+      title: qg.title || qg.name || 'Untitled Question Group',
+      description: qg.description || ''
+    }))
 })
 
 // Computed property to get the selected question group details

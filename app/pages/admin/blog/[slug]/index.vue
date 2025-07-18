@@ -20,11 +20,11 @@
           </p>
         </div>
         <UButton 
-          v-if="!isNewPost && postData?.[currentLocale]?.published"
+          v-if="!isNewPost && postData?.createdAt"
           color="primary" 
           variant="outline" 
           icon="i-heroicons-eye"
-          @click="openPreview"
+          :to="localePath(`/admin/blog/${route.params.slug}/preview`)"
         >
           {{ $t('admin.blog.preview') }}
         </UButton>
@@ -106,6 +106,26 @@
         :validate-on="[]"
         @submit="savePost"
       >
+        <UFormField v-if="!postForm.createdAt" required label="Custom URL Slug" hint="Customize the URL slug for this blog post. Leave empty to auto-generate from the title.">
+          <UInput 
+            v-model="textToSlug"
+            :disabled="saving"
+            class="w-full"
+          />
+          <div class="mt-2 text-sm text-gray-600">
+            <span class="font-medium">Final URL:</span> 
+            <code class="bg-gray-100 px-2 py-1 rounded text-xs">{{ slug }}</code>
+          </div>
+        </UFormField>
+        <UFormField label="Publication Status" hint="Control whether this blog post is published and visible to visitors.">
+          <USwitch 
+            v-model="postForm.published"
+            :disabled="saving"
+          />
+          <span class="text-sm" :class="postForm.published ? 'text-green-600 font-medium' : 'text-gray-500'">
+            {{ postForm.published ? $t('admin.blog.publishedStatus') : $t('admin.blog.draftStatus') }}
+          </span>
+        </UFormField>
         <UFormField :label="$t('admin.blog.poster')" :hint="$t('admin.blog.posterHint')">
           <BaseImageUpload
             v-model="postForm.posterUrl"
@@ -142,16 +162,6 @@
                     :rows="3"
                     class="w-full"
                   />
-                </UFormField>
-
-                <UFormField label="Publication Status" hint="Control whether this blog post is published and visible to visitors.">
-                  <USwitch 
-                    v-model="postForm[currentLocale].published"
-                    :disabled="saving"
-                  />
-                  <span class="text-sm" :class="postForm[currentLocale].published ? 'text-green-600 font-medium' : 'text-gray-500'">
-                    {{ postForm[currentLocale].published ? $t('admin.blog.publishedStatus') : $t('admin.blog.draftStatus') }}
-                  </span>
                 </UFormField>
               </div>
             </div>
@@ -274,6 +284,7 @@
 <script setup lang="ts">
 import { doc, getDoc, setDoc, addDoc, collection } from 'firebase/firestore'
 import { useFirestore } from 'vuefire'
+import slugify from 'slug'
 
 definePageMeta({
   middleware: 'admin-auth',
@@ -294,6 +305,8 @@ const availableLocales = [
 
 // Current editing locale
 const currentLocale = ref<'en' | 'uk'>('en')
+const textToSlug = ref('')
+const slug = computed(() => slugify(textToSlug.value))
 
 // Post data state
 const postData = ref<BlogPost | null>(null)
@@ -350,6 +363,8 @@ const postForm = ref<BlogPost>({
   createdAt: '',
   updatedAt: '',
   posterUrl: '',
+  published: false,
+  publishedAt: '',
   ...(Object.fromEntries(availableLocales.map(({ code }) => [code, initializeForm()])) as Record<'en' | 'uk', any>)
 })
 
@@ -369,7 +384,9 @@ const loadPost = async () => {
     
     if (postDoc.exists()) {
       const data = postDoc.data() as BlogPost
-      postData.value = { id: postDoc.id, ...data }
+      postData.value = data
+      // Store the ID separately for preview functionality
+      const postId = postDoc.id
       console.log('Loaded post data:', postData.value)
       
       // Populate form with existing data
@@ -377,13 +394,13 @@ const loadPost = async () => {
         createdAt: data.createdAt || '',
         updatedAt: data.updatedAt || '',
         posterUrl: data.posterUrl || '',
+        published: data.published || false,
+        publishedAt: data.publishedAt || '',
         ...(Object.fromEntries(availableLocales.map(({ code }) => [code, 
             {
             title: data[code]?.title || '',
             content: data[code]?.content || '',
             excerpt: data[code]?.excerpt || '',
-            published: data[code]?.published || false,
-            publishedAt: data[code]?.publishedAt || '',
             sections: data[code]?.sections || [],
             seo: {
               title: data[code]?.seo?.title || '',
@@ -417,13 +434,13 @@ const savePost = async () => {
     // Prepare data for saving
     const dataToSave = {
       posterUrl: postForm.value.posterUrl,
+      published: postForm.value.published || false,
+      publishedAt: postForm.value.publishedAt || '',
       ...(Object.fromEntries(availableLocales.map(({ code }) => [code, 
           {
           title: postForm.value[code]?.title || '',
           content: postForm.value[code]?.content || '',
           excerpt: postForm.value[code]?.excerpt || '',
-          published: postForm.value[code]?.published || false,
-          publishedAt: postForm.value[code]?.publishedAt || '',
           sections: postForm.value[code]?.sections || [],
           seo: {
             title: postForm.value[code]?.seo?.title || '',
@@ -440,9 +457,9 @@ const savePost = async () => {
     }
 
     if (isNewPost.value) {
-      // Create new post
-      const docRef = await addDoc(collection(db, 'blog'), dataToSave)
-      await navigateTo(localePath(`/admin/blog/${docRef.id}`))
+
+      await setDoc(doc(db, 'blog', slug.value), dataToSave)
+      await navigateTo(localePath(`/admin/blog/${slug.value}`))
     } else {
       // Update existing post
       await setDoc(doc(db, 'blog', String(route.params.slug)), dataToSave, { merge: true })
@@ -460,14 +477,8 @@ const savePost = async () => {
 
 // Form validation
 const isFormValid = () => {
-  const currentData = postForm.value[currentLocale.value as keyof typeof postForm.value] as any
-  return currentData.title.trim()
-}
-
-// Preview function (placeholder for now)
-const openPreview = () => {
-  // TODO: Implement preview functionality
-  console.log('Preview functionality to be implemented')
+  return postForm.value[currentLocale.value]?.title?.trim()
+  && slug.value.trim()
 }
 
 // Load post data on mount

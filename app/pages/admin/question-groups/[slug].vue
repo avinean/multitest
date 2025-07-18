@@ -104,10 +104,20 @@
         <UFormField v-if="groupData" label="Publication Status" hint="Control whether this question group is published and available for use.">
           <USwitch 
             v-model="groupForm.published"
-            :disabled="saving"
+            :disabled="saving || groupForm.archived"
           />
           <span class="text-sm" :class="groupForm.published ? 'text-green-600 font-medium' : 'text-gray-500'">
-            {{ groupForm.published ? 'Published (Visible to users)' : 'Draft (Hidden from users)' }}
+            {{ groupForm.archived ? $t('admin.questionGroup.archivedStatus') : (groupForm.published ? $t('admin.questionGroup.publishedStatus') : $t('admin.questionGroup.draftStatus')) }}
+          </span>
+        </UFormField>
+
+        <UFormField v-if="groupData" label="Archived Status" hint="Control whether this question group is archived and not available for use.">
+          <USwitch 
+            v-model="groupForm.archived"
+            :disabled="saving"
+          />
+          <span class="text-sm" :class="groupForm.archived ? 'text-red-600 font-medium' : 'text-gray-500'">
+            {{ groupForm.archived ? $t('admin.questionGroup.archivedStatus') : $t('admin.questionGroup.activeStatus') }}
           </span>
         </UFormField>
 
@@ -464,7 +474,7 @@
 
           <!-- Preview Content -->
           <div class="flex-1 overflow-auto">
-            <QuestionViewer 
+            <UseQuestionViewer 
               v-if="currentPreviewQuestion"
               :question="currentPreviewQuestion"
               mode="preview"
@@ -548,7 +558,8 @@ useHead({
 const groupForm = ref({
   name: '',
   type: '',
-  published: false
+  published: false,
+  archived: false
 })
 
 const saving = ref(false)
@@ -561,6 +572,13 @@ watch(() => groupForm.value.type, (newType, oldType) => {
     if (showSubQuestionModal.value) {
       initSubQuestionForm()
     }
+  }
+})
+
+// Watch for archived status changes to automatically unpublish when archived
+watch(() => groupForm.value.archived, (isArchived) => {
+  if (isArchived && groupForm.value.published) {
+    groupForm.value.published = false
   }
 })
 
@@ -586,7 +604,8 @@ watch([fetchedGroup, groupPending, fetchError], ([data, pending, error]) => {
       groupForm.value = {
         name: data.name || '',
         type: data.type || '',
-        published: data.published || false
+        published: data.published || false,
+        archived: data.archived || false
       }
     }
   }
@@ -609,6 +628,7 @@ const saveGroup = async (event) => {
       name: groupForm.value.name.trim(),
       type: groupForm.value.type,
       published: groupForm.value.published,
+      archived: groupForm.value.archived,
       updatedAt: serverTimestamp()
     }
     
@@ -763,8 +783,6 @@ const initSubQuestionForm = () => {
   bulkOptionsText.value = ''
   showBulkOptions.value = false
 }
-
-
 
 // Question management functions
 const addQuestion = () => {
@@ -925,6 +943,4 @@ const closePreview = () => {
   showPreviewModal.value = false
   previewQuestionIndex.value = 0
 }
-
-
 </script> 

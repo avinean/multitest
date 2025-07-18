@@ -1609,7 +1609,7 @@
     std-env "^3.9.0"
     tinyglobby "^0.2.14"
 
-"@nuxt/kit@^3.13.2", "@nuxt/kit@^3.14.1592", "@nuxt/kit@^3.15.4", "@nuxt/kit@^3.17.3", "@nuxt/kit@^3.17.4", "@nuxt/kit@^3.17.5", "@nuxt/kit@^3.17.6", "@nuxt/kit@^3.2.2", "@nuxt/kit@^3.2.2 || ^4.0.0":
+"@nuxt/kit@^3.13.2", "@nuxt/kit@^3.14.1592", "@nuxt/kit@^3.15.4", "@nuxt/kit@^3.17.3", "@nuxt/kit@^3.17.5", "@nuxt/kit@^3.17.6", "@nuxt/kit@^3.2.2", "@nuxt/kit@^3.2.2 || ^4.0.0":
   version "3.17.6"
   resolved "https://registry.npmjs.org/@nuxt/kit/-/kit-3.17.6.tgz"
   integrity sha512-8PKRwoEF70IXVrpGEJZ4g4V2WtE9RjSMgSZLLa0HZCoyT+QczJcJe3kho/XKnJOnNnHep4WqciTD7p4qRRtBqw==
@@ -1713,26 +1713,6 @@
     defu "^6.1.4"
     pathe "^2.0.3"
     std-env "^3.9.0"
-
-"@nuxt/scripts@^0.11.8":
-  version "0.11.8"
-  dependencies:
-    "@nuxt/kit" "^3.17.4"
-    "@vueuse/core" "^13.3.0"
-    consola "^3.4.2"
-    defu "^6.1.4"
-    h3 "^1.15.3"
-    magic-string "^0.30.17"
-    ofetch "^1.4.1"
-    ohash "^2.0.11"
-    pathe "^2.0.3"
-    pkg-types "^2.1.0"
-    sirv "^3.0.1"
-    std-env "^3.9.0"
-    ufo "^1.6.1"
-    unplugin "^2.3.5"
-    unstorage "^1.16.0"
-    valibot "^1.1.0"
 
 "@nuxt/telemetry@^2.6.6":
   version "2.6.6"
@@ -2424,6 +2404,11 @@
     "@types/node" "*"
     "@types/send" "*"
 
+"@types/slug@^5.0.9":
+  version "5.0.9"
+  resolved "https://registry.npmjs.org/@types/slug/-/slug-5.0.9.tgz"
+  integrity sha512-6Yp8BSplP35Esa/wOG1wLNKiqXevpQTEF/RcL/NV6BBQaMmZh4YlDwCgrrFSoUE4xAGvnKd5c+lkQJmPrBAzfQ==
+
 "@types/tough-cookie@*":
   version "4.0.5"
   resolved "https://registry.npmjs.org/@types/tough-cookie/-/tough-cookie-4.0.5.tgz"
@@ -2599,7 +2584,7 @@
     "@typescript-eslint/types" "8.37.0"
     eslint-visitor-keys "^4.2.1"
 
-"@unhead/vue@^2.0.10", "@unhead/vue@^2.0.12", "@unhead/vue@^2.0.3":
+"@unhead/vue@^2.0.10", "@unhead/vue@^2.0.12":
   version "2.0.12"
   resolved "https://registry.npmjs.org/@unhead/vue/-/vue-2.0.12.tgz"
   integrity sha512-WFaiCVbBd39FK6Bx3GQskhgT9s45Vjx6dRQegYheVwU1AnF+FAfJVgWbrl21p6fRJcLAFp0xDz6wE18JYBM0eQ==
@@ -2813,7 +2798,7 @@
   resolved "https://registry.npmjs.org/@vue/shared/-/shared-3.5.17.tgz"
   integrity sha512-CabR+UN630VnsJO/jHWYBC1YVXyMq94KKp6iF5MQgZJs5I8cmjw6oVMO1oDbtBkENSHSSn/UadWlW/OAgdmKrg==
 
-"@vueuse/core@*", "@vueuse/core@^13.3.0", "@vueuse/core@^13.4.0", "@vueuse/core@13.5.0":
+"@vueuse/core@*", "@vueuse/core@^13.4.0", "@vueuse/core@13.5.0":
   version "13.5.0"
   resolved "https://registry.npmjs.org/@vueuse/core/-/core-13.5.0.tgz"
   integrity sha512-wV7z0eUpifKmvmN78UBZX8T7lMW53Nrk6JP5+6hbzrB9+cJ3jr//hUlhl9TZO/03bUkMK6gGkQpqOPWoabr72g==
@@ -6373,7 +6358,7 @@ nuxt-vuefire@^1.0.5:
     lodash-es "^4.17.21"
     strip-json-comments "^5.0.1"
 
-"nuxt@^3.0.0 || ^4.0.0-0", nuxt@^3.16.2, nuxt@^4.0.0:
+"nuxt@^3.0.0 || ^4.0.0-0", nuxt@^4.0.0:
   version "4.0.0"
   resolved "https://registry.npmjs.org/nuxt/-/nuxt-4.0.0.tgz"
   integrity sha512-HMhAEW59Ws3ty8SUZ0icOPoqP5xMaThZA5h7A7pz1Gl/feW1FwtJZnqjZ/aO/Xv2TlTIbkil2OOolDpJOAQjUg==
@@ -7721,6 +7706,11 @@ slash@^5.1.0:
   resolved "https://registry.npmjs.org/slash/-/slash-5.1.0.tgz"
   integrity sha512-ZA6oR3T/pEyuqwMgAKT0/hAv8oAXckzbkmR0UkUosQ+Mc4RxGoJkRmwHgHufaenlyAgE1Mxgpdcrf75y6XcnDg==
 
+slug@^11.0.0:
+  version "11.0.0"
+  resolved "https://registry.npmjs.org/slug/-/slug-11.0.0.tgz"
+  integrity sha512-71pb27F9TII2dIweGr2ybS220IUZo1A9GKZ+e2q8rpUr24mejBb6fTaSStM0SE1ITUUOshilqZze8Yt1BKj+ew==
+
 smob@^1.0.0:
   version "1.5.0"
   resolved "https://registry.npmjs.org/smob/-/smob-1.5.0.tgz"
@@ -8518,7 +8508,7 @@ uuid@^9.0.0, uuid@^9.0.1:
   resolved "https://registry.npmjs.org/uuid/-/uuid-9.0.1.tgz"
   integrity sha512-b+1eJOlsR9K8HJpow9Ok3fiWOWSIcIzXodvv0rQjVoOVNpWMpxf1wZNpt4y9h10odCNrqnYp1OBzRktckBe3sA==
 
-valibot@^1.0.0, valibot@^1.1.0:
+valibot@^1.0.0:
   version "1.1.0"
   resolved "https://registry.npmjs.org/valibot/-/valibot-1.1.0.tgz"
   integrity sha512-Nk8lX30Qhu+9txPYTwM0cFlWLdPFsFr6LblzqIySfbZph9+BFsAHsNvHOymEviUepeIW6KFHzpX8TKhbptBXXw==

@@ -1,12 +1,13 @@
 import type { Section } from "./cms";
 
 export type BlogPost = {
+  id?: string;
   createdAt: string;
   updatedAt: string;
   posterUrl: string;
-} & Record<'uk' | 'en', {
   publishedAt: string;
   published: boolean;
+} & Record<'uk' | 'en', {
   title: string;
   content: string;
   excerpt: string;

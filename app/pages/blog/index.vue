@@ -171,6 +171,7 @@ const db = useFirestore()
 const { data, pending, error } = useCollection<BlogPost>(
   query(
     collection(db, 'blog'),
+    where('published', '==', true),
     orderBy('createdAt', 'desc')
   )
 )
