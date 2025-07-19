@@ -300,7 +300,6 @@ import { useFirestore } from 'vuefire'
 import slugify from 'slug'
 
 definePageMeta({
-  middleware: 'admin-auth',
   layout: 'admin'
 })
 

@@ -2,7 +2,9 @@
   "nav": {
     "englishTest": "English Test",
     "blog": "Blog",
-    "admin": "Admin"
+    "admin": "Admin",
+    "login": "Login",
+    "signOut": "Sign Out"
   },
   "home": {
     "title": "English Proficiency Test",
@@ -84,7 +86,8 @@
     "incorrect": "Incorrect",
     "noAnswer": "No Answer",
     "noAnswerSelected": "No answer selected",
-    "answerReview": "Answer Review"
+    "answerReview": "Answer Review",
+    "explanation": "Explanation"
   },
   "blog": {
     "hero": {
@@ -137,13 +140,13 @@
       "blog": "Blog"
     },
     "login": {
-      "title": "Admin Login",
-      "subtitle": "Sign in to manage tests and questions",
-      "email": "Email",
-      "password": "Password",
-      "signIn": "Sign In",
-      "backToHome": "← Back to Home",
-      "error": "Invalid credentials"
+          "email": "Email",
+    "password": "Password",
+    "signIn": "Sign In",
+    "or": "or",
+    "signInWithGoogle": "Sign in with Google",
+    "backToHome": "← Back to Home",
+    "error": "Invalid credentials"
     },
     "questionGroups": {
       "title": "Question Groups Management",

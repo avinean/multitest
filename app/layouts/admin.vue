@@ -34,7 +34,6 @@
           </div>
           <div class="flex items-center gap-4">
             <LanguageSelector />
-            <span class="text-sm text-gray-600">{{ $t('admin.welcome') }}, {{ user?.email }}</span>
             <UButton color="error" variant="outline" @click="signOut">{{ $t('admin.signOut') }}</UButton>
           </div>
         </div>
@@ -48,32 +47,6 @@
   </div>
 </template>
 
-<script setup>
-import { signOut as firebaseSignOut, onAuthStateChanged, getAuth } from 'firebase/auth'
-
-const auth = getAuth()
-const user = ref(null)
-
-provide('user', user)
-
-const localePath = useLocalePath()
-
-const signOut = async () => {
-  try {
-    await firebaseSignOut(auth)
-    const currentPath = useRoute().fullPath
-    await navigateTo(localePath(`/admin/login?redirect=${encodeURIComponent(currentPath)}`))
-  } catch (error) {
-    console.error('Error signing out:', error)
-  }
-}
-
-onMounted(() => {
-  onAuthStateChanged(auth, (currentUser) => {
-    user.value = currentUser
-    if (!currentUser) {
-      navigateTo(localePath('/admin/login'))
-    }
-  })
-})
-</script> 
+<script setup lang="ts">
+const { signOut } = useAuth()
+</script>

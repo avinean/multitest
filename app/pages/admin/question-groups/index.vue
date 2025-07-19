@@ -155,7 +155,6 @@ import { collection } from 'firebase/firestore'
 import { useCollection, useFirestore } from 'vuefire'
 
 definePageMeta({
-  middleware: 'admin-auth',
   layout: 'admin'
 })
 

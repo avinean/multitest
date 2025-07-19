@@ -2,7 +2,9 @@
   "nav": {
     "englishTest": "Тест Англійської",
     "blog": "Блог",
-    "admin": "Адмін"
+    "admin": "Адмін",
+    "login": "Увійти",
+    "signOut": "Вийти"
   },
   "home": {
     "title": "Тест Рівня Англійської Мови",
@@ -84,7 +86,8 @@
     "incorrect": "Неправильно",
     "noAnswer": "Без Відповіді",
     "noAnswerSelected": "Відповідь не обрано",
-    "answerReview": "Огляд Відповідей"
+    "answerReview": "Огляд Відповідей",
+    "explanation": "Пояснення"
   },
   "blog": {
     "hero": {
@@ -137,13 +140,13 @@
       "blog": "Блог"
     },
     "login": {
-      "title": "Вхід Адміністратора",
-      "subtitle": "Увійдіть для управління тестами та питаннями",
-      "email": "Email",
-      "password": "Пароль",
-      "signIn": "Увійти",
-      "backToHome": "← Назад на Головну",
-      "error": "Невірні дані для входу"
+          "email": "Email",
+    "password": "Пароль",
+    "signIn": "Увійти",
+    "or": "або",
+    "signInWithGoogle": "Увійти через Google",
+    "backToHome": "← Назад на Головну",
+    "error": "Невірні дані для входу"
     },
     "questionGroups": {
       "title": "Управління Групами Питань",

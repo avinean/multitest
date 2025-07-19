@@ -548,7 +548,6 @@ import { addDoc, collection, doc, updateDoc, serverTimestamp } from 'firebase/fi
 import { useDocument, useFirestore } from 'vuefire'
 
 definePageMeta({
-  middleware: 'admin-auth',
   layout: 'admin'
 })
 

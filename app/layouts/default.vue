@@ -19,12 +19,28 @@
               {{ $t('nav.blog') }}
             </UButton>
             <UButton 
-              v-if="hasAdminAccess"
-              :to="$localePath('/admin/login')" 
+              v-if="isAdmin"
+              :to="$localePath('/admin')" 
               variant="ghost" 
               size="sm"
               >
               {{ $t('nav.admin') }}
+            </UButton>
+            <UButton 
+              v-if="!user"
+              variant="ghost" 
+              size="sm"
+              @click="showLoginModal = true"
+              >
+              {{ $t('nav.login') }}
+            </UButton>
+            <UButton 
+              v-if="user"
+              variant="ghost" 
+              size="sm"
+              @click="handleSignOut"
+              >
+              {{ $t('nav.signOut') }}
             </UButton>
             <LanguageSelector />
           </nav>
@@ -87,8 +103,36 @@
       </UContainer>
     </footer>
   </div>
+
+  <!-- Login Modal -->
+  <ModalLogin v-model:open="showLoginModal"/>
 </template>
 
 <script setup>
-const hasAdminAccess = useLocalStorage('hasAdminAccess', false)
+const { user, isAdmin, signOut, initAuth } = useAuth()
+const localePath = useLocalePath()
+const showLoginModal = ref(false)
+
+// Initialize auth on mount
+onMounted(() => {
+  const unsubscribe = initAuth()
+  
+  onUnmounted(() => {
+    unsubscribe()
+  })
+})
+
+const handleSignOut = async () => {
+  try {
+    await signOut()
+    await navigateTo(localePath('/'))
+  } catch (error) {
+    console.error('Error signing out:', error)
+  }
+}
+
+const handleLoginSuccess = () => {
+  showLoginModal.value = false
+  // Optionally show a success message or redirect
+}
 </script> 
