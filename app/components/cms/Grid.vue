@@ -10,8 +10,6 @@
 </template>
 
 <script setup lang="ts">
-import type { Grid } from '~/shared/types/cms';
-
 defineProps<{
   section: Grid;
 }>();

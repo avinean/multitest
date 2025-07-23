@@ -206,7 +206,7 @@
         <div class="flex justify-end gap-3 py-6 sticky bottom-0 bg-white">
           <UButton 
             type="button" 
-            color="gray" 
+            color="info" 
             variant="outline"
             :disabled="saving"
             @click="navigateTo(localePath('/admin/question-groups'))"
@@ -543,7 +543,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { addDoc, collection, doc, updateDoc, serverTimestamp } from 'firebase/firestore'
 import { useDocument, useFirestore } from 'vuefire'
 
@@ -594,14 +594,14 @@ watch(() => groupForm.value.archived, (isArchived) => {
 })
 
 // For editing existing groups, fetch the group data
-const groupData = ref(null)
+const groupData = ref<QuestionGroup | null>(null)
 const groupLoading = ref(false)
 const groupError = ref('')
 
 // Fetch group data if editing existing group
 const { data: fetchedGroup, pending: groupPending, error: fetchError } = isNewGroup.value 
   ? { data: ref(null), pending: ref(false), error: ref(null) }
-  : useDocument(doc(db, 'question-groups', slug.value))
+  : useDocument(doс(db, 'question-groups', slug.value))
 
 // Update reactive references based on fetch results
 watch([fetchedGroup, groupPending, fetchError], ([data, pending, error]) => {
@@ -635,7 +635,7 @@ const saveGroup = async (event) => {
   saveError.value = ''
   
   try {
-    const groupDataToSave = {
+    const groupDataToSave: QuestionGroup = {
       name: groupForm.value.name.trim(),
       type: groupForm.value.type,
       published: groupForm.value.published,
@@ -806,7 +806,7 @@ const addQuestion = () => {
 
 const editQuestion = (index) => {
   editingSubQuestionIndex.value = index
-  const question = groupData.value.questions[index]
+  const question = groupData.value?.questions?.[index]
   
   // Ensure options exist, initialize with empty options if not
   let existingOptions = question.options || ['', '']
@@ -818,12 +818,12 @@ const editQuestion = (index) => {
   }
   
   subQuestionForm.value = {
-    imageUrl: question.imageUrl || '',
-    text: question.text || '',
-    question: question.question || '',
+    imageUrl: question?.imageUrl || '',
+    text: question?.text || '',
+    question: question?.question || '',
     options: [...existingOptions],
-    correct: Math.min(question.correct || 0, existingOptions.length - 1), // Ensure correct index is valid
-    explanation: question.explanation || ''
+    correct: Math.min(question?.correct || 0, existingOptions.length - 1), // Ensure correct index is valid
+    explanation: question?.explanation || ''
   }
   
   subQuestionSaveError.value = ''

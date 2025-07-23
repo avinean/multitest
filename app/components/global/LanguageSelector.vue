@@ -6,13 +6,13 @@
       icon="i-heroicons-language"
       class="flex items-center gap-2"
     >
-      {{ currentLocale.name }}
+      {{ currentLocale?.name }}
       <UIcon name="i-heroicons-chevron-down-20-solid" class="w-3 h-3" />
     </UButton>
   </UDropdownMenu>
 </template>
 
-<script setup>
+<script setup lang="ts">
 const { locale, locales, setLocale } = useI18n()
 
 

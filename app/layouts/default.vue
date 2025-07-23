@@ -19,14 +19,6 @@
               {{ $t('nav.blog') }}
             </UButton>
             <UButton 
-              v-if="isAdmin"
-              :to="$localePath('/admin')" 
-              variant="ghost" 
-              size="sm"
-              >
-              {{ $t('nav.admin') }}
-            </UButton>
-            <UButton 
               v-if="!user"
               variant="ghost" 
               size="sm"
@@ -36,12 +28,13 @@
             </UButton>
             <UButton 
               v-if="user"
+              :to="$localePath('/profile')"
               variant="ghost" 
               size="sm"
-              @click="handleSignOut"
               >
-              {{ $t('nav.signOut') }}
+              {{ $t('nav.profile') }}
             </UButton>
+
             <LanguageSelector />
           </nav>
         </div>
@@ -108,28 +101,11 @@
   <ModalLogin v-model:open="showLoginModal"/>
 </template>
 
-<script setup>
-const { user, isAdmin, signOut, initAuth } = useAuth()
-const localePath = useLocalePath()
+<script setup lang="ts">
+const { user, isAdmin } = await useAuth()
 const showLoginModal = ref(false)
 
-// Initialize auth on mount
-onMounted(() => {
-  const unsubscribe = initAuth()
-  
-  onUnmounted(() => {
-    unsubscribe()
-  })
-})
 
-const handleSignOut = async () => {
-  try {
-    await signOut()
-    await navigateTo(localePath('/'))
-  } catch (error) {
-    console.error('Error signing out:', error)
-  }
-}
 
 const handleLoginSuccess = () => {
   showLoginModal.value = false

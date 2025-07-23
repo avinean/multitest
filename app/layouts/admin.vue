@@ -48,5 +48,5 @@
 </template>
 
 <script setup lang="ts">
-const { signOut } = useAuth()
+const { signOut } = await useAuth()
 </script>

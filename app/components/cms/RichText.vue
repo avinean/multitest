@@ -3,8 +3,6 @@
 </template>
 
 <script setup lang="ts">
-import type { RichText } from '~/shared/types/cms';
-
 defineProps<{
   section: RichText;
 }>();

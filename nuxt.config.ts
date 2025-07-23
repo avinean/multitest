@@ -16,8 +16,8 @@ export default defineNuxtConfig({
     '/admin/**': { ssr: false },
     '/': { prerender: true },
     '/blog/**': { prerender: true },
-    '/test': { ssr: false },
-    '/result': { ssr: false }
+    '/test/**': { ssr: false },
+    '/profile/**': { ssr: false }
   },
   vuefire: {
     config: {

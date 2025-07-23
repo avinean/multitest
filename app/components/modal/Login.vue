@@ -79,13 +79,15 @@
   </UModal>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, getAuth } from 'firebase/auth'
 
-const isOpen = defineModel('open')
+const { redirect } = defineProps<{
+  redirect?: string
+}>()
+const isOpen = defineModel<boolean>('open')
 
 // Auth
-const { checkAdminAccess } = useAuth()
 const auth = getAuth()
 const signingIn = ref(false)
 const signingInWithGoogle = ref(false)
@@ -93,23 +95,22 @@ const authError = ref('')
 const email = ref('')
 const password = ref('')
 
+const close = () => {
+  isOpen.value = false
+  if (redirect) {
+    navigateTo(redirect)
+  }
+}
+
 // Auth methods
 const signIn = async () => {
   signingIn.value = true
   authError.value = ''
   
   try {
-    const userCredential = await signInWithEmailAndPassword(auth, email.value, password.value)
-    const user = userCredential.user
-    
-    // Check if user has admin access
-    const hasAdminAccess = await checkAdminAccess(user)
-    if (hasAdminAccess) {
-      localStorage.setItem('hasAdminAccess', 'true')
-    }
-    
-    isOpen.value = false
-  } catch (error) {
+    await signInWithEmailAndPassword(auth, email.value, password.value)    
+    close()
+  } catch (error: any) {
     authError.value = error.message
   } finally {
     signingIn.value = false
@@ -123,17 +124,9 @@ const signInWithGoogle = async () => {
   
   try {
     const provider = new GoogleAuthProvider()
-    const result = await signInWithPopup(auth, provider)
-    const user = result.user
-    
-    // Check if user has admin access
-    const hasAdminAccess = await checkAdminAccess(user)
-    if (hasAdminAccess) {
-      localStorage.setItem('hasAdminAccess', 'true')
-    }
-    
-    isOpen.value = false
-  } catch (error) {
+    await signInWithPopup(auth, provider)
+    close()
+  } catch (error: any) {
     console.error('Google sign-in error:', error)
     authError.value = error.message || 'Failed to sign in with Google'
   } finally {

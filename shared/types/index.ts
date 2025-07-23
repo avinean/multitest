@@ -1,11 +1,14 @@
 export interface Question {
   text: string
+  question: string
   options: string[]
-  correctAnswerIndex: number
+  correct: number
   order: number
   title?: string
   subtitle?: string
   imageUrl?: string
+  explanation?: string
+  groupId: string
 }
 
 export interface Test {
@@ -29,4 +32,16 @@ export interface QuestionGroup {
     options?: string[];
     correct: number;
   }[]
+}
+
+export interface TestResult {
+  id: string;
+  email: string;
+  answers: Record<`${string}-${number}`, number>;
+  timeTaken: number;
+  createdAt: number;
+  updatedAt: number;
+  score: number;
+  totalQuestions: number;
+  percentage: number;
 }

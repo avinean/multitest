@@ -21,8 +21,6 @@
 </template>
 
 <script setup lang="ts">
-import type { Section } from '~/shared/types/cms';
-
 defineProps<{
   section: Section;
 }>();

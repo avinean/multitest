@@ -25,4 +25,11 @@ export default defineNuxtRouteMiddleware(async (to) => {
       return navigateTo('/')
     }
   }
+    if (to.path.startsWith('/profile')) {
+    const auth = getAuth()
+    await new Promise((resolve) => onAuthStateChanged(auth, resolve))
+    if (!auth.currentUser) {
+      return navigateTo('/')
+    }
+  }
 })

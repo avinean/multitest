@@ -150,7 +150,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { collection } from 'firebase/firestore'
 import { useCollection, useFirestore } from 'vuefire'
 

@@ -189,8 +189,6 @@ class="w-6 h-6 rounded flex items-center justify-center text-xs"
 </template>
 
 <script setup lang="ts">
-import type { CMSQuestionGroup } from '~/shared/types/cms'
-import type { QuestionGroup } from '~/shared/types'
 import { doc } from 'firebase/firestore'
 import { useDocument, useFirestore } from 'vuefire'
 

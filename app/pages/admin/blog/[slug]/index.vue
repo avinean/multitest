@@ -404,7 +404,7 @@ const onCreate = async (categoryName: string) => {
       title: newCategory
     }
     
-    const docRef = await  setDoc(doc(db, 'blog-categories', newCategory), categoryData)
+    await setDoc(doc(db, 'blog-categories', newCategory), categoryData)
     categories.value = [...categories.value!, { id: newCategory }]
     postForm.value.categories = [...postForm.value.categories, newCategory]
 

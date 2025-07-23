@@ -5,8 +5,6 @@
 </template>
 
 <script setup lang="ts">
-import type { Image } from '@/types/cms';
-
 defineProps<{
   section: Image;
 }>();
