@@ -13,11 +13,12 @@ export default defineNuxtConfig({
     preference: 'light'
   },
   routeRules: {
+    '/': { redirect: '/en' },
     '/:locale/admin/**': { ssr: false },
-    '/:locale': { prerender: true },
     '/:locale/blog/**': { prerender: true },
     '/:locale/test/**': { ssr: false },
-    '/:locale/profile/**': { ssr: false }
+    '/:locale/profile/**': { ssr: false },
+    '/:locale/**': { prerender: true }
   },
   vuefire: {
     config: {
