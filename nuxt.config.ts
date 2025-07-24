@@ -13,11 +13,11 @@ export default defineNuxtConfig({
     preference: 'light'
   },
   routeRules: {
-    '/admin/**': { ssr: false },
-    '/': { prerender: true },
-    '/blog/**': { prerender: true },
-    '/test/**': { ssr: false },
-    '/profile/**': { ssr: false }
+    '/:locale/admin/**': { ssr: false },
+    '/:locale': { prerender: true },
+    '/:locale/blog/**': { prerender: true },
+    '/:locale/test/**': { ssr: false },
+    '/:locale/profile/**': { ssr: false }
   },
   vuefire: {
     config: {
@@ -49,7 +49,7 @@ export default defineNuxtConfig({
       }
     ],
     lazy: true,
-    strategy: 'prefix_except_default',
+    strategy: 'prefix',
     detectBrowserLanguage: {
       useCookie: true,
       cookieKey: 'i18n_redirected',

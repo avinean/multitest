@@ -14,8 +14,8 @@
         @click="navigateTo($localePath('/profile/settings'))"
       >
         <div class="flex items-center justify-between mb-4">
-          <div class="w-12 h-12 bg-gradient-to-br from-blue-100 to-blue-200 rounded-lg flex items-center justify-center">
-            <UIcon name="i-heroicons-user-circle" class="w-6 h-6 text-blue-600" />
+          <div class="w-12 h-12 bg-gradient-to-br from-primary-100 to-primary-200 rounded-lg flex items-center justify-center">
+            <UIcon name="i-heroicons-user-circle" class="w-6 h-6 text-primary-600" />
           </div>
           <UIcon name="i-heroicons-arrow-right" class="w-5 h-5 text-gray-400" />
         </div>

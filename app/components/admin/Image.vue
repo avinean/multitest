@@ -1,6 +1,6 @@
 <template>
   <div class="space-y-4">
-    <BaseImageUpload
+    <ImageUpload
       v-model="model.imageUrl"
       storage-path="blog"
       :disabled

@@ -4,12 +4,10 @@
     <header class="bg-white border-b border-gray-200 sticky top-0 z-50">
       <UContainer>
         <div class="flex items-center justify-between h-16">
-          <div class="flex items-center space-x-4">
-            <NuxtLink :to="$localePath('/')" class="text-xl font-bold">
-              {{ $t('nav.englishTest') }}
-            </NuxtLink>
-          </div>
-          
+          <NuxtLink :to="$localePath('/')" class="h-full">
+            <img src="/image/logo.png" alt="English Test" class="h-full">
+          </NuxtLink>
+          <div class="flex-1"></div>
           <nav class="flex items-center space-x-4">
             <UButton
               :to="$localePath('/blog')" 
@@ -69,7 +67,7 @@
               variant="ghost"
               size="sm"
               icon="i-simple-icons-telegram"
-              class="text-blue-500 hover:text-blue-600"
+              class="text-primary-500 hover:text-primary-600"
             >
               {{ $t('footer.telegram') }}
             </UButton>
@@ -80,7 +78,7 @@
               variant="ghost"
               size="sm"
               icon="i-simple-icons-facebook"
-              class="text-blue-700 hover:text-blue-800"
+              class="text-primary-700 hover:text-primary-800"
             >
               {{ $t('footer.facebook') }}
             </UButton>

@@ -8,7 +8,7 @@
     <!-- Combined Preview and Upload Area -->
     <div 
       class="relative border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-gray-400 transition-colors"
-      :class="{ 'border-blue-400 bg-blue-50': isDragOver }"
+      :class="{ 'border-slate-400 bg-slate-50': isDragOver }"
       @dragover.prevent="isDragOver = true"
       @dragleave.prevent="isDragOver = false"
       @drop.prevent="handleDrop"

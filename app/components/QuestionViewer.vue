@@ -57,11 +57,9 @@ interface Props {
   questionIndex?: number
 }
 
-const props = withDefaults(defineProps<Props>(), {
-  questionIndex: 0
-})
+const { questionIndex = 0 } = defineProps<Props>()
 
 const userAnswer = defineModel<number>('userAnswer')
 
-const radioGroupName = computed(() => `question-${props.questionIndex}-${Date.now()}`)
+const radioGroupName = computed(() => `question-${questionIndex}-${Date.now()}`)
 </script> 

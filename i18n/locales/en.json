@@ -119,7 +119,7 @@
     "readingTimeMinutes": "min read"
   },
   "admin": {
-    "title": "Test Admin",
+    "title": "Admin",
     "welcome": "Welcome",
     "signOut": "Sign Out",
     "navigation": {

@@ -4,7 +4,7 @@ import { doc, getDoc } from 'firebase/firestore'
 export default defineNuxtRouteMiddleware(async (to) => {
   const localePath = useLocalePath()
   
-  if (to.path.startsWith('/admin')) {
+  if (to.path.includes('/admin')) {
     const auth = getAuth()
     const db = useFirestore()
     await new Promise((resolve) => onAuthStateChanged(auth, resolve))
@@ -27,7 +27,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
       return navigateTo(localePath('/'))
     }
   }
-  if (to.path.startsWith('/profile')) {
+  if (to.path.includes('/profile')) {
     const auth = getAuth()
     await new Promise((resolve) => onAuthStateChanged(auth, resolve))
     if (!auth.currentUser) {

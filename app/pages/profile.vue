@@ -16,21 +16,23 @@ definePageMeta({
   layout: 'default'
 })
 
+const localePath = useLocalePath()
+
 const items = [
   {
     label: 'Dashboard',
     icon: 'i-lucide-user',
-    value: '/profile'
+    value: localePath('/profile')
   },
   {
     label: 'Settings',
     icon: 'i-lucide-settings',
-    value: '/profile/settings'
+    value: localePath('/profile/settings')
   },
   {
     label: 'Tests',
     icon: 'i-lucide-lock',
-    value: '/profile/tests'
+    value: localePath('/profile/tests')
   }
 ]
 

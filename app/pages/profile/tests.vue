@@ -225,6 +225,4 @@ const viewResult = (result: TestResult) => {
   selectedResult.value = result
   showResultModal.value = true
 }
-
-
 </script>

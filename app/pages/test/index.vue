@@ -79,7 +79,7 @@
 
       <div class="flex-1 overflow-auto p-4">
         <div v-if="currentQuestion" class="max-w-4xl mx-auto">
-          <UseQuestionViewer 
+          <QuestionViewer 
             v-model:user-answer="answers[`${currentQuestion.groupId}-${currentQuestionIndex}`]"
             :question="currentQuestion"
             mode="test"

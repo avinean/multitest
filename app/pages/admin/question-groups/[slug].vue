@@ -186,16 +186,16 @@
         </template>
 
         <!-- Info box for new groups -->
-        <div v-if="isNewGroup" class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+        <div v-if="isNewGroup" class="bg-slate-50 border border-slate-200 rounded-lg p-4">
           <div class="flex">
-            <div class="text-blue-400">
+            <div class="text-slate-400">
               <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
               </svg>
             </div>
             <div class="ml-3">
-              <h3 class="text-sm font-medium text-blue-800">Getting Started</h3>
-              <p class="mt-1 text-sm text-blue-700">
+              <h3 class="text-sm font-medium text-slate-800">Getting Started</h3>
+              <p class="mt-1 text-sm text-slate-700">
                 Create and save this question group first, then you'll be able to add individual sub-questions to organize your content.
               </p>
             </div>
@@ -258,7 +258,7 @@
             label="Image" 
             hint="Upload an image for this sub-question."
           >
-            <BaseImageUpload
+            <ImageUpload
               v-model="subQuestionForm.imageUrl"
               storage-path="question-images"
               :disabled="savingSubQuestion"
@@ -322,7 +322,7 @@
                   <p>
                     Enter each option on a new line. Maximum {{ getMaxOptionsForGroupType() }} options will be used.
                   </p>
-                  <p v-if="bulkOptionsText.trim()" class="text-blue-600">
+                  <p v-if="bulkOptionsText.trim()" class="text-slate-600">
                     Preview: {{ bulkOptionsText.split('\n').filter(line => line.trim()).length }} options will be created
                     {{ bulkOptionsText.split('\n').filter(line => line.trim()).length > getMaxOptionsForGroupType() ? 
                        `(${bulkOptionsText.split('\n').filter(line => line.trim()).length - getMaxOptionsForGroupType()} will be truncated)` : '' }}
@@ -367,7 +367,7 @@
                     type="radio"
                     :value="index"
                     :name="`sub-correct-answer-${Date.now()}`"
-                    class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
+                    class="h-4 w-4 text-slate-600 focus:ring-slate-500 border-gray-300"
                   >
                   <label class="ml-2 text-xs text-gray-500">Correct</label>
                 </div>
@@ -486,7 +486,7 @@
 
           <!-- Preview Content -->
           <div class="flex-1 overflow-auto">
-            <UseQuestionViewer 
+            <QuestionViewer 
               v-if="currentPreviewQuestion"
               :question="currentPreviewQuestion"
               mode="preview"

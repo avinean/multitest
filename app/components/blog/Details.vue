@@ -71,8 +71,8 @@
             :alt="data[locale].title || 'Blog post image'"
             class="w-full h-full object-cover"
           >
-          <div v-else class="h-full bg-gradient-to-br from-blue-100 to-purple-100 flex items-center justify-center">
-            <svg class="w-20 h-20 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div v-else class="h-full bg-gradient-to-br from-primary-100 to-zinc-100 flex items-center justify-center">
+            <svg class="w-20 h-20 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
             </svg>
           </div>
@@ -82,7 +82,7 @@
         <div class="p-8">
           <!-- Post Meta -->
           <div class="flex items-center gap-4 mb-6 text-sm text-gray-500">
-            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 text-primary-800">
               {{ $t('blog.published') }}
             </span>
             <span v-if="data.readingTime" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-700">
@@ -100,7 +100,7 @@
           </h1>
 
           <!-- Post Excerpt -->
-          <div v-if="data[locale].excerpt" class="text-xl text-gray-600 mb-8 p-4 bg-gray-50 rounded-lg border-l-4 border-blue-500">
+          <div v-if="data[locale].excerpt" class="text-xl text-gray-600 mb-8 p-4 bg-gray-50 rounded-lg border-l-4 border-primary-500">
             {{ data[locale].excerpt }}
           </div>
 

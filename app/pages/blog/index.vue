@@ -1,13 +1,13 @@
 <template>
   <div class="min-h-screen bg-gradient-to-br from-gray-50 to-white">
     <!-- Hero Section -->
-    <div class="bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+    <div class="bg-gradient-to-r from-primary-600 to-zinc-600 text-white">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div class="text-center">
           <h1 class="text-4xl md:text-5xl font-bold mb-4">
             {{ $t('blog.hero.title') }}
           </h1>
-          <p class="text-xl md:text-2xl text-blue-100 mb-8 max-w-3xl mx-auto">
+          <p class="text-xl md:text-2xl text-primary-100 mb-8 max-w-3xl mx-auto">
             {{ $t('blog.hero.subtitle') }}
           </p>
           

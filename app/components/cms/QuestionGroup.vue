@@ -46,7 +46,7 @@
 
         <!-- Current Question -->
         <div v-if="currentQuestion" class="bg-white rounded-lg shadow-sm p-6">
-          <UseQuestionViewer
+          <QuestionViewer
             v-model:user-answer="userAnswers[currentQuestionIndex]"
             :question="currentQuestion"
             mode="test"

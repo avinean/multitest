@@ -127,7 +127,7 @@
           </span>
         </UFormField>
         <UFormField :label="$t('admin.blog.poster')" :hint="$t('admin.blog.posterHint')">
-          <BaseImageUpload
+          <ImageUpload
             v-model="postForm.posterUrl"
             storage-path="blog"
             :disabled="saving"
@@ -269,7 +269,7 @@
               <div class="bg-gray-50 p-4 rounded-lg">
                 <h4 class="font-medium text-gray-900 mb-2">SEO Preview</h4>
                 <div class="space-y-2 text-sm">
-                  <div class="font-medium text-blue-600">
+                  <div class="font-medium text-slate-600">
                     {{ postForm[currentLocale].seo.title || postForm[currentLocale].title || 'Your Title Here' }}
                   </div>
                   <div class="text-gray-600">
