@@ -177,6 +177,20 @@
                   />
                 </UFormField>
               </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <UFormField :label="$t('admin.blog.readingTime') + ' (minutes)'" :hint="$t('admin.blog.readingTimeHint')">
+                  <UInput 
+                    v-model="postForm.readingTime"
+                    type="number"
+                    min="1"
+                    max="480"
+                    placeholder="5"
+                    :disabled="saving"
+                    class="w-full"
+                  />
+                </UFormField>
+              </div>
             </div>
           </template>
 
@@ -378,6 +392,7 @@ const postForm = ref<BlogPost>({
   published: false,
   publishedAt: '',
   categories: [],
+  readingTime: 1,
   ...(Object.fromEntries(availableLocales.map(({ code }) => [code, initializeForm()])) as Record<'en' | 'uk', any>)
 })
 
@@ -439,6 +454,7 @@ const loadPost = async () => {
         published: data.published || false,
         publishedAt: data.publishedAt || '',
         categories: data.categories || [],
+        readingTime: data.readingTime || 1,
         ...(Object.fromEntries(availableLocales.map(({ code }) => [code, 
             {
             title: data[code]?.title || '',
@@ -480,6 +496,7 @@ const savePost = async () => {
       published: postForm.value.published || false,
       publishedAt: postForm.value.publishedAt || '',
       categories: postForm.value.categories || [],
+      readingTime: postForm.value.readingTime || 1,
       ...(Object.fromEntries(availableLocales.map(({ code }) => [code, 
           {
           title: postForm.value[code]?.title || '',

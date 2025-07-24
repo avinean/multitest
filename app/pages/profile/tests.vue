@@ -148,18 +148,6 @@ definePageMeta({
   layout: 'default'
 })
 
-// Types
-interface TestResult {
-  id: string
-  email: string
-  score?: number
-  totalQuestions?: number
-  percentage?: number
-  timeTaken?: number
-  createdAt: number
-  questions?: any[]
-  answers?: Record<string, any>
-}
 
 const { user } = await useAuth()
 const db = useFirestore()

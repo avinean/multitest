@@ -89,6 +89,7 @@ const isOpen = defineModel<boolean>('open')
 
 // Auth
 const auth = getAuth()
+const localePath = useLocalePath()
 const signingIn = ref(false)
 const signingInWithGoogle = ref(false)
 const authError = ref('')
@@ -98,7 +99,7 @@ const password = ref('')
 const close = () => {
   isOpen.value = false
   if (redirect) {
-    navigateTo(redirect)
+    navigateTo(localePath(redirect))
   }
 }
 

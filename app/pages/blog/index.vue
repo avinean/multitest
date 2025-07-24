@@ -56,27 +56,16 @@
         </div>
       </div>
 
-      <!-- Blog Posts Grid -->
-      <div v-else-if="filteredBlogPosts.length > 0" class="space-y-8">
-        <!-- Results count -->
-        <div class="text-center mb-8">
-          <p class="text-gray-600">
-            {{ $t('blog.showing') }} {{ filteredBlogPosts.length }} {{ $t('blog.of') }} {{ data?.length || 0 }} {{ $t('blog.posts') }}
-            <span v-if="searchQuery" class="font-medium text-blue-600">{{ $t('blog.filtered') }}</span>
-          </p>
-        </div>
-
-        <!-- Posts Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <BlogCard 
-            v-for="post in filteredBlogPosts" 
-            :key="post.id"
-            :slug="post.id"
-            :posterUrl="post.posterUrl"
-            :categories="post.categories"
-            :post="post[locale]"
-          />
-        </div>
+      <div v-else-if="filteredBlogPosts.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <BlogCard 
+          v-for="post in filteredBlogPosts" 
+          :key="post.id"
+          :slug="post.id"
+          :posterUrl="post.posterUrl"
+          :categories="post.categories"
+          :post="post[locale]"
+          :reading-time="post.readingTime"
+        />
       </div>
 
       <!-- Empty State -->
@@ -118,11 +107,11 @@ definePageMeta({
 const { locale } = useI18n()
 const db = useFirestore()
 
-// Fetch only published blog posts
 const { data, pending, error } = useCollection<BlogPost>(
   query(
     collection(db, 'blog'),
     where('published', '==', true),
+    where(`${locale.value}.title`, '!=', ''),
     orderBy('createdAt', 'desc')
   )
 )
@@ -144,18 +133,6 @@ const filteredBlogPosts = computed(() => {
   }
   return posts
 })
-
-// Utility functions
-const formatDate = (timestamp) => {
-  if (!timestamp) return ''
-  
-  const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp)
-  return new Intl.DateTimeFormat('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-  }).format(date)
-}
 
 const clearSearch = () => {
   searchQuery.value = ''

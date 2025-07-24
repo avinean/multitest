@@ -21,6 +21,10 @@
         <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
           {{ $t('blog.published') }}
         </span>
+        <span v-if="readingTime" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-700">
+          <UIcon name="i-heroicons-clock" class="w-3 h-3 mr-1" />
+          {{ readingTime }} {{ $t('blog.readingTimeMinutes') }}
+        </span>
       </div>
 
       <h2 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">
@@ -38,7 +42,7 @@
           :key="category"
           variant="link"
           size="xs"
-          :to="`/blog?search=${category}`"
+          :to="$localePath(`/blog?search=${category}`)"
         >
           #{{ category }}
         </UButton>
@@ -49,7 +53,7 @@
 
       <div class="flex items-center justify-between text-sm text-gray-500">
         <UButton 
-          :to="`/blog/${slug}`"
+          :to="$localePath(`/blog/${slug}`)"
           variant="ghost" 
           size="sm"
           class="text-blue-600 hover:text-blue-700"
@@ -68,5 +72,6 @@ defineProps<{
   posterUrl: string
   categories: string[]
   post: BlogPost['uk' | 'en']
+  readingTime?: number
 }>()
 </script>

@@ -115,7 +115,8 @@
       "share": "Share",
       "relatedPosts": "Related Posts",
       "relatedPostsMessage": "More posts coming soon..."
-    }
+    },
+    "readingTimeMinutes": "min read"
   },
   "admin": {
     "title": "Test Admin",
@@ -216,6 +217,8 @@
       "changeImage": "Change Image",
       "imageUploadError": "Error uploading image",
       "imageSizeLimit": "Image size must be less than 5MB",
+      "readingTime": "Reading Time",
+      "readingTimeHint": "Estimated reading time in minutes for this blog post",
       "invalidImageType": "Please select a valid image file",
       "newImagePreview": "New image preview",
       "currentImage": "Current image",

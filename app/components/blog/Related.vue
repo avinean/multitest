@@ -11,6 +11,7 @@
         :poster-url="post.posterUrl"
         :categories="post.categories || []"
         :post="post[locale]"
+        :reading-time="post.readingTime"
       />
     </div>
   </div>

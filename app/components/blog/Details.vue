@@ -85,6 +85,10 @@
             <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
               {{ $t('blog.published') }}
             </span>
+            <span v-if="data.readingTime" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-700">
+              <UIcon name="i-heroicons-clock" class="w-3 h-3 mr-1" />
+              {{ data.readingTime }} {{ $t('blog.readingTimeMinutes') }}
+            </span>
             <span v-if="data[locale].createdAt">
               {{ formatDate(data[locale].createdAt) }}
             </span>
