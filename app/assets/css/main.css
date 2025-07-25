@@ -1,2 +1,7 @@
 @import "tailwindcss";
-@import "@nuxt/ui"; 
+@import "@nuxt/ui";
+
+/* Exo 2 font with Cyrillic support */
+.font-exo2 {
+  font-family: 'Exo 2', sans-serif;
+} 

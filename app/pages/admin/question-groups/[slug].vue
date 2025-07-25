@@ -601,7 +601,7 @@ const groupError = ref('')
 // Fetch group data if editing existing group
 const { data: fetchedGroup, pending: groupPending, error: fetchError } = isNewGroup.value 
   ? { data: ref(null), pending: ref(false), error: ref(null) }
-  : useDocument(doс(db, 'question-groups', slug.value))
+  : useDocument(doc(db, 'question-groups', slug.value))
 
 // Update reactive references based on fetch results
 watch([fetchedGroup, groupPending, fetchError], ([data, pending, error]) => {

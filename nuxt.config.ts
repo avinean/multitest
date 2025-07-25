@@ -6,7 +6,8 @@ export default defineNuxtConfig({
     '@nuxt/ui',
     'nuxt-vuefire',
     '@vueuse/nuxt',
-    '@nuxtjs/i18n'
+    '@nuxtjs/i18n',
+    '@nuxt/fonts'
   ],
   css: ['~/assets/css/main.css'],
   colorMode: {
@@ -57,7 +58,15 @@ export default defineNuxtConfig({
       redirectOn: 'root'
     },
     bundle: {
-      optimizeTranslationDirective: false
+      // optimizeTranslationDirective: false
     }
+  },
+  fonts: {
+    families: [
+      {
+        name: 'Exo 2',
+        weights: [100, 200, 300, 400, 500, 600, 700, 800, 900]
+      }
+    ]
   }
 })

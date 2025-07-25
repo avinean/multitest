@@ -1,11 +1,11 @@
 <template>
-  <div class="min-h-screen flex flex-col bg-white">
+  <div class="min-h-screen flex flex-col bg-white font-exo2">
     <!-- Header -->
     <header class="bg-white border-b border-gray-200 sticky top-0 z-50">
       <UContainer>
         <div class="flex items-center justify-between h-16">
           <NuxtLink :to="$localePath('/')" class="h-full">
-            <img src="/image/logo.png" alt="English Test" class="h-full">
+            <img src="/logo/light-long.png" alt="English Test" class="h-full">
           </NuxtLink>
           <div class="flex-1"></div>
           <nav class="flex items-center space-x-4">
