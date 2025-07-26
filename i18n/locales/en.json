@@ -347,5 +347,41 @@
     "incorrect": "Incorrect",
     "noAnswer": "No Answer",
     "noQuestionsAvailable": "No questions available for this test result"
+  },
+  "error": {
+    "goHome": "Go Home",
+    "needHelp": "Need Help?",
+    "browseBlog": "Browse Blog",
+    "takeTest": "Take Test",
+    "viewProfile": "View Profile",
+    "pageTitle": "Error",
+    "404": {
+      "title": "Page Not Found",
+      "message": "The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.",
+      "searchTitle": "Looking for something specific?",
+      "searchPlaceholder": "Search our blog posts...",
+      "search": "Search",
+      "pageTitle": "404 - Page Not Found"
+    },
+    "403": {
+      "title": "Access Denied",
+      "message": "You do not have permission to access this resource. Please contact an administrator if you believe this is an error.",
+      "pageTitle": "403 - Access Denied"
+    },
+    "500": {
+      "title": "Server Error",
+      "message": "We are experiencing technical difficulties. Our team has been notified and is working to resolve the issue.",
+      "pageTitle": "500 - Server Error"
+    },
+    "503": {
+      "title": "Service Unavailable",
+      "message": "We are currently performing maintenance. Please check back soon.",
+      "pageTitle": "503 - Service Unavailable"
+    },
+    "generic": {
+      "title": "Something Went Wrong",
+      "message": "An unexpected error occurred. Please try again later.",
+      "pageTitle": "Error - Something Went Wrong"
+    }
   }
 } 

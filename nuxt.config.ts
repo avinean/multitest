@@ -50,15 +50,11 @@ export default defineNuxtConfig({
         file: 'uk.json'
       }
     ],
-    lazy: true,
     strategy: 'prefix',
     detectBrowserLanguage: {
       useCookie: true,
       cookieKey: 'i18n_redirected',
       redirectOn: 'root'
-    },
-    bundle: {
-      // optimizeTranslationDirective: false
     }
   },
   sitemap: {
@@ -67,7 +63,10 @@ export default defineNuxtConfig({
       '/admin/**',
       '/profile/**',
       '/test/**',
-      '/api/**'
+      '/api/**',
+      '/error/**',
+      '/404',
+      '/500'
     ]
   },
   fonts: {
