@@ -8,7 +8,8 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     '@nuxtjs/i18n',
     '@nuxt/fonts',
-    '@nuxtjs/sitemap'
+    '@nuxtjs/sitemap',
+    '@nuxt/scripts'
   ],
   css: ['~/assets/css/main.css'],
   colorMode: {
@@ -76,5 +77,12 @@ export default defineNuxtConfig({
         weights: [100, 200, 300, 400, 500, 600, 700, 800, 900]
       }
     ]
+  },
+  scripts: {
+    registry: {
+      googleTagManager: {
+        id: 'G-V4JF6CJVHN'
+      }
+    }
   }
 })

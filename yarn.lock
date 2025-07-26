@@ -2082,7 +2082,7 @@
     std-env "^3.9.0"
     tinyglobby "^0.2.14"
 
-"@nuxt/kit@4.0.1", "@nuxt/kit@^4.0.1":
+"@nuxt/kit@4.0.1", "@nuxt/kit@^4.0.0", "@nuxt/kit@^4.0.1":
   version "4.0.1"
   resolved "https://registry.npmjs.org/@nuxt/kit/-/kit-4.0.1.tgz#15d1ab3e36f963fdd4f19106ef3212fee6230002"
   integrity sha512-9vYpbuK3xcVhuDq+NyoLhbAolV/bEESaozFOMutl0jhrODcNWFrJ8wQSZIt9yxcFXUgXgUa2ms31qaUEpXrykw==
@@ -2147,6 +2147,28 @@
     defu "^6.1.4"
     pathe "^2.0.3"
     std-env "^3.9.0"
+
+"@nuxt/scripts@0.11.10":
+  version "0.11.10"
+  resolved "https://registry.npmjs.org/@nuxt/scripts/-/scripts-0.11.10.tgz#b3e3d261500e101a9e8ad32b357bcb1fa7f67e94"
+  integrity sha512-w6CQcUSuRfCr/HYxOL3u2ztDvMgIHYPQj9EGTAxtxIT4EbDavjooHOEv7mwOeOjWFGRUlhrdNTc1bTV9ndwfww==
+  dependencies:
+    "@nuxt/kit" "^4.0.0"
+    "@vueuse/core" "^13.5.0"
+    consola "^3.4.2"
+    defu "^6.1.4"
+    h3 "^1.15.3"
+    magic-string "^0.30.17"
+    ofetch "^1.4.1"
+    ohash "^2.0.11"
+    pathe "^2.0.3"
+    pkg-types "^2.2.0"
+    sirv "^3.0.1"
+    std-env "^3.9.0"
+    ufo "^1.6.1"
+    unplugin "^2.3.5"
+    unstorage "^1.16.1"
+    valibot "^1.1.0"
 
 "@nuxt/telemetry@^2.6.6":
   version "2.6.6"
@@ -3595,7 +3617,7 @@
     "@typescript-eslint/types" "8.38.0"
     eslint-visitor-keys "^4.2.1"
 
-"@unhead/vue@^2.0.12":
+"@unhead/vue@^2.0.12", "@unhead/vue@^2.0.3":
   version "2.0.12"
   resolved "https://registry.npmjs.org/@unhead/vue/-/vue-2.0.12.tgz"
   integrity sha512-WFaiCVbBd39FK6Bx3GQskhgT9s45Vjx6dRQegYheVwU1AnF+FAfJVgWbrl21p6fRJcLAFp0xDz6wE18JYBM0eQ==
@@ -9771,6 +9793,11 @@ uuid@^9.0.0, uuid@^9.0.1:
   version "9.0.1"
   resolved "https://registry.npmjs.org/uuid/-/uuid-9.0.1.tgz"
   integrity sha512-b+1eJOlsR9K8HJpow9Ok3fiWOWSIcIzXodvv0rQjVoOVNpWMpxf1wZNpt4y9h10odCNrqnYp1OBzRktckBe3sA==
+
+valibot@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.npmjs.org/valibot/-/valibot-1.1.0.tgz#873bb1af9e1577391690307bfe0520bd1360ec2d"
+  integrity sha512-Nk8lX30Qhu+9txPYTwM0cFlWLdPFsFr6LblzqIySfbZph9+BFsAHsNvHOymEviUepeIW6KFHzpX8TKhbptBXXw==
 
 validate-npm-package-license@^3.0.4:
   version "3.0.4"
