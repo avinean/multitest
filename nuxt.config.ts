@@ -7,7 +7,8 @@ export default defineNuxtConfig({
     'nuxt-vuefire',
     '@vueuse/nuxt',
     '@nuxtjs/i18n',
-    '@nuxt/fonts'
+    '@nuxt/fonts',
+    '@nuxtjs/sitemap'
   ],
   css: ['~/assets/css/main.css'],
   colorMode: {
@@ -58,6 +59,15 @@ export default defineNuxtConfig({
     bundle: {
       // optimizeTranslationDirective: false
     }
+  },
+  sitemap: {
+    siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://englistry.com',
+    exclude: [
+      '/admin/**',
+      '/profile/**',
+      '/test/**',
+      '/api/**'
+    ]
   },
   fonts: {
     families: [
