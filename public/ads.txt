@@ -1,0 +1,9 @@
+# ads.txt file for englistry.com
+# This file declares authorized digital sellers for this domain
+# Format: <domain>, <publisher ID>, <relationship>, <certification authority ID>
+
+# Google AdSense
+google.com, pub-1071790834150767, DIRECT, f08c47fec0942fa0
+
+# Note: Add additional ad networks as needed
+# For more information about ads.txt, visit: https://iabtechlab.com/ads-txt/ 
