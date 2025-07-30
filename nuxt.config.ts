@@ -59,6 +59,7 @@ export default defineNuxtConfig({
   },
   sitemap: {
     siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://englistry.com',
+    gzip: true,
     exclude: [
       '/admin/**',
       '/profile/**',
@@ -66,8 +67,20 @@ export default defineNuxtConfig({
       '/api/**',
       '/error/**',
       '/404',
-      '/500'
-    ]
+      '/500',
+      '/_**'
+    ],
+    defaults: {
+      changefreq: 'daily',
+      priority: 0.5,
+      lastmod: new Date().toISOString()
+    },
+    // Enable automatic crawling for additional routes
+    autoLastmod: true,
+    // Cache sitemap for better performance
+    cacheTime: 1000 * 60 * 60 * 24, // 24 hours
+    // Credits and attribution
+    credits: false
   },
   fonts: {
     families: [

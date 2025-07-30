@@ -2,9 +2,10 @@ User-Agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://yourdomain.com/sitemap.xml
+Sitemap: https://englistry.com/sitemap.xml
 
 # Disallow admin and private areas
 Disallow: /admin/
 Disallow: /profile/
 Disallow: /api/
+Disallow: /error/

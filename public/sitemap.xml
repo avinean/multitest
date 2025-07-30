@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <!-- English Homepage -->
+  <url>
+    <loc>https://englistry.com/en</loc>
+    <lastmod>2024-12-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en-US" href="https://englistry.com/en"/>
+    <xhtml:link rel="alternate" hreflang="uk-UA" href="https://englistry.com/uk"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://englistry.com/en"/>
+  </url>
+  
+  <!-- Ukrainian Homepage -->
+  <url>
+    <loc>https://englistry.com/uk</loc>
+    <lastmod>2024-12-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en-US" href="https://englistry.com/en"/>
+    <xhtml:link rel="alternate" hreflang="uk-UA" href="https://englistry.com/uk"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://englistry.com/en"/>
+  </url>
+  
+  <!-- English Test Page -->
+  <url>
+    <loc>https://englistry.com/en/test</loc>
+    <lastmod>2024-12-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en-US" href="https://englistry.com/en/test"/>
+    <xhtml:link rel="alternate" hreflang="uk-UA" href="https://englistry.com/uk/test"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://englistry.com/en/test"/>
+  </url>
+  
+  <!-- Ukrainian Test Page -->
+  <url>
+    <loc>https://englistry.com/uk/test</loc>
+    <lastmod>2024-12-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en-US" href="https://englistry.com/en/test"/>
+    <xhtml:link rel="alternate" hreflang="uk-UA" href="https://englistry.com/uk/test"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://englistry.com/en/test"/>
+  </url>
+  
+  <!-- English Blog -->
+  <url>
+    <loc>https://englistry.com/en/blog</loc>
+    <lastmod>2024-12-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en-US" href="https://englistry.com/en/blog"/>
+    <xhtml:link rel="alternate" hreflang="uk-UA" href="https://englistry.com/uk/blog"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://englistry.com/en/blog"/>
+  </url>
+  
+  <!-- Ukrainian Blog -->
+  <url>
+    <loc>https://englistry.com/uk/blog</loc>
+    <lastmod>2024-12-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en-US" href="https://englistry.com/en/blog"/>
+    <xhtml:link rel="alternate" hreflang="uk-UA" href="https://englistry.com/uk/blog"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://englistry.com/en/blog"/>
+  </url>
+
+</urlset> 
