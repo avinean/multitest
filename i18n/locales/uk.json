@@ -4,6 +4,9 @@
     "url": "https://englistry.com",
     "description": "Безкоштовний тест рівня англійської з комплексним оцінюванням"
   },
+  "header": {
+    "tagline": "Вивчайте англійську з впевненістю"
+  },
   "nav": {
     "englishTest": "Тест Англійської",
     "blog": "Блог",
@@ -343,7 +346,14 @@
     "copyright": "Всі права захищені",
     "instagram": "Instagram",
     "telegram": "Telegram",
-    "facebook": "Facebook"
+    "facebook": "Facebook",
+    "facebookPage": "Сторінка Facebook",
+    "trusted": "Довіряють учні по всьому світу",
+    "quickLinks": "Швидкі Посилання",
+    "contact": "Контактна Інформація",
+    "followUs": "Слідкуйте за Нами",
+    "responseTime": "Відповідь протягом 24 годин",
+    "multiLanguage": "Багатомовна підтримка"
   },
   "profile": {
     "welcome": "Вітаємо",

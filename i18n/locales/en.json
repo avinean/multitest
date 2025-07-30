@@ -4,6 +4,9 @@
     "url": "https://englistry.com",
     "description": "Free English proficiency test with comprehensive assessment"
   },
+  "header": {
+    "tagline": "Master English with confidence"
+  },
   "nav": {
     "englishTest": "English Test",
     "blog": "Blog",
@@ -345,7 +348,14 @@
     "copyright": "All rights reserved",
     "instagram": "Instagram",
     "telegram": "Telegram",
-    "facebook": "Facebook"
+    "facebook": "Facebook",
+    "facebookPage": "Facebook Page",
+    "trusted": "Trusted by learners worldwide",
+    "quickLinks": "Quick Links",
+    "contact": "Contact Info",
+    "followUs": "Follow Us",
+    "responseTime": "24h response time",
+    "multiLanguage": "Multi-language support"
   },
   "profile": {
     "welcome": "Welcome",
