@@ -2,6 +2,8 @@
   "nav": {
     "englishTest": "English Test",
     "blog": "Blog",
+    "faq": "FAQ",
+    "contact": "Contact Us",
     "admin": "Admin",
     "login": "Login",
     "profile": "Profile",
@@ -77,9 +79,13 @@
     "explanation": "Explanation"
   },
   "blog": {
+    "meta": {
+      "title": "Blog - English Learning Tips & Insights | Englistry",
+      "description": "Discover valuable tips, insights, and stories about English learning from our expert team. Stay updated with the latest in language education."
+    },
     "hero": {
-      "title": "Our Blog",
-      "subtitle": "Discover insights, tips, and stories from our team"
+      "title": "English Learning Blog",
+      "subtitle": "Discover valuable tips, insights, and stories to enhance your English learning journey"
     },
     "search": {
       "placeholder": "Search blog posts..."
@@ -99,8 +105,14 @@
     "empty": {
       "noPosts": "No blog posts yet",
       "noPostsMessage": "Check back soon for our latest articles and insights.",
+      "comingSoon": "Stay tuned for exciting content about English learning!",
       "noResults": "No posts found",
       "noResultsMessage": "Try adjusting your search terms or browse all posts."
+    },
+    "newsletter": {
+      "title": "Stay Updated",
+      "description": "Want to be notified when we publish new articles? Get in touch with us and we'll keep you informed about our latest English learning content.",
+      "button": "Contact Us"
     },
     "post": {
       "backToBlog": "Back to Blog",
@@ -382,6 +394,124 @@
       "title": "Something Went Wrong",
       "message": "An unexpected error occurred. Please try again later.",
       "pageTitle": "Error - Something Went Wrong"
+    }
+  },
+  "contact": {
+    "meta": {
+      "title": "Contact Us - Englistry",
+      "description": "Get in touch with Englistry for support, questions, or feedback about our English learning platform. We're here to help!"
+    },
+    "hero": {
+      "title": "Get in Touch",
+      "subtitle": "Have questions about our English learning platform? We're here to help! Reach out through any of our communication channels."
+    },
+
+    "info": {
+      "title": "Contact Information",
+      "email": {
+        "title": "Email Support",
+        "description": "For general inquiries and support"
+      },
+      "telegram": {
+        "title": "Telegram",
+        "description": "Quick chat and instant support"
+      },
+      "instagram": {
+        "title": "Instagram",
+        "description": "Follow our teacher for learning tips and updates"
+      },
+      "facebook": {
+        "title": "Facebook",
+        "description": "Join our community and connect with other learners"
+      }
+    },
+    "responseTime": {
+      "title": "Response Time",
+      "description": "We typically respond to all inquiries within 24 hours during business days. For urgent matters, please use our Telegram channel for faster assistance."
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "description": "Find quick answers to common questions about our platform, features, and learning methods.",
+      "button": "View FAQ"
+    }
+  },
+  "faq": {
+    "meta": {
+      "title": "FAQ - Frequently Asked Questions | Englistry",
+      "description": "Find answers to common questions about our English learning platform, test features, technical requirements, and more."
+    },
+    "hero": {
+      "title": "Frequently Asked Questions",
+      "subtitle": "Find quick answers to common questions about our English learning platform, test features, and more."
+    },
+    "search": {
+      "placeholder": "Search for answers..."
+    },
+    "categories": {
+      "general": {
+        "title": "General",
+        "description": "Basic information about the platform"
+      },
+      "test": {
+        "title": "Test & Assessment",
+        "description": "Questions about tests and results"
+      },
+      "technical": {
+        "title": "Technical",
+        "description": "Browser requirements and troubleshooting"
+      }
+    },
+    "questions": {
+      "what-is-englistry": {
+        "question": "What is Englistry?",
+        "answer": "Englistry is a comprehensive English proficiency testing platform designed to assess your English language skills through various question types including reading comprehension, grammar, vocabulary, and cloze tests. Our platform provides immediate feedback and detailed results to help you understand your current English level."
+      },
+      "how-to-start": {
+        "question": "How do I start taking a test?",
+        "answer": "Simply visit our homepage and click the 'Start Test' button. No registration is required for basic tests. The system will automatically load available question groups and create a personalized test experience for you."
+      },
+      "is-free": {
+        "question": "Is the platform free to use?",
+        "answer": "Yes, our basic English proficiency test is completely free to use. You can take the test multiple times and access your results without any cost. We believe in making quality English assessment accessible to everyone."
+      },
+      "test-duration": {
+        "question": "How long does the test take?",
+        "answer": "The test typically takes 30-45 minutes to complete, depending on the number of questions and your reading speed. You can see your progress throughout the test, and there's a timer to help you manage your time effectively."
+      },
+      "test-types": {
+        "question": "What types of questions are included?",
+        "answer": "Our tests include various question types: Reading Comprehension (understanding written English texts), Grammar & Vocabulary (testing your knowledge of English grammar rules and vocabulary), Cloze Tests (fill-in-the-blank exercises to test contextual understanding), and Multiple Choice (various topics with multiple answer options)."
+      },
+      "test-results": {
+        "question": "How are test results calculated?",
+        "answer": "Your results are calculated based on the number of correct answers, question difficulty, and time taken. You'll receive a detailed breakdown showing your performance in different areas like grammar, vocabulary, and reading comprehension. Results are available immediately after completing the test."
+      },
+      "retake-test": {
+        "question": "Can I retake the test?",
+        "answer": "Yes, you can retake the test as many times as you want. Each test session may include different questions to ensure a fair assessment. We recommend waiting at least a few days between attempts to allow for learning and improvement."
+      },
+      "browser-requirements": {
+        "question": "What browsers are supported?",
+        "answer": "Our platform works on all modern browsers including Chrome (recommended), Firefox, Safari, and Edge. We recommend using the latest version of your browser for the best experience. JavaScript must be enabled for the platform to function properly."
+      },
+      "mobile-support": {
+        "question": "Can I take the test on my mobile device?",
+        "answer": "Yes, our platform is fully responsive and works well on mobile devices and tablets. However, for the best testing experience, we recommend using a desktop or laptop computer with a stable internet connection."
+      },
+      "technical-issues": {
+        "question": "What should I do if I encounter technical issues?",
+        "answer": "If you experience technical problems, try these steps: 1) Refresh the page and try again, 2) Clear your browser cache and cookies, 3) Try using a different browser, 4) Check your internet connection, 5) Disable browser extensions that might interfere. If problems persist, please contact us through our contact page with details about the issue and your browser information."
+      }
+    },
+    "noResults": {
+      "title": "No results found",
+      "description": "We couldn't find any questions matching your search. Try different keywords or browse by category.",
+      "contactButton": "Contact Support"
+    },
+    "contact": {
+      "title": "Still Need Help?",
+      "description": "Can't find the answer you're looking for? Our support team is here to help you with any questions about our English learning platform.",
+      "button": "Contact Support"
     }
   }
 } 

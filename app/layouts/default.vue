@@ -10,11 +10,32 @@
           <div class="flex-1"></div>
           <nav class="flex items-center space-x-4">
             <UButton
+              :to="$localePath('/test')" 
+              variant="ghost" 
+              size="sm"
+              >
+              {{ $t('nav.englishTest') }}
+            </UButton>
+            <UButton
               :to="$localePath('/blog')" 
               variant="ghost" 
               size="sm"
               >
               {{ $t('nav.blog') }}
+            </UButton>
+            <UButton
+              :to="$localePath('/faq')" 
+              variant="ghost" 
+              size="sm"
+              >
+              {{ $t('nav.faq') }}
+            </UButton>
+            <UButton
+              :to="$localePath('/contact')" 
+              variant="ghost" 
+              size="sm"
+              >
+              {{ $t('nav.contact') }}
             </UButton>
             <UButton 
               v-if="!user"
