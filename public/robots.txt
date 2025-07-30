@@ -1,6 +1,6 @@
-# Robots.txt for Englistry.com - English Learning Platform
-# Generated: 2024-12-24
-# Purpose: Optimize search engine crawling for multilingual educational content
+# Robots.txt for Englistry.com - NMT English Practice Platform
+# Generated: 2024-12-25
+# Purpose: Optimize search engine crawling for Ukrainian NMT exam preparation content
 
 # Main directive for all search engines
 User-Agent: *
@@ -12,6 +12,10 @@ Allow: /en/blog/
 Allow: /uk/blog/
 Allow: /en/test/
 Allow: /uk/test/
+Allow: /en/faq/
+Allow: /uk/faq/
+Allow: /en/contact/
+Allow: /uk/contact/
 
 # Disallow private and administrative areas
 Disallow: /admin/
@@ -23,6 +27,7 @@ Disallow: /_nitro/
 Disallow: /.well-known/
 Disallow: /preview/
 Disallow: /draft/
+Disallow: /test/result/
 
 # Disallow URL parameters that create duplicate content
 Disallow: /*?*utm_*
@@ -32,12 +37,14 @@ Disallow: /*?*campaign=*
 Disallow: /*?search=*
 Disallow: /*?filter=*
 Disallow: /*?sort=*
+Disallow: /*?lang=*
 
 # Disallow development and testing paths
 Disallow: /test-*
 Disallow: /dev/
 Disallow: /staging/
 Disallow: /temp/
+Disallow: /demo/
 
 # Disallow file types that shouldn't be indexed
 Disallow: /*.json$
@@ -45,6 +52,7 @@ Disallow: /*.xml$
 Disallow: /*.txt$
 Disallow: /*.log$
 Disallow: /*.config$
+Disallow: /*.map$
 
 # Allow important assets for rich snippets and SEO
 Allow: /logo/
@@ -56,11 +64,13 @@ Allow: /*.webp$
 Allow: /*.svg$
 Allow: /*.css$
 Allow: /*.js$
+Allow: /favicon.ico
+Allow: /ads.txt
 
 # Crawl delay (be respectful to server resources)
 Crawl-delay: 1
 
-# Specific rules for Google
+# Specific rules for Google (prioritize for Ukrainian market)
 User-Agent: Googlebot
 Crawl-delay: 0.5
 Allow: /
@@ -70,7 +80,12 @@ User-Agent: Bingbot
 Crawl-delay: 1
 Allow: /
 
-# Block AI training bots (optional - protects content)
+# Specific rules for Yandex (popular in Eastern Europe)
+User-Agent: YandexBot
+Crawl-delay: 1
+Allow: /
+
+# Block AI training bots (protect educational content)
 User-Agent: GPTBot
 Disallow: /
 
@@ -86,7 +101,10 @@ Disallow: /
 User-Agent: anthropic-ai
 Disallow: /
 
-# Block aggressive scrapers
+User-Agent: Claude-Web
+Disallow: /
+
+# Block aggressive scrapers and competitors
 User-Agent: AhrefsBot
 Disallow: /
 
@@ -96,10 +114,25 @@ Disallow: /
 User-Agent: MJ12bot
 Disallow: /
 
-# Sitemaps (multiple formats for different content types)
-Sitemap: https://englistry.com/sitemap.xml
-Sitemap: https://englistry.com/__sitemap__/en-US.xml
-Sitemap: https://englistry.com/__sitemap__/uk-UA.xml
+User-Agent: DotBot
+Disallow: /
 
-# Host directive (helps with canonicalization)
+User-Agent: BLEXBot
+Disallow: /
+
+# Educational content protection
+User-Agent: *
+Disallow: /test/*/answers
+Disallow: /admin/question-groups/*/answers
+
+# Sitemaps (updated for current structure)
+Sitemap: https://englistry.com/sitemap.xml
+
+# Host directive (canonical domain for Ukrainian educational platform)
 Host: englistry.com
+
+# Additional notes:
+# - This platform provides NMT (НМТ) English exam preparation for Ukrainian students
+# - Content is available in Ukrainian (uk) and English (en) languages
+# - Focus areas: Reading comprehension, Grammar, Vocabulary practice
+# - Target audience: Ukrainian students preparing for university entrance exams
