@@ -127,7 +127,6 @@
             <UButton
               variant="ghost"
               size="sm"
-              class="w-10 h-10 p-0 hover:bg-gray-100 transition-all duration-200 rounded-xl"
               @click="showMobileMenu = true"
               aria-label="Open menu"
             >

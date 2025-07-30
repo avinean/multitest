@@ -2,13 +2,13 @@
   "site": {
     "name": "Englistry",
     "url": "https://englistry.com",
-    "description": "Free English proficiency test with comprehensive assessment"
+    "description": "Free NMT English practice tests and preparation online"
   },
   "header": {
-    "tagline": "Master English with confidence"
+    "tagline": "Prepare for NMT with confidence"
   },
   "nav": {
-    "englishTest": "English Test",
+    "englishTest": "NMT Practice",
     "blog": "Blog",
     "faq": "FAQ",
     "contact": "Contact Us",
@@ -19,24 +19,24 @@
   },
   "home": {
     "meta": {
-      "title": "English Proficiency Test - Free Online Assessment | Englistry",
-      "description": "Take our free comprehensive English proficiency test featuring reading comprehension, grammar, and vocabulary exercises. Get instant results and improve your English skills."
+      "title": "NMT English Practice - Free Online Tests | Englistry",
+      "description": "Prepare for NMT English exam with our free practice tests. Practice reading comprehension, grammar, and vocabulary. Get instant results and improve your exam readiness."
     },
-    "title": "English Proficiency Test",
-    "subtitle": "Test your English skills with our comprehensive assessment featuring reading comprehension, grammar, and vocabulary exercises.",
+    "title": "NMT English Practice",
+    "subtitle": "Practice with real NMT-style questions and boost your chances of success. Our tests include typical reading, grammar, and vocabulary tasks.",
     "learnMore": "Learn More",
-    "startTest": "Start Test",
+    "startTest": "Start Practice",
     "testInfo": "The test contains multiple question types and takes approximately 30-45 minutes to complete.",
     "features": {
-      "title": "Comprehensive Assessment",
-      "subtitle": "Our test evaluates multiple aspects of your English proficiency to give you a complete understanding of your language skills.",
+      "title": "NMT Exam Preparation",
+      "subtitle": "Our tests match the format and structure of the NMT English exam, helping you prepare effectively for the real test.",
       "reading": {
         "title": "Reading Comprehension",
-        "description": "Test your understanding of written English texts with passages of varying complexity and topics."
+        "description": "Practice NMT-style reading comprehension tasks with passages of varying complexity and topics."
       },
       "grammar": {
         "title": "Grammar & Vocabulary",
-        "description": "Assess your knowledge of English grammar rules, sentence structure, and vocabulary usage."
+        "description": "Master grammatical structures and vocabulary through NMT-format exercises to improve your exam performance."
       },
       "cloze": {
         "title": "Cloze Tests",
@@ -76,8 +76,8 @@
   },
   "test": {
     "meta": {
-      "title": "English Proficiency Test - Take Our Free Assessment | Englistry",
-      "description": "Take our comprehensive English proficiency test with reading comprehension, grammar, and vocabulary questions. Get instant results and track your progress."
+      "title": "NMT English Practice - Free Online Tests | Englistry",
+      "description": "Practice NMT English exam questions with reading comprehension, grammar, and vocabulary tasks. Get instant results and prepare for your exam."
     },
     "loading": "Loading test questions...",
     "error": "Error loading test",
@@ -114,8 +114,8 @@
   },
   "result": {
     "meta": {
-      "title": "Test Results - Your English Proficiency Score | Englistry",
-      "description": "View your English proficiency test results with detailed breakdown of your performance in reading, grammar, and vocabulary sections."
+      "title": "NMT Practice Results - Your Test Score | Englistry",
+      "description": "View your NMT practice test results with detailed breakdown of your performance in reading, grammar, and vocabulary sections."
     },
     "title": "🎉 Test Complete!",
     "greatJob": "Great job",
@@ -350,7 +350,7 @@
     "telegram": "Telegram",
     "facebook": "Facebook",
     "facebookPage": "Facebook Page",
-    "trusted": "Trusted by learners worldwide",
+    "trusted": "Trusted by students across Ukraine",
     "quickLinks": "Quick Links",
     "contact": "Contact Info",
     "followUs": "Follow Us",

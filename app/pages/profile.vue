@@ -4,7 +4,7 @@
       :model-value="$route.path"
       :items 
       class="w-full"
-      @update:model-value="navigateTo($localePath($event))"
+      @update:model-value="navigateTo($event)"
     />
 
     <NuxtPage />
