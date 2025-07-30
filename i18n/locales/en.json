@@ -1,4 +1,9 @@
 {
+  "site": {
+    "name": "Englistry",
+    "url": "https://englistry.com",
+    "description": "Free English proficiency test with comprehensive assessment"
+  },
   "nav": {
     "englishTest": "English Test",
     "blog": "Blog",
@@ -10,26 +15,67 @@
     "signOut": "Sign Out"
   },
   "home": {
+    "meta": {
+      "title": "English Proficiency Test - Free Online Assessment | Englistry",
+      "description": "Take our free comprehensive English proficiency test featuring reading comprehension, grammar, and vocabulary exercises. Get instant results and improve your English skills."
+    },
     "title": "English Proficiency Test",
     "subtitle": "Test your English skills with our comprehensive assessment featuring reading comprehension, grammar, and vocabulary exercises.",
+    "learnMore": "Learn More",
+    "startTest": "Start Test",
+    "testInfo": "The test contains multiple question types and takes approximately 30-45 minutes to complete.",
     "features": {
+      "title": "Comprehensive Assessment",
+      "subtitle": "Our test evaluates multiple aspects of your English proficiency to give you a complete understanding of your language skills.",
       "reading": {
         "title": "Reading Comprehension",
-        "description": "Test your understanding of written English texts"
+        "description": "Test your understanding of written English texts with passages of varying complexity and topics."
       },
       "grammar": {
         "title": "Grammar & Vocabulary",
-        "description": "Assess your knowledge of English grammar rules"
+        "description": "Assess your knowledge of English grammar rules, sentence structure, and vocabulary usage."
       },
       "cloze": {
         "title": "Cloze Tests",
-        "description": "Fill in the blanks to complete passages"
+        "description": "Fill in the blanks to complete passages and demonstrate your contextual understanding."
       }
     },
-    "startTest": "Start Test",
-    "testInfo": "The test contains multiple question types and takes approximately 30-45 minutes to complete."
+    "stats": {
+      "questions": "50+",
+      "questionsLabel": "Test Questions",
+      "time": "30-45",
+      "timeLabel": "Minutes",
+      "accuracy": "95%+",
+      "accuracyLabel": "Accuracy Rate",
+      "free": "100%",
+      "freeLabel": "Free to Use"
+    },
+    "howItWorks": {
+      "title": "How It Works",
+      "subtitle": "Taking our English proficiency test is simple and straightforward. Follow these three easy steps to get started.",
+      "step1": {
+        "title": "Start the Test",
+        "description": "Click the 'Start Test' button to begin your English proficiency assessment immediately."
+      },
+      "step2": {
+        "title": "Answer Questions",
+        "description": "Complete various question types including reading, grammar, and vocabulary exercises."
+      },
+      "step3": {
+        "title": "Get Results",
+        "description": "Receive instant feedback and detailed results showing your English proficiency level."
+      }
+    },
+    "cta": {
+      "title": "Ready to Test Your English?",
+      "subtitle": "Join thousands of learners who have already improved their English skills with our comprehensive assessment."
+    }
   },
   "test": {
+    "meta": {
+      "title": "English Proficiency Test - Take Our Free Assessment | Englistry",
+      "description": "Take our comprehensive English proficiency test with reading comprehension, grammar, and vocabulary questions. Get instant results and track your progress."
+    },
     "loading": "Loading test questions...",
     "error": "Error loading test",
     "question": "Question",
@@ -64,6 +110,10 @@
     }
   },
   "result": {
+    "meta": {
+      "title": "Test Results - Your English Proficiency Score | Englistry",
+      "description": "View your English proficiency test results with detailed breakdown of your performance in reading, grammar, and vocabulary sections."
+    },
     "title": "🎉 Test Complete!",
     "greatJob": "Great job",
     "resultsSent": "Your results have been sent to",

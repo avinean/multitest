@@ -187,7 +187,9 @@ useHead({
     { property: 'og:title', content: computed(() => $t('contact.meta.title')) },
     { property: 'og:description', content: computed(() => $t('contact.meta.description')) },
     { property: 'og:type', content: 'website' },
+    { property: 'og:site_name', content: computed(() => $t('site.name')) },
     { name: 'twitter:card', content: 'summary' },
+    { name: 'twitter:site', content: '@englistry' },
     { name: 'twitter:title', content: computed(() => $t('contact.meta.title')) },
     { name: 'twitter:description', content: computed(() => $t('contact.meta.description')) }
   ]

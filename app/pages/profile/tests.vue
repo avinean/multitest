@@ -148,7 +148,6 @@ definePageMeta({
   layout: 'default'
 })
 
-
 const { user } = await useAuth()
 const db = useFirestore()
 

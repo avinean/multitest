@@ -143,13 +143,52 @@ useHead({
   title: computed(() => $t('faq.meta.title')),
   meta: [
     { name: 'description', content: computed(() => $t('faq.meta.description')) },
-    { name: 'keywords', content: 'FAQ, help, questions, english learning, test, support' },
+    { name: 'keywords', content: 'FAQ, help, questions, english learning, test, support, how to, english test help, proficiency test questions' },
+    { name: 'author', content: computed(() => $t('site.name')) },
+    { name: 'robots', content: 'index, follow' },
     { property: 'og:title', content: computed(() => $t('faq.meta.title')) },
     { property: 'og:description', content: computed(() => $t('faq.meta.description')) },
     { property: 'og:type', content: 'website' },
+    { property: 'og:site_name', content: computed(() => $t('site.name')) },
     { name: 'twitter:card', content: 'summary' },
+    { name: 'twitter:site', content: '@englistry' },
     { name: 'twitter:title', content: computed(() => $t('faq.meta.title')) },
     { name: 'twitter:description', content: computed(() => $t('faq.meta.description')) }
+  ],
+  script: [
+    {
+      type: 'application/ld+json',
+      innerHTML: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: [
+          {
+            '@type': 'Question',
+            name: 'What is Englistry?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'Englistry is a comprehensive English proficiency testing platform designed to assess your English language skills through various question types including reading comprehension, grammar, vocabulary, and cloze tests.'
+            }
+          },
+          {
+            '@type': 'Question',
+            name: 'How long does the test take?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'The test typically takes 30-45 minutes to complete, depending on the number of questions and your reading speed.'
+            }
+          },
+          {
+            '@type': 'Question',
+            name: 'Is the platform free to use?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'Yes, our basic English proficiency test is completely free to use. You can take the test multiple times and access your results without any cost.'
+            }
+          }
+        ]
+      })
+    }
   ]
 })
 

@@ -175,11 +175,15 @@ useHead({
   title: computed(() => $t('blog.meta.title')),
   meta: [
     { name: 'description', content: computed(() => $t('blog.meta.description')) },
-    { name: 'keywords', content: 'blog, english learning, tips, articles, education' },
+    { name: 'keywords', content: 'blog, english learning, tips, articles, education, language learning, grammar tips, vocabulary, english study' },
+    { name: 'author', content: computed(() => $t('site.name')) },
+    { name: 'robots', content: 'index, follow' },
     { property: 'og:title', content: computed(() => $t('blog.meta.title')) },
     { property: 'og:description', content: computed(() => $t('blog.meta.description')) },
     { property: 'og:type', content: 'website' },
+    { property: 'og:site_name', content: computed(() => $t('site.name')) },
     { name: 'twitter:card', content: 'summary' },
+    { name: 'twitter:site', content: '@englistry' },
     { name: 'twitter:title', content: computed(() => $t('blog.meta.title')) },
     { name: 'twitter:description', content: computed(() => $t('blog.meta.description')) }
   ]

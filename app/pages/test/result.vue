@@ -120,8 +120,20 @@
 <script setup lang="ts">
 import { addDoc, collection, doc, setDoc } from 'firebase/firestore'
 
+// SEO Meta  
 useHead({
-  title: 'Test Results - English Proficiency Test'
+  title: computed(() => $t('result.meta.title')),
+  meta: [
+    { name: 'description', content: computed(() => $t('result.meta.description')) },
+    { name: 'keywords', content: 'english test results, proficiency score, grammar results, vocabulary score, test analysis' },
+    { name: 'robots', content: 'noindex, nofollow' }, // Results are private
+    { property: 'og:title', content: computed(() => $t('result.meta.title')) },
+    { property: 'og:description', content: computed(() => $t('result.meta.description')) },
+    { property: 'og:type', content: 'website' },
+    { name: 'twitter:card', content: 'summary' },
+    { name: 'twitter:title', content: computed(() => $t('result.meta.title')) },
+    { name: 'twitter:description', content: computed(() => $t('result.meta.description')) }
+  ]
 })
 
 const db = useFirestore()

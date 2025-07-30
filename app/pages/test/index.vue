@@ -128,8 +128,19 @@ definePageMeta({
   ssr: false
 })
 
+// SEO Meta
 useHead({
-  title: 'English Proficiency Test'
+  title: computed(() => $t('test.meta.title')),
+  meta: [
+    { name: 'description', content: computed(() => $t('test.meta.description')) },
+    { name: 'keywords', content: 'english test, proficiency test, grammar test, vocabulary test, online assessment, free english test' },
+    { property: 'og:title', content: computed(() => $t('test.meta.title')) },
+    { property: 'og:description', content: computed(() => $t('test.meta.description')) },
+    { property: 'og:type', content: 'website' },
+    { name: 'twitter:card', content: 'summary' },
+    { name: 'twitter:title', content: computed(() => $t('test.meta.title')) },
+    { name: 'twitter:description', content: computed(() => $t('test.meta.description')) }
+  ]
 })
 
 const { user } = await useAuth()
