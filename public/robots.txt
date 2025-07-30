@@ -1,11 +1,105 @@
+# Robots.txt for Englistry.com - English Learning Platform
+# Generated: 2024-12-24
+# Purpose: Optimize search engine crawling for multilingual educational content
+
+# Main directive for all search engines
 User-Agent: *
-Allow: /
 
-# Sitemap
-Sitemap: https://englistry.com/sitemap.xml
+# Allow crawling of main content areas
+Allow: /en/
+Allow: /uk/
+Allow: /en/blog/
+Allow: /uk/blog/
+Allow: /en/test/
+Allow: /uk/test/
 
-# Disallow admin and private areas
+# Disallow private and administrative areas
 Disallow: /admin/
 Disallow: /profile/
 Disallow: /api/
 Disallow: /error/
+Disallow: /_nuxt/
+Disallow: /_nitro/
+Disallow: /.well-known/
+Disallow: /preview/
+Disallow: /draft/
+
+# Disallow URL parameters that create duplicate content
+Disallow: /*?*utm_*
+Disallow: /*?*ref=*
+Disallow: /*?*source=*
+Disallow: /*?*campaign=*
+Disallow: /*?search=*
+Disallow: /*?filter=*
+Disallow: /*?sort=*
+
+# Disallow development and testing paths
+Disallow: /test-*
+Disallow: /dev/
+Disallow: /staging/
+Disallow: /temp/
+
+# Disallow file types that shouldn't be indexed
+Disallow: /*.json$
+Disallow: /*.xml$ 
+Disallow: /*.txt$
+Disallow: /*.log$
+Disallow: /*.config$
+
+# Allow important assets for rich snippets and SEO
+Allow: /logo/
+Allow: /images/
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.png$
+Allow: /*.webp$
+Allow: /*.svg$
+Allow: /*.css$
+Allow: /*.js$
+
+# Crawl delay (be respectful to server resources)
+Crawl-delay: 1
+
+# Specific rules for Google
+User-Agent: Googlebot
+Crawl-delay: 0.5
+Allow: /
+
+# Specific rules for Bing
+User-Agent: Bingbot  
+Crawl-delay: 1
+Allow: /
+
+# Block AI training bots (optional - protects content)
+User-Agent: GPTBot
+Disallow: /
+
+User-Agent: Google-Extended
+Disallow: /
+
+User-Agent: CCBot
+Disallow: /
+
+User-Agent: ChatGPT-User
+Disallow: /
+
+User-Agent: anthropic-ai
+Disallow: /
+
+# Block aggressive scrapers
+User-Agent: AhrefsBot
+Disallow: /
+
+User-Agent: SemrushBot
+Disallow: /
+
+User-Agent: MJ12bot
+Disallow: /
+
+# Sitemaps (multiple formats for different content types)
+Sitemap: https://englistry.com/sitemap.xml
+Sitemap: https://englistry.com/__sitemap__/en-US.xml
+Sitemap: https://englistry.com/__sitemap__/uk-UA.xml
+
+# Host directive (helps with canonicalization)
+Host: englistry.com
