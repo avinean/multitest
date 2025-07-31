@@ -199,7 +199,14 @@ useHead({
 
 const { locale } = useI18n()
 
-const { data, pending, error } = await useFetch<ReleasesData>(`/api/releases/${locale.value}`, {
-  key: `releases-${locale.value}`
-})
+const { data, pending, error } = await useLazyAsyncData<ReleasesData>(
+  `releases-${locale.value}`,
+  async () => {
+    const module = await import(`../../public/releases/${locale.value}.json`)
+    return module.default as ReleasesData
+  },
+  {
+    watch: [locale]
+  }
+)
 </script> 
