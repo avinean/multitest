@@ -17,7 +17,10 @@
             <div class="text-sm text-gray-600">{{ $t('profile.timeTaken') }}</div>
           </div>
           <div class="text-center">
-            <div class="text-2xl font-bold text-gray-900">{{ formatDate(result?.createdAt) }}</div>
+            <div class="text-2xl font-bold text-gray-900">
+              <NuxtTime v-if="result?.createdAt" :datetime="result.createdAt" month="short" day="numeric" year="numeric" />
+              <span v-else>-</span>
+            </div>
             <div class="text-sm text-gray-600">{{ $t('profile.testDate') }}</div>
           </div>
         </div>
@@ -185,11 +188,6 @@ const fetchQuestions = async () => {
   } finally {
     loading.value = false
   }
-}
-
-const formatDate = (timestamp: number | undefined) => {
-  if (!timestamp) return '-'
-  return new Date(timestamp).toLocaleDateString()
 }
 
 const formatTime = (milliseconds: number | undefined) => {

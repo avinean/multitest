@@ -57,8 +57,8 @@ export default defineNuxtConfig({
       redirectOn: 'root'
     }
   },
-  sitemap: {
-    siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://englistry.com',
+  site: {
+    url: process.env.NUXT_PUBLIC_SITE_URL || 'https://englistry.com',
     gzip: true,
     exclude: [
       '/admin/**',

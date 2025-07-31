@@ -1,17 +1,26 @@
 <template>
-  <div class="bg-white rounded-xl shadow-sm p-8">
-    <h2 class="text-2xl font-bold text-gray-900 mb-6">{{ $t('blog.post.relatedPosts') }}</h2>
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-8">
+    <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">{{ $t('blog.post.relatedPosts') }}</h2>
+    
+    <!-- Loading State -->
+    <div v-if="!relatedPosts || relatedPosts.length === 0" class="text-center py-8">
+      <div class="w-16 h-16 bg-gradient-to-br from-primary-100 to-blue-100 dark:from-primary-900/30 dark:to-blue-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
+        <UIcon name="i-heroicons-document-text" class="w-8 h-8 text-primary-600 dark:text-primary-400" />
+      </div>
+      <p class="text-gray-500 dark:text-gray-400">{{ $t('blog.post.noRelatedPosts') }}</p>
+    </div>
     
     <!-- Related Posts Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div v-else class="grid grid-cols-1 md:grid-cols-3 gap-6">
       <BlogCard
         v-for="post in relatedPosts"
         :key="post.id"
         :slug="post.id"
-        :poster-url="post.posterUrl"
+        :poster-url="post.posterUrl || ''"
         :categories="post.categories || []"
         :post="post[locale]"
-        :reading-time="post.readingTime"
+        :reading-time="post.readingTime || undefined"
+        class="transform transition-transform duration-200 hover:scale-105"
       />
     </div>
   </div>

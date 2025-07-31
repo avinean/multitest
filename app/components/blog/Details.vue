@@ -1,30 +1,34 @@
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-gray-50 to-white">
+  <div class="min-h-screen bg-gradient-to-br from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
     <!-- Loading State -->
     <div v-if="pending" class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <div class="bg-white rounded-xl shadow-sm p-8 animate-pulse">
-        <div class="h-8 bg-gray-200 rounded w-3/4 mb-6"/>
-        <div class="h-4 bg-gray-200 rounded w-1/2 mb-4"/>
-        <div class="h-4 bg-gray-200 rounded w-1/3 mb-8"/>
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-8 animate-pulse">
+        <div class="h-8 bg-gray-200 dark:bg-gray-700 rounded w-3/4 mb-6"/>
+        <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/2 mb-4"/>
+        <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/3 mb-8"/>
         <div class="space-y-4">
-          <div class="h-4 bg-gray-200 rounded w-full"/>
-          <div class="h-4 bg-gray-200 rounded w-full"/>
-          <div class="h-4 bg-gray-200 rounded w-2/3"/>
+          <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-full"/>
+          <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-full"/>
+          <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-2/3"/>
         </div>
       </div>
     </div>
 
     <!-- Error State -->
     <div v-else-if="error" class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <div class="bg-red-50 border border-red-200 rounded-xl p-8 text-center">
+      <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-8 text-center">
         <div class="text-red-400 mb-4">
           <svg class="w-16 h-16 mx-auto" fill="currentColor" viewBox="0 0 20 20">
             <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
           </svg>
         </div>
-        <h3 class="text-lg font-medium text-red-800 mb-2">{{ $t('blog.post.error.title') }}</h3>
-        <p class="text-red-700 mb-4">{{ error }}</p>
-        <UButton :to="$localePath('/blog')" variant="outline">
+        <h3 class="text-lg font-medium text-red-800 dark:text-red-200 mb-2">{{ $t('blog.post.error.title') }}</h3>
+        <p class="text-red-700 dark:text-red-300 mb-4">{{ error }}</p>
+        <UButton 
+          :to="$localePath('/blog')" 
+          variant="outline"
+          class="border-red-300 dark:border-red-600 text-red-700 dark:text-red-300 hover:bg-red-50 dark:hover:bg-red-900/30"
+        >
           {{ $t('blog.post.backToBlog') }}
         </UButton>
       </div>
@@ -32,15 +36,19 @@
 
     <!-- Post Not Found -->
     <div v-else-if="!data" class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <div class="bg-yellow-50 border border-yellow-200 rounded-xl p-8 text-center">
+      <div class="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-xl p-8 text-center">
         <div class="text-yellow-400 mb-4">
           <svg class="w-16 h-16 mx-auto" fill="currentColor" viewBox="0 0 20 20">
             <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
           </svg>
         </div>
-        <h3 class="text-lg font-medium text-yellow-800 mb-2">{{ $t('blog.post.notFound.title') }}</h3>
-        <p class="text-yellow-700 mb-4">{{ $t('blog.post.notFound.message') }}</p>
-        <UButton :to="$localePath('/blog')" variant="outline">
+        <h3 class="text-lg font-medium text-yellow-800 dark:text-yellow-200 mb-2">{{ $t('blog.post.notFound.title') }}</h3>
+        <p class="text-yellow-700 dark:text-yellow-300 mb-4">{{ $t('blog.post.notFound.message') }}</p>
+        <UButton 
+          :to="$localePath('/blog')" 
+          variant="outline"
+          class="border-yellow-300 dark:border-yellow-600 text-yellow-700 dark:text-yellow-300 hover:bg-yellow-50 dark:hover:bg-yellow-900/30"
+        >
           {{ $t('blog.post.backToBlog') }}
         </UButton>
       </div>
@@ -56,65 +64,72 @@
           variant="outline" 
           icon="i-heroicons-arrow-left"
           size="sm"
+          class="border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800"
         >
           {{ $t('blog.post.backToBlog') }}
         </UButton>
       </div>
+      <article class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+        <img 
+          v-if="data.posterUrl" 
+          :src="data.posterUrl" 
+          :alt="data[locale].title || 'Blog post image'"
+          class="w-full h-64 object-cover"
+        >
+        <!-- Post Header -->
+        <header class="p-8 border-b border-gray-200 dark:border-gray-700">
 
-      <!-- Post Header -->
-      <article v-if="data" class="bg-white rounded-xl shadow-sm overflow-hidden">
-        <!-- Post Image -->
-        <div class="h-64 overflow-hidden">
-          <img 
-            v-if="data.posterUrl" 
-            :src="data.posterUrl" 
-            :alt="data[locale].title || 'Blog post image'"
-            class="w-full h-full object-cover"
-          >
-          <div v-else class="h-full bg-gradient-to-br from-primary-100 to-zinc-100 flex items-center justify-center">
-            <svg class="w-20 h-20 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
-            </svg>
-          </div>
-        </div>
-
-        <!-- Post Content -->
-        <div class="p-8">
           <!-- Post Meta -->
-          <div class="flex items-center gap-4 mb-6 text-sm text-gray-500">
-            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 text-primary-800">
+          <div class="flex items-center gap-3 mb-6">
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-primary-100 dark:bg-primary-900/50 text-primary-800 dark:text-primary-300">
               {{ $t('blog.published') }}
             </span>
-            <span v-if="data.readingTime" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-700">
-              <UIcon name="i-heroicons-clock" class="w-3 h-3 mr-1" />
+            <span v-if="data.readingTime" class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300">
+              <UIcon name="i-heroicons-clock" class="w-4 h-4 mr-1" />
               {{ data.readingTime }} {{ $t('blog.readingTimeMinutes') }}
             </span>
-            <span v-if="data[locale].createdAt">
-              {{ formatDate(data[locale].createdAt) }}
-            </span>
+                         <span v-if="data[locale].createdAt" class="text-sm text-gray-500 dark:text-gray-400">
+               <NuxtTime :datetime="data[locale].createdAt" month="long" day="numeric" year="numeric" />
+             </span>
           </div>
 
           <!-- Post Title -->
-          <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+          <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
             {{ data[locale].title || $t('blog.untitledPost') }}
           </h1>
 
           <!-- Post Excerpt -->
-          <div v-if="data[locale].excerpt" class="text-xl text-gray-600 mb-8 p-4 bg-gray-50 rounded-lg border-l-4 border-primary-500">
+          <p v-if="data[locale].excerpt" class="text-xl text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
             {{ data[locale].excerpt }}
+          </p>
+
+          <!-- Categories -->
+          <div v-if="data.categories && data.categories.length > 0" class="flex flex-wrap gap-2">
+            <UButton 
+              v-for="category in data.categories" 
+              :key="category"
+              variant="link"
+              size="sm"
+              class="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300"
+              :to="$localePath(`/blog?search=${category}`)"
+            >
+              #{{ category }}
+            </UButton>
+          </div>
+        </header>
+
+        <!-- Post Content -->
+        <div class="p-8">
+          <div class="space-y-4">
+            <CmsSection v-for="section, key in data[locale].sections" :key :section="section" />
           </div>
 
-          <!-- Post Content -->
-        <div class="space-y-4">
-          <CmsSection v-for="section, key in data[locale].sections" :key :section="section" />
-        </div>
-
           <!-- Post Footer -->
-          <div class="mt-12 pt-8 border-t border-gray-200">
+          <div class="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
             <div class="flex items-center justify-between">
-              <div class="text-sm text-gray-500">
+              <div class="text-sm text-gray-500 dark:text-gray-400">
                 <span v-if="data[locale].updatedAt && data[locale].updatedAt !== data[locale].createdAt">
-                  {{ $t('blog.post.lastUpdated') }}: {{ formatDate(data[locale].updatedAt) }}
+                  {{ $t('blog.post.lastUpdated') }}: <NuxtTime :datetime="data[locale].updatedAt" month="long" day="numeric" year="numeric" />
                 </span>
               </div>
               
@@ -142,17 +157,6 @@ const db = useFirestore()
 
 const { data, pending, error } = useAsyncData(`blog-post-${route.params.slug}`, async () => (await getDoc(doc(db, 'blog', String(route.params.slug)))).data())
 
-// Utility functions
-const formatDate = (timestamp: any) => {
-  if (!timestamp) return ''
-  
-  const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp)
-  return new Intl.DateTimeFormat('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-  }).format(date)
-}
 // SEO Meta setup using data from the blog post
 useSeoMeta({
   title: computed(() => {

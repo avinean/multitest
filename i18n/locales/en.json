@@ -7,11 +7,17 @@
   "header": {
     "tagline": "Prepare for NMT with confidence"
   },
+  "theme": {
+    "toggle": "Toggle theme",
+    "switchToLight": "Switch to light mode",
+    "switchToDark": "Switch to dark mode"
+  },
   "nav": {
     "englishTest": "NMT Practice",
     "blog": "Blog",
     "faq": "FAQ",
     "contact": "Contact Us",
+    "release": "Release Notes",
     "admin": "Admin",
     "login": "Login",
     "profile": "Profile",
@@ -343,6 +349,32 @@
     "refresh": "Refresh",
     "view": "View",
     "actions": "Actions"
+  },
+  "release": {
+    "meta": {
+      "title": "Release Notes - NMT English Practice | Englistry",
+      "description": "Stay updated with the latest features, improvements, and bug fixes for our NMT English practice platform. See what's new and what's been improved."
+    },
+    "hero": {
+      "title": "Release Notes",
+      "subtitle": "Stay updated with the latest features, improvements, and changes to our NMT practice platform"
+    },
+    "lastUpdated": "Last updated",
+    "features": "New Features",
+    "improvements": "Improvements",
+    "bugFixes": "Bug Fixes",
+    "types": {
+      "major": "Major",
+      "minor": "Minor",
+      "patch": "Patch"
+    },
+    "feedback": {
+      "title": "Have Feedback?",
+      "description": "We'd love to hear your thoughts on these updates or suggestions for future improvements.",
+      "button": "Contact Us"
+    },
+    "noReleases": "No Releases Available",
+    "noReleasesMessage": "Release notes will appear here when updates are published."
   },
   "footer": {
     "copyright": "All rights reserved",

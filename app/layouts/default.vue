@@ -1,7 +1,7 @@
 <template>
-  <div class="min-h-screen flex flex-col bg-white font-exo2">
+  <div class="min-h-screen flex flex-col bg-white dark:bg-gray-900 font-exo2">
     <!-- Header -->
-    <header class="bg-white/95 backdrop-blur-md border-b border-gray-200/50 sticky top-0 z-50 shadow-sm">
+    <header class="bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-b border-gray-200/50 dark:border-gray-700/50 sticky top-0 z-50 shadow-sm dark:shadow-gray-900/20">
       <UContainer>
         <div class="flex items-center justify-between h-20">
           <!-- Logo Section -->
@@ -13,10 +13,10 @@
               <div class="absolute -top-1 -right-1 w-4 h-4 bg-green-400 rounded-full border-2 border-white animate-pulse"></div>
             </div>
             <div class="hidden md:block">
-              <h1 class="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              <h1 class="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent">
                 {{ $t('site.name') }}
               </h1>
-              <p class="text-xs text-gray-500 font-medium">{{ $t('header.tagline') }}</p>
+              <p class="text-xs text-gray-500 dark:text-gray-400 font-medium">{{ $t('header.tagline') }}</p>
             </div>
           </NuxtLink>
           
@@ -25,12 +25,12 @@
           <!-- Desktop Navigation -->
           <nav class="hidden lg:flex items-center space-x-1">
             <!-- Main Navigation -->
-            <div class="flex items-center space-x-1 bg-gray-50/80 rounded-xl p-1">
+            <div class="flex items-center space-x-1 bg-gray-50/80 dark:bg-gray-800/80 rounded-xl p-1">
               <UButton
                 :to="$localePath('/test')" 
                 variant="ghost" 
                 size="sm"
-                class="relative group hover:bg-blue-50 hover:text-blue-600 transition-all duration-200 rounded-lg px-4 py-2"
+                class="relative group hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-200 rounded-lg px-4 py-2"
               >
                 <UIcon name="i-heroicons-academic-cap" class="w-4 h-4 mr-2" />
                 {{ $t('nav.englishTest') }}
@@ -40,7 +40,7 @@
                 :to="$localePath('/blog')" 
                 variant="ghost" 
                 size="sm"
-                class="relative group hover:bg-green-50 hover:text-green-600 transition-all duration-200 rounded-lg px-4 py-2"
+                class="relative group hover:bg-green-50 dark:hover:bg-green-900/30 hover:text-green-600 dark:hover:text-green-400 transition-all duration-200 rounded-lg px-4 py-2"
               >
                 <UIcon name="i-heroicons-document-text" class="w-4 h-4 mr-2" />
                 {{ $t('nav.blog') }}
@@ -50,7 +50,7 @@
                 :to="$localePath('/faq')" 
                 variant="ghost" 
                 size="sm"
-                class="relative group hover:bg-purple-50 hover:text-purple-600 transition-all duration-200 rounded-lg px-4 py-2"
+                class="relative group hover:bg-purple-50 dark:hover:bg-purple-900/30 hover:text-purple-600 dark:hover:text-purple-400 transition-all duration-200 rounded-lg px-4 py-2"
               >
                 <UIcon name="i-heroicons-question-mark-circle" class="w-4 h-4 mr-2" />
                 {{ $t('nav.faq') }}
@@ -60,7 +60,7 @@
                 :to="$localePath('/contact')" 
                 variant="ghost" 
                 size="sm"
-                class="relative group hover:bg-orange-50 hover:text-orange-600 transition-all duration-200 rounded-lg px-4 py-2"
+                class="relative group hover:bg-orange-50 dark:hover:bg-orange-900/30 hover:text-orange-600 dark:hover:text-orange-400 transition-all duration-200 rounded-lg px-4 py-2"
               >
                 <UIcon name="i-heroicons-chat-bubble-left-right" class="w-4 h-4 mr-2" />
                 {{ $t('nav.contact') }}
@@ -69,7 +69,7 @@
             </div>
 
             <!-- Divider -->
-            <div class="w-px h-8 bg-gray-200 mx-3"></div>
+            <div class="w-px h-8 bg-gray-200 dark:bg-gray-700 mx-3"></div>
 
             <!-- User Section -->
             <div class="flex items-center space-x-2">
@@ -77,7 +77,7 @@
                 v-if="!user"
                 variant="outline" 
                 size="sm"
-                class="border-blue-200 text-blue-600 hover:bg-blue-50 hover:border-blue-300 transition-all duration-200"
+                class="border-blue-200 dark:border-blue-700 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:border-blue-300 dark:hover:border-blue-600 transition-all duration-200"
                 @click="showLoginModal = true"
               >
                 <UIcon name="i-heroicons-arrow-right-on-rectangle" class="w-4 h-4 mr-2" />
@@ -89,15 +89,15 @@
                   :to="$localePath('/profile')"
                   variant="ghost" 
                   size="sm"
-                  class="flex items-center space-x-2 hover:bg-gray-50 transition-all duration-200 rounded-lg px-3 py-2"
+                  class="flex items-center space-x-2 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-200 rounded-lg px-3 py-2"
                 >
                   <div class="w-8 h-8 bg-gradient-to-br from-green-400 to-blue-500 rounded-full flex items-center justify-center">
                     <UIcon name="i-heroicons-user" class="w-4 h-4 text-white" />
                   </div>
-                  <div class="hidden xl:block text-left">
-                    <div class="text-sm font-medium text-gray-900">{{ user.displayName || user.email?.split('@')[0] }}</div>
-                    <div class="text-xs text-gray-500">{{ $t('nav.profile') }}</div>
-                  </div>
+                                      <div class="hidden xl:block text-left">
+                      <div class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ user.displayName || user.email?.split('@')[0] }}</div>
+                      <div class="text-xs text-gray-500 dark:text-gray-400">{{ $t('nav.profile') }}</div>
+                    </div>
                 </UButton>
                 
                 <UButton 
@@ -105,12 +105,13 @@
                   :to="$localePath('/admin')"
                   variant="ghost" 
                   size="sm"
-                  class="text-red-600 hover:bg-red-50 hover:text-red-700 transition-all duration-200 rounded-lg"
+                  class="text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/30 hover:text-red-700 dark:hover:text-red-300 transition-all duration-200 rounded-lg"
                 >
                   <UIcon name="i-heroicons-cog-6-tooth" class="w-4 h-4" />
                 </UButton>
               </div>
 
+              <ThemeSwitcher />
               <LanguageSelector />
             </div>
           </nav>
@@ -122,11 +123,13 @@
               <UIcon name="i-heroicons-user" class="w-4 h-4 text-white" />
             </div>
             
+            <ThemeSwitcher />
             <LanguageSelector />
             
             <UButton
               variant="ghost"
               size="sm"
+              class="w-10 h-10 p-0 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200 rounded-xl"
               @click="showMobileMenu = true"
               aria-label="Open menu"
             >
@@ -219,6 +222,15 @@
                 >
                   <UIcon name="i-heroicons-chat-bubble-left-right" class="w-4 h-4 mr-3" />
                   {{ $t('nav.contact') }}
+                </UButton>
+                <UButton
+                  :to="$localePath('/release')"
+                  variant="ghost"
+                  size="sm"
+                  class="text-gray-300 hover:text-white hover:bg-white/10 justify-start w-full p-2 rounded-lg transition-all duration-200"
+                >
+                  <UIcon name="i-heroicons-rocket-launch" class="w-4 h-4 mr-3" />
+                  {{ $t('nav.release') }}
                 </UButton>
               </nav>
             </div>
@@ -318,6 +330,7 @@
                   <UIcon name="i-heroicons-language" class="w-4 h-4" />
                   <span>{{ $t('footer.multiLanguage') }}</span>
                 </div>
+                <ThemeSwitcher />
                 <LanguageSelector />
               </div>
             </div>
@@ -349,7 +362,7 @@
       @click="showMobileMenu = false"
     >
       <!-- Backdrop -->
-      <div class="absolute inset-0 bg-black opacity-50"></div>
+      <div class="absolute inset-0 bg-black/50 dark:bg-black/70"></div>
       
       <!-- Menu Panel -->
       <Transition
@@ -362,11 +375,11 @@
       >
         <div 
           v-if="showMobileMenu"
-          class="absolute right-0 top-0 h-full w-full md:w-82 bg-white shadow-xl transform flex flex-col"
+          class="absolute right-0 top-0 h-full w-full md:w-82 bg-white dark:bg-gray-900 shadow-xl dark:shadow-gray-950/50 transform flex flex-col"
           @click.stop
         >
-      <!-- Header -->
-      <div class="flex items-center justify-between p-4 border-b border-gray-200">
+                <!-- Header -->
+          <div class="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
         <img src="/logo/light-long.png" alt="English Test" class="h-8">
         <UButton
           variant="ghost"
@@ -462,7 +475,7 @@
           {{ $t('nav.admin') }}
         </UButton>
 
-        <UButton
+                <UButton
           v-if="user"
           variant="ghost"
           size="lg"
@@ -471,8 +484,17 @@
         >
           <UIcon name="i-heroicons-arrow-right-on-rectangle" class="w-5 h-5 mr-3" />
           {{ $t('nav.signOut') }}
-                 </UButton>
-       </nav>
+        </UButton>
+
+        <!-- Theme Switcher -->
+        <div class="flex items-center justify-between w-full px-3 py-2">
+          <div class="flex items-center space-x-3">
+            <UIcon name="i-heroicons-swatch" class="w-5 h-5 text-gray-600 dark:text-gray-400" />
+            <span class="text-sm font-medium text-gray-900 dark:text-white">{{ $t('theme.toggle') }}</span>
+          </div>
+          <ThemeSwitcher />
+        </div>
+      </nav>
      </div>
    </Transition>
  </div>

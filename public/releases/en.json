@@ -1,0 +1,168 @@
+{
+  "releases": [
+    {
+      "version": "v2.2.0",
+      "type": "minor",
+      "date": "2025-07-30T18:16:12.000Z",
+      "description": "Improved website visibility and better organization to help students find study materials more easily.",
+      "features": [
+        "Dark mode for comfortable studying in low-light environments",
+        "Better text contrast and readability for users with visual impairments",
+        "Release notes page to keep you informed about latest updates",
+        "Clearer question display with improved visual feedback",
+        "Color-coded progress tracking during tests",
+        "Automatic updates to keep you informed about new features"
+      ],
+      "improvements": [
+        "Cleaner, more intuitive navigation on all devices",
+        "Smoother visual experience when switching between light and dark themes",
+        "Better mobile experience with improved touch controls",
+        "Easier to read text and clearer page layouts",
+        "Faster loading times with better error messages",
+        "Improved search engine visibility for easier discovery",
+        "Better support for multiple languages"
+      ],
+      "fixes": [
+        "Fixed text readability issues in dark mode",
+        "Resolved visual inconsistencies when switching themes",
+        "Fixed mobile menu not working properly on some devices",
+        "Improved page descriptions for better search results",
+        "Fixed missing translations in some interface elements",
+        "Resolved language switching issues"
+      ]
+    },
+    {
+      "version": "v2.1.0",
+      "type": "minor", 
+      "date": "2025-07-28T05:40:02.000Z",
+      "description": "Major content expansion with comprehensive FAQ and contact pages, plus enhanced multilingual support.",
+      "features": [
+        "Comprehensive FAQ section to answer your questions quickly",
+        "Multiple ways to contact us for support and feedback",
+        "Better translations and language support",
+        "Improved website performance and loading speeds",
+        "Better search engine optimization for easier discovery"
+      ],
+      "improvements": [
+        "Better website structure for easier navigation",
+        "More helpful error messages when something goes wrong",
+        "Clearer content organization and easier navigation",
+        "Improved search engine visibility",
+        "Better mobile experience on all pages"
+      ],
+      "fixes": [
+        "Fixed language switching and URL issues",
+        "Resolved inconsistent translations across pages",
+        "Fixed mobile navigation problems",
+        "Better error handling when things don't work as expected"
+      ]
+    },
+    {
+      "version": "v2.0.0",
+      "type": "major",
+      "date": "2025-07-25T20:33:02.000Z", 
+      "description": "Complete platform redesign focused on NMT (National Multi-Subject Test) preparation with enhanced features and improved user experience.",
+      "features": [
+        "Complete redesign focused on NMT exam preparation",
+        "Improved test interface with easier question navigation",
+        "Personal dashboard showing your test progress and statistics",
+        "Educational blog with tips and study materials",
+        "Better question display with images and multimedia support",
+        "Detailed explanations for better understanding of answers",
+        "Progress tracking to monitor your improvement over time",
+        "Personalized study recommendations based on your performance"
+      ],
+      "improvements": [
+        "Significantly faster page loading and smoother experience",
+        "More reliable data storage and synchronization",
+        "Enhanced security to protect your personal information",
+        "Better error messages and user guidance",
+        "Improved search engine visibility for easier discovery",
+        "More responsive and intuitive user interface",
+        "Cleaner design with modern visual elements"
+      ],
+      "fixes": [
+        "Fixed test timer accuracy for reliable time tracking",
+        "Resolved login and registration issues",
+        "Fixed mobile device compatibility problems",
+        "Better data validation to prevent errors",
+        "Fixed various interface inconsistencies",
+        "Resolved issues with test progress not saving properly"
+      ]
+    },
+    {
+      "version": "v1.2.0",
+      "type": "minor",
+      "date": "2025-07-18T12:21:46.000Z",
+      "description": "Enhanced blog management system with multilingual support and improved content creation tools.",
+      "features": [
+        "Educational blog with study tips and exam strategies",
+        "Blog content available in both English and Ukrainian",
+        "Better formatted articles with rich content",
+        "Organized blog categories for easier browsing",
+        "Regular updates with fresh study materials"
+      ],
+      "improvements": [
+        "Better organized study materials and resources",
+        "Easier to find blog posts through search engines",
+        "Improved navigation between different article sections",
+        "Seamless language switching for blog content"
+      ],
+      "fixes": [
+        "Fixed issues with blog posts not loading properly",
+        "Resolved text formatting problems in articles",
+        "Fixed category filtering not working correctly"
+      ]
+    },
+    {
+      "version": "v1.1.0", 
+      "type": "minor",
+      "date": "2025-07-10T19:52:18.000Z",
+      "description": "Major internationalization update with comprehensive Ukrainian and English language support.",
+      "features": [
+        "Full website available in both English and Ukrainian",
+        "Easy language switching with one click",
+        "Dates and times displayed in your local format",
+        "All interface elements translated to your language",
+        "Better organization of practice questions"
+      ],
+      "improvements": [
+        "Cleaner interface design and easier navigation",
+        "Better organized practice tests and questions",
+        "More comfortable experience in your native language",
+        "Improved overall website structure and layout"
+      ],
+      "fixes": [
+        "Fixed language switching not working properly",
+        "Resolved missing translations on some pages",
+        "Fixed navigation issues in certain sections"
+      ]
+    },
+    {
+      "version": "v1.0.0",
+      "type": "major", 
+      "date": "2025-07-04T10:50:14.000Z",
+      "description": "Initial platform launch with core English proficiency testing functionality and admin management system.",
+      "features": [
+        "English proficiency tests for NMT preparation",
+        "Comprehensive question bank with various difficulty levels",
+        "Personal account to track your progress", 
+        "Detailed test results with performance analysis",
+        "Study materials and practice exercises",
+        "Secure data storage to save your progress",
+        "Works perfectly on phones, tablets, and computers"
+      ],
+      "improvements": [
+        "Fast and reliable platform built with modern technology",
+        "Better code quality for fewer bugs and issues",
+        "Consistent design elements throughout the website",
+        "Quick loading times and smooth performance"
+      ],
+      "fixes": [
+        "Fixed initial bugs and improved overall stability",
+        "Resolved issues with data not saving correctly",
+        "Fixed problems with login and registration"
+      ]
+    }
+  ]
+} 
