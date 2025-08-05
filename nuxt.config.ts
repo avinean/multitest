@@ -93,7 +93,7 @@ export default defineNuxtConfig({
   scripts: {
     registry: {
       googleTagManager: {
-        id: 'G-V4JF6CJVHN'
+        id: 'GTM-M6N6H6JF'
       },
       googleAdsense: {
         client: 'ca-pub-1071790834150767',
