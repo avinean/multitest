@@ -17,9 +17,13 @@ Allow: /uk/faq/
 Allow: /en/contact/
 Allow: /uk/contact/
 
-# Disallow private and administrative areas
+# Disallow private and administrative areas - MORE SPECIFIC
 Disallow: /admin/
+Disallow: /en/admin/
+Disallow: /uk/admin/
 Disallow: /profile/
+Disallow: /en/profile/
+Disallow: /uk/profile/
 Disallow: /api/
 Disallow: /error/
 Disallow: /_nuxt/
@@ -28,6 +32,8 @@ Disallow: /.well-known/
 Disallow: /preview/
 Disallow: /draft/
 Disallow: /test/result/
+Disallow: /en/test/result/
+Disallow: /uk/test/result/
 
 # Disallow URL parameters that create duplicate content
 Disallow: /*?*utm_*

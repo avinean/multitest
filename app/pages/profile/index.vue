@@ -108,6 +108,16 @@ const { user, isAdmin, signOut } = await useAuth()
 const localePath = useLocalePath()
 const db = useFirestore()
 
+// SEO: Prevent indexing of profile pages
+useHead({
+  meta: [
+    { name: 'robots', content: 'noindex, nofollow' },
+    { name: 'googlebot', content: 'noindex, nofollow' },
+    { property: 'og:robots', content: 'noindex, nofollow' },
+    { name: 'description', content: 'User profile - private area' }
+  ]
+})
+
 // Mock data for now - you can replace with real data from Firestore
 const testCount = ref(0)
 const averageScore = ref(0)

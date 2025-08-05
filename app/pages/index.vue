@@ -39,7 +39,7 @@
 
           <!-- Test Info -->
           <div class="bg-white/10 backdrop-blur-md rounded-2xl p-6 max-w-2xl mx-auto border border-white/20">
-            <div class="flex items-center justify-center mb-3">
+            <div class="flex items-center justify-center">
               <UIcon name="i-heroicons-clock" class="w-5 h-5 mr-2 text-blue-200" />
               <span class="text-blue-100 font-medium">{{ $t('home.testInfo') }}</span>
             </div>

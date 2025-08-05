@@ -152,6 +152,16 @@ definePageMeta({
 const { user } = await useAuth()
 const db = useFirestore()
 
+// SEO: Prevent indexing of profile pages
+useHead({
+  meta: [
+    { name: 'robots', content: 'noindex, nofollow' },
+    { name: 'googlebot', content: 'noindex, nofollow' },
+    { property: 'og:robots', content: 'noindex, nofollow' },
+    { name: 'description', content: 'User test results - private area' }
+  ]
+})
+
 // Modal state
 const showResultModal = ref(false)
 const selectedResult = ref<TestResult | null>(null)

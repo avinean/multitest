@@ -103,6 +103,16 @@
 const { user, profile, isAdmin, signOut } = await useAuth()
 const localePath = useLocalePath()
 
+// SEO: Prevent indexing of profile pages
+useHead({
+  meta: [
+    { name: 'robots', content: 'noindex, nofollow' },
+    { name: 'googlebot', content: 'noindex, nofollow' },
+    { property: 'og:robots', content: 'noindex, nofollow' },
+    { name: 'description', content: 'User settings - private area' }
+  ]
+})
+
 const handleSignOut = async () => {
   try {
     await signOut()

@@ -49,4 +49,14 @@
 
 <script setup lang="ts">
 const { signOut } = await useAuth()
+
+// SEO: Prevent indexing of admin pages
+useHead({
+  meta: [
+    { name: 'robots', content: 'noindex, nofollow' },
+    { name: 'googlebot', content: 'noindex, nofollow' },
+    { property: 'og:robots', content: 'noindex, nofollow' },
+    { name: 'description', content: 'Admin panel - not for public access' }
+  ]
+})
 </script>

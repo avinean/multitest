@@ -1,5 +1,5 @@
 <template>
-  <article class="bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-lg dark:shadow-gray-900/25 hover:dark:shadow-gray-900/40 transition-all duration-300 overflow-hidden group border border-gray-100 dark:border-gray-700">
+  <article class="relative bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-lg dark:shadow-gray-900/25 hover:dark:shadow-gray-900/40 transition-all duration-300 overflow-hidden group border border-gray-100 dark:border-gray-700">
     <!-- Post Image -->
     <div class="h-48 overflow-hidden">
       <img 
@@ -36,7 +36,7 @@
       </p>
 
       <!-- Categories -->
-      <div v-if="categories && categories.length > 0" class="mb-4 flex flex-wrap">
+      <div v-if="categories && categories.length > 0" class=" relative z-1 mb-4 flex flex-wrap">
         <UButton 
           v-for="category in categories" 
           :key="category"
@@ -52,17 +52,16 @@
         </span>
       </div>
 
-      <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
-        <UButton 
-          :to="$localePath(`/blog/${slug}`)"
-          variant="ghost" 
-          size="sm"
-          class="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 hover:bg-primary-50 dark:hover:bg-primary-900/30 transition-all duration-200"
-        >
-          {{ $t('blog.readMore') }}
-          <UIcon name="i-heroicons-arrow-right" class="w-4 h-4 ml-1" />
-        </UButton>
-      </div>
+      <UButton 
+        :to="$localePath(`/blog/${slug}`)"
+        variant="ghost" 
+        size="sm"
+        class="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 hover:bg-primary-50 dark:hover:bg-primary-900/30 transition-all duration-200"
+      >
+        {{ $t('blog.readMore') }}
+        <UIcon name="i-heroicons-arrow-right" class="w-4 h-4 ml-1" />
+        <span class="absolute inset-0"></span>
+      </UButton>
     </div>
   </article>
 </template>
