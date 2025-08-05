@@ -9,7 +9,8 @@ export default defineNuxtConfig({
     '@nuxtjs/i18n',
     '@nuxt/fonts',
     '@nuxtjs/sitemap',
-    '@nuxt/scripts'
+    '@nuxt/scripts',
+    '@vite-pwa/nuxt'
   ],
   css: ['~/assets/css/main.css'],
   colorMode: {

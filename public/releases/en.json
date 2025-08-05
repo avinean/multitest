@@ -1,6 +1,35 @@
 {
   "releases": [
     {
+      "version": "v2.3.0",
+      "type": "minor",
+      "date": "2025-01-15T10:30:00.000Z",
+      "description": "Progressive Web App (PWA) support added for enhanced mobile experience and offline functionality.",
+      "features": [
+        "Install the app on your home screen for quick access",
+        "Offline mode - study without internet connection",
+        "App-like experience with smooth navigation and animations",
+        "Push notifications for important updates and reminders",
+        "Automatic updates in the background",
+        "Better performance and faster loading times",
+        "Native app feel on mobile devices"
+      ],
+      "improvements": [
+        "Enhanced mobile experience with full-screen mode",
+        "Improved caching for faster content loading",
+        "Better touch interactions and gestures",
+        "Reduced data usage with smart caching",
+        "Seamless transition between online and offline modes",
+        "More responsive interface on all devices"
+      ],
+      "fixes": [
+        "Fixed mobile browser compatibility issues",
+        "Resolved slow loading on poor network connections",
+        "Improved app installation process",
+        "Fixed offline mode synchronization issues"
+      ]
+    },
+    {
       "version": "v2.2.0",
       "type": "minor",
       "date": "2025-07-30T18:16:12.000Z",
