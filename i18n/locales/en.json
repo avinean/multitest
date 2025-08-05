@@ -189,6 +189,20 @@
     },
     "readingTimeMinutes": "min read"
   },
+  "share": {
+    "copyLink": "Copy Link",
+    "shareNative": "Share",
+    "facebook": "Share on Facebook",
+    "twitter": "Share on Twitter",
+    "telegram": "Share on Telegram",
+    "linkCopied": "Link Copied!",
+    "linkCopiedDescription": "The link has been copied to your clipboard",
+    "copyError": "Copy Failed",
+    "copyErrorDescription": "Unable to copy link to clipboard",
+    "instagram": "Share on Instagram",
+    "instagramCopied": "Instagram Content Copied!",
+    "instagramCopiedDescription": "Content copied to clipboard and Instagram opened"
+  },
   "admin": {
     "title": "Admin",
     "welcome": "Welcome",

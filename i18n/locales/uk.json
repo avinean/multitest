@@ -189,6 +189,20 @@
     },
     "readingTimeMinutes": "хв читання"
   },
+  "share": {
+    "copyLink": "Копіювати Посилання",
+    "shareNative": "Поділитися",
+    "facebook": "Поділитися у Facebook",
+    "twitter": "Поділитися у Twitter",
+    "telegram": "Поділитися у Telegram",
+    "linkCopied": "Посилання скопійовано!",
+    "linkCopiedDescription": "Посилання скопійовано до буфера обміну",
+    "copyError": "Помилка копіювання",
+    "copyErrorDescription": "Не вдалося скопіювати посилання до буфера обміну",
+    "instagram": "Поділитися у Instagram",
+    "instagramCopied": "Контент для Instagram скопійовано!",
+    "instagramCopiedDescription": "Контент скопійовано до буфера обміну та Instagram відкрито"
+  },
   "admin": {
     "title": "Адмін",
     "welcome": "Вітаємо",

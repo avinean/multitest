@@ -88,6 +88,7 @@
               :categories="post.categories"
               :post="post[locale]"
               :reading-time="post.readingTime"
+              :created-at="post.createdAt"
               class="h-full transform transition-transform duration-200 group-hover:scale-105"
             />
           </div>

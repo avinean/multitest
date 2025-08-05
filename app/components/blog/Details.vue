@@ -88,9 +88,10 @@
               <UIcon name="i-heroicons-clock" class="w-4 h-4 mr-1" />
               {{ data.readingTime }} {{ $t('blog.readingTimeMinutes') }}
             </span>
-                         <span v-if="data[locale].createdAt" class="text-sm text-gray-500 dark:text-gray-400">
-               <NuxtTime :datetime="data[locale].createdAt" month="long" day="numeric" year="numeric" />
-             </span>
+            <span v-if="data.createdAt" class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300">
+              <UIcon name="i-heroicons-calendar" class="w-4 h-4 mr-1" />
+              <NuxtTime :datetime="data.createdAt" month="long" day="numeric" year="numeric" />
+            </span>
           </div>
 
           <!-- Post Title -->
@@ -133,11 +134,13 @@
                 </span>
               </div>
               
-              <!-- Share buttons (placeholder) -->
-              <div class="flex gap-2">
-                <UButton variant="ghost" size="sm" icon="i-heroicons-share">
-                  {{ $t('blog.post.share') }}
-                </UButton>
+              <!-- Share buttons -->
+              <div class="relative">
+                <UDropdownMenu :items="shareOptions" :popper="{ placement: 'bottom-end' }">
+                  <UButton variant="ghost" size="sm" icon="i-heroicons-share">
+                    {{ $t('blog.post.share') }}
+                  </UButton>
+                </UDropdownMenu>
               </div>
             </div>
           </div>
@@ -156,6 +159,82 @@ const route = useRoute()
 const db = useFirestore()
 
 const { data, pending, error } = useAsyncData(`blog-post-${route.params.slug}`, async () => (await getDoc(doc(db, 'blog', String(route.params.slug)))).data())
+
+// Toast functionality
+const toast = useToast()
+
+// Share functionality
+const shareOptions = computed(() => {
+  if (!data.value || process.server) return []
+  
+  const postTitle = data.value[locale.value].title || $t('blog.untitledPost')
+  const postUrl = window.location.href
+  const postDescription = data.value[locale.value].excerpt || ''
+  
+  return [
+    {
+      label: $t('share.copyLink'),
+      icon: 'i-heroicons-link',
+      onSelect: async () => {
+        try {
+          await navigator.clipboard.writeText(postUrl)
+          toast.add({
+            title: $t('share.linkCopied'),
+            description: $t('share.linkCopiedDescription'),
+            icon: 'i-heroicons-check-circle',
+            color: 'success'
+          })
+        } catch (error) {
+          toast.add({
+            title: $t('share.copyError'),
+            description: $t('share.copyErrorDescription'),
+            icon: 'i-heroicons-exclamation-triangle',
+            color: 'error'
+          })
+        }
+      }
+    },
+    {
+      label: $t('share.shareNative'),
+      icon: 'i-heroicons-device-phone-mobile',
+      onSelect: () => {
+        if (navigator.share) {
+          navigator.share({
+            title: postTitle,
+            text: postDescription,
+            url: postUrl
+          })
+        }
+      }
+    },
+    {
+      label: $t('share.facebook'),
+      icon: 'i-simple-icons-facebook',
+      onSelect: () => {
+        const url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(postUrl)}`
+        window.open(url, '_blank', 'width=600,height=400')
+      }
+    },
+    {
+      label: $t('share.twitter'),
+      icon: 'i-simple-icons-twitter',
+      onSelect: () => {
+        const text = `${postTitle} - ${postDescription}`
+        const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(postUrl)}`
+        window.open(url, '_blank', 'width=600,height=400')
+      }
+    },
+    {
+      label: $t('share.telegram'),
+      icon: 'i-simple-icons-telegram',
+      onSelect: () => {
+        const text = `${postTitle}\n\n${postDescription}\n\n${postUrl}`
+        const url = `https://t.me/share/url?url=${encodeURIComponent(postUrl)}&text=${encodeURIComponent(text)}`
+        window.open(url, '_blank', 'width=600,height=400')
+      }
+    }
+  ]
+})
 
 // SEO Meta setup using data from the blog post
 useSeoMeta({

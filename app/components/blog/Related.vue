@@ -19,7 +19,8 @@
         :poster-url="post.posterUrl || ''"
         :categories="post.categories || []"
         :post="post[locale]"
-        :reading-time="post.readingTime || undefined"
+        :reading-time="post.readingTime"
+        :created-at="post.createdAt"
         class="transform transition-transform duration-200 hover:scale-105"
       />
     </div>

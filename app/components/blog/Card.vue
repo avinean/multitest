@@ -25,6 +25,10 @@
           <UIcon name="i-heroicons-clock" class="w-3 h-3 mr-1" />
           {{ readingTime }} {{ $t('blog.readingTimeMinutes') }}
         </span>
+        <span v-if="createdAt" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300">
+          <UIcon name="i-heroicons-calendar" class="w-3 h-3 mr-1" />
+          <NuxtTime :datetime="createdAt" month="short" day="numeric" year="numeric" />
+        </span>
       </div>
 
       <h2 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-3 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
@@ -73,5 +77,6 @@ defineProps<{
   categories: string[]
   post: BlogPost['uk' | 'en']
   readingTime?: number
+  createdAt?: string
 }>()
 </script>
