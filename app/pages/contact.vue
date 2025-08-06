@@ -43,10 +43,10 @@
                   {{ $t('contact.info.email.description') }}
                 </p>
                 <a 
-                  href="mailto:prelecnaja@gmail.com" 
+                  href="mailto:englistry@gmail.com" 
                   class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium"
                 >
-                  prelecnaja@gmail.com
+                  englistry@gmail.com
                 </a>
               </div>
             </div>

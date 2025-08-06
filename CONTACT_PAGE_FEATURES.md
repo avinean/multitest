@@ -49,7 +49,7 @@ Features:
 ### **2. Multiple Contact Methods**
 
 #### **Email Support**
-- 📧 **Primary**: hello@englistry.com
+- 📧 **Primary**: englistry@gmail.com
 - 🎯 **Purpose**: General inquiries and support
 - ⏰ **Response**: Within 24 hours
 

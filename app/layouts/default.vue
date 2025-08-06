@@ -245,10 +245,10 @@
                     <UIcon name="i-heroicons-envelope" class="w-4 h-4 text-blue-400" />
                   </div>
                   <a
-                    href="mailto:prelecnaja@gmail.com"
+                    href="mailto:englistry@gmail.com"
                     class="text-sm hover:text-white transition-colors duration-200"
                   >
-                    prelecnaja@gmail.com
+                    englistry@gmail.com
                   </a>
                 </div>
                 <div class="flex items-center space-x-3 text-gray-300">
