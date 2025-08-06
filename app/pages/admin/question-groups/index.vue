@@ -112,7 +112,7 @@
           </div>
           <div class="flex gap-2 ml-4">
             <UButton 
-              :to="`/admin/question-groups/${group.id}`"
+              :to="$localePath(`/admin/question-groups/${group.id}`)"
               size="sm" 
               variant="outline"
             >
@@ -153,11 +153,6 @@
 <script setup lang="ts">
 import { collection } from 'firebase/firestore'
 import { useCollection, useFirestore } from 'vuefire'
-
-definePageMeta({
-  layout: 'admin'
-})
-
 
 const db = useFirestore()
 

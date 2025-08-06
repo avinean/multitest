@@ -30,6 +30,14 @@
                 <UIcon name="i-heroicons-document-text" class="w-4 h-4" />
                 {{ $t('admin.navigation.blog') }}
               </UButton>
+              <UButton
+                variant="ghost" 
+                size="sm"
+                :to="$localePath('/admin/user')"
+              >
+                <UIcon name="i-heroicons-users" class="w-4 h-4" />
+                {{ $t('admin.navigation.users') }}
+              </UButton>
             </div>
           </div>
           <div class="flex items-center gap-4">

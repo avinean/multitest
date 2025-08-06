@@ -1,3 +1,10 @@
 export type Profile = {
-  roles: 'admin'[]
+  roles?: 'admin'[]
+  createdAt?: Date
+  updatedAt?: Date
+  email?: string
+  displayName?: string
+  emailVerified?: boolean
+  lastSignInTime?: string
+  photoURL?: string
 }

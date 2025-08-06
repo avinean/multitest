@@ -116,9 +116,9 @@
               <span v-if="post.updatedAt">{{ $t('admin.blog.updated') }}: {{ new Date(post.updatedAt?.toDate?.() || post.updatedAt).toLocaleDateString() }}</span>
             </div>
           </div>
-          <div class="flex gap-2 ml-4">
+          <div class="gap-2 ml-4">
             <UButton 
-              :to="`/admin/blog/${post.id}`"
+              :to="$localePath(`/admin/blog/${post.id}`)"
               size="sm" 
               variant="outline"
             >
@@ -159,10 +159,6 @@
 <script setup lang="ts">
 import { collection } from 'firebase/firestore'
 import { useCollection, useFirestore } from 'vuefire'
-
-definePageMeta({
-  layout: 'admin'
-})
 
 const db = useFirestore()
 

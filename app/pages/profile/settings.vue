@@ -56,7 +56,8 @@
         <div class="border-t border-gray-200 dark:border-gray-700 pt-4">
           <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ $t('profile.lastSignIn') }}</label>
           <p class="text-gray-900 dark:text-white">
-            <NuxtTime v-if="user?.metadata?.lastSignInTime" :datetime="user.metadata.lastSignInTime" month="long" day="numeric" year="numeric" hour="numeric" minute="numeric" />
+            <NuxtTime v-if="profile?.lastSignInTime" :datetime="profile.lastSignInTime" month="long" day="numeric" year="numeric" hour="numeric" minute="numeric" />
+            <NuxtTime v-else-if="user?.metadata?.lastSignInTime" :datetime="user.metadata.lastSignInTime" month="long" day="numeric" year="numeric" hour="numeric" minute="numeric" />
             <span v-else>-</span>
           </p>
         </div>

@@ -547,10 +547,6 @@
 import { addDoc, collection, doc, updateDoc, serverTimestamp } from 'firebase/firestore'
 import { useDocument, useFirestore } from 'vuefire'
 
-definePageMeta({
-  layout: 'admin'
-})
-
 const route = useRoute()
 const localePath = useLocalePath()
 

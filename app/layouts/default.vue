@@ -129,12 +129,10 @@
             <UButton
               variant="ghost"
               size="sm"
-              class="w-10 h-10 p-0 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200 rounded-xl"
+              icon="i-heroicons-bars-3"
               @click="showMobileMenu = true"
               aria-label="Open menu"
-            >
-              <UIcon name="i-heroicons-bars-3" class="w-5 h-5" />
-            </UButton>
+            />
           </div>
         </div>
 
@@ -265,7 +263,8 @@
             <!-- Social Media -->
             <div class="space-y-4">
               <h4 class="text-lg font-semibold text-white mb-4 flex items-center">
-                <UIcon name="i-heroicons-users" class="w-5 h-5 mr-2 text-purple-400" />
+                <img v-if="user?.photoURL" :src="user?.photoURL" :alt="user.displayName" class="w-5 h-5 mr-2 text-purple-400" />
+                <UIcon v-else name="i-heroicons-users" class="w-5 h-5 mr-2 text-purple-400" />
                 {{ $t('footer.followUs') }}
               </h4>
               <div class="space-y-3">

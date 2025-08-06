@@ -313,10 +313,6 @@ import { doc, getDoc, setDoc, addDoc, collection, getDocs } from 'firebase/fires
 import { useFirestore } from 'vuefire'
 import slugify from 'slug'
 
-definePageMeta({
-  layout: 'admin'
-})
-
 const route = useRoute()
 const localePath = useLocalePath()
 const db = useFirestore()

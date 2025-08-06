@@ -210,7 +210,8 @@
     "navigation": {
       "home": "Home",
       "questionGroups": "Question Groups",
-      "blog": "Blog"
+      "blog": "Blog",
+      "users": "Users"
     },
     "login": {
           "email": "Email",
@@ -329,6 +330,45 @@
       "noCells": "No cells added yet",
       "noCellsMessage": "Click 'Add Cell' to start building your grid"
     },
+    "users": {
+      "title": "Users Management",
+      "subtitle": "View and manage all registered users",
+      "search": "Search users by email...",
+      "filterByRole": "Filter by role",
+      "clearFilters": "Clear Filters",
+      "showing": "Showing",
+      "of": "of",
+      "filtered": "(filtered)",
+      "users": "users",
+      "errorLoading": "Error loading users",
+      "noUsersFound": "No users found",
+      "noUsersMessage": "No users have registered yet",
+      "noMatchingFilters": "No users match your filters",
+      "adjustFilters": "Try adjusting your search criteria or clear the filters to see all users",
+      "admin": "Admin",
+      "user": "User",
+      "allRoles": "All Roles",
+      "userId": "User ID",
+      "roles": "Roles",
+      "noRoles": "No roles assigned",
+      "viewDetails": "View Details",
+      "disabled": "Disabled",
+      "verified": "Verified",
+      "notVerified": "Not Verified",
+      "created": "Created",
+      "lastSignIn": "Last Sign In",
+      "lastUpdated": "Last Updated",
+      "limitation": "Note: This page shows only users who have profiles in the database. To see all registered users, you would need to use Firebase Admin SDK on the server side.",
+      "basicInfo": "Basic Information",
+      "displayName": "Display Name",
+      "email": "Email",
+      "status": "Status",
+      "emailVerified": "Email Verified",
+      "timestamps": "Timestamps",
+      "profileData": "Profile Data",
+      "avatar": "Avatar",
+      "viewAvatar": "View Avatar"
+    },
     "questionGroup": {
       "createTitle": "Create New Question Group",
       "editTitle": "Edit Question Group",
@@ -362,7 +402,8 @@
     "warning": "Warning",
     "refresh": "Refresh",
     "view": "View",
-    "actions": "Actions"
+    "actions": "Actions",
+    "close": "Close"
   },
   "release": {
     "meta": {
