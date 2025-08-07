@@ -20,6 +20,7 @@
     "release": "Примітки до випуску",
     "admin": "Адмін",
     "login": "Увійти",
+    "signUp": "Зареєструватися",
     "profile": "Профіль",
     "signOut": "Вийти"
   },
@@ -347,7 +348,7 @@
       "user": "Користувач",
       "allRoles": "Всі Ролі",
       "userId": "ID Користувача",
-            "roles": "Ролі",
+      "roles": "Ролі",
       "noRoles": "Ролі не призначені",
       "viewDetails": "Переглянути Деталі",
       "disabled": "Вимкнено",
@@ -385,6 +386,33 @@
       "editQuestion": "Редагувати",
       "deleteQuestion": "Видалити",
       "duplicateQuestion": "Дублювати"
+    }
+  },
+  "auth": {
+    "email": "Email",
+    "emailPlaceholder": "Введіть вашу електронну адресу",
+    "password": "Пароль",
+    "passwordPlaceholder": "Введіть ваш пароль",
+    "confirmPassword": "Підтвердити Пароль",
+    "confirmPasswordPlaceholder": "Підтвердіть ваш пароль",
+    "or": "або",
+    "signInWithGoogle": "Увійти через Google",
+    "signIn": {
+      "title": "Увійти",
+      "subtitle": "Ласкаво просимо назад! Будь ласка, увійдіть до вашого облікового запису",
+      "button": "Увійти",
+      "noAccount": "Немає облікового запису?",
+      "signUpLink": "Зареєструватися"
+    },
+    "signUp": {
+      "title": "Зареєструватися",
+      "subtitle": "Створіть свій обліковий запис, щоб почати",
+      "button": "Зареєструватися",
+      "haveAccount": "Вже маєте обліковий запис?",
+      "signInLink": "Увійти",
+      "passwordMismatch": "Паролі не співпадають",
+      "passwordTooShort": "Пароль має бути не менше 6 символів",
+      "success": "Обліковий запис успішно створено! Ласкаво просимо до Englistry."
     }
   },
   "common": {

@@ -20,6 +20,7 @@
     "release": "Release Notes",
     "admin": "Admin",
     "login": "Login",
+    "signUp": "Sign Up",
     "profile": "Profile",
     "signOut": "Sign Out"
   },
@@ -387,6 +388,33 @@
       "editQuestion": "Edit",
       "deleteQuestion": "Delete",
       "duplicateQuestion": "Duplicate"
+    }
+  },
+  "auth": {
+    "email": "Email",
+    "emailPlaceholder": "Enter your email address",
+    "password": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "confirmPassword": "Confirm Password",
+    "confirmPasswordPlaceholder": "Confirm your password",
+    "or": "or",
+    "signInWithGoogle": "Sign in with Google",
+    "signIn": {
+      "title": "Sign In",
+      "subtitle": "Welcome back! Please sign in to your account",
+      "button": "Sign In",
+      "noAccount": "Don't have an account?",
+      "signUpLink": "Sign up"
+    },
+    "signUp": {
+      "title": "Sign Up",
+      "subtitle": "Create your account to get started",
+      "button": "Sign Up",
+      "haveAccount": "Already have an account?",
+      "signInLink": "Sign in",
+      "passwordMismatch": "Passwords do not match",
+      "passwordTooShort": "Password must be at least 6 characters long",
+      "success": "Account created successfully! Welcome to Englistry."
     }
   },
   "common": {
