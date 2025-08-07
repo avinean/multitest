@@ -84,32 +84,18 @@
                 {{ $t('nav.login') }}
               </UButton>
               
-              <div v-if="user" class="flex items-center space-x-2">
-                <UButton 
-                  :to="$localePath('/profile')"
-                  variant="ghost" 
-                  size="sm"
-                  class="flex items-center space-x-2 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-200 rounded-lg px-3 py-2"
-                >
-                  <div class="w-8 h-8 bg-gradient-to-br from-green-400 to-blue-500 rounded-full flex items-center justify-center">
-                    <UIcon name="i-heroicons-user" class="w-4 h-4 text-white" />
-                  </div>
-                                      <div class="hidden xl:block text-left">
-                      <div class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ user.displayName || user.email?.split('@')[0] }}</div>
-                      <div class="text-xs text-gray-500 dark:text-gray-400">{{ $t('nav.profile') }}</div>
-                    </div>
-                </UButton>
-                
-                <UButton 
-                  v-if="isAdmin"
-                  :to="$localePath('/admin')"
-                  variant="ghost" 
-                  size="sm"
-                  class="text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/30 hover:text-red-700 dark:hover:text-red-300 transition-all duration-200 rounded-lg"
-                >
-                  <UIcon name="i-heroicons-cog-6-tooth" class="w-4 h-4" />
-                </UButton>
-              </div>
+              <UButton 
+                v-if="user"
+                :to="$localePath('/profile')"
+                variant="ghost" 
+                size="sm"
+                class="flex items-center space-x-2 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-200 rounded-lg px-3 py-2"
+              >
+                <img v-if="user?.photoURL" :src="user.photoURL" :alt="user.displayName" class="w-8 h-8 rounded-full" />
+                <div v-else class="w-8 h-8 bg-gradient-to-br from-green-400 to-blue-500 rounded-full flex items-center justify-center">
+                  <UIcon name="i-heroicons-user" class="w-4 h-4 text-white" />
+                </div>
+              </UButton>
 
               <ThemeSwitcher />
               <LanguageSelector />
@@ -263,8 +249,7 @@
             <!-- Social Media -->
             <div class="space-y-4">
               <h4 class="text-lg font-semibold text-white mb-4 flex items-center">
-                <img v-if="user?.photoURL" :src="user?.photoURL" :alt="user.displayName" class="w-5 h-5 mr-2 text-purple-400" />
-                <UIcon v-else name="i-heroicons-users" class="w-5 h-5 mr-2 text-purple-400" />
+                <UIcon name="i-heroicons-users" class="w-5 h-5 mr-2 text-purple-400" />
                 {{ $t('footer.followUs') }}
               </h4>
               <div class="space-y-3">
@@ -458,7 +443,8 @@
           class="w-full justify-start"
           @click="showMobileMenu = false"
         >
-          <UIcon name="i-heroicons-user-circle" class="w-5 h-5 mr-3" />
+          <img v-if="user?.photoURL" :src="user.photoURL" :alt="user.displayName" class="w-5 h-5 mr-3 rounded-full" />
+          <UIcon v-else name="i-heroicons-user-circle" class="w-5 h-5 mr-3" />
           {{ $t('nav.profile') }}
         </UButton>
 
@@ -474,7 +460,7 @@
           {{ $t('nav.admin') }}
         </UButton>
 
-                <UButton
+        <UButton
           v-if="user"
           variant="ghost"
           size="lg"
