@@ -688,5 +688,26 @@
       "description": "Can't find the answer you're looking for? Our support team is here to help you with any questions about our English learning platform.",
       "button": "Contact Support"
     }
+  },
+  "freeGroupLesson": {
+    "title": "Free Group Lesson!",
+    "description": "Practice English with other learners in interactive sessions.",
+    "benefits": {
+      "free": "100% Free",
+      "interactive": "Live Practice",
+      "expert": "Expert Teachers"
+    },
+    "cta": "Join Now"
+  },
+  "contactModal": {
+    "title": "Get in Touch",
+    "subtitle": "Choose your preferred way to contact us",
+    "contactMethods": "Contact Methods",
+    "callbackTitle": "Request a Callback",
+    "phoneLabel": "Phone Number",
+    "phonePlaceholder": "+380 XX XXX XX XX",
+    "nameLabel": "Your Name",
+    "namePlaceholder": "Enter your name",
+    "submitButton": "Request Callback"
   }
 } 

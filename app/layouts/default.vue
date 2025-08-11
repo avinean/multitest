@@ -91,7 +91,7 @@
                 size="sm"
                 class="flex items-center space-x-2 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-200 rounded-lg px-3 py-2"
               >
-                <img v-if="user?.photoURL" :src="user.photoURL" :alt="user.displayName" class="w-8 h-8 rounded-full" />
+                <img v-if="user?.photoURL" :src="user.photoURL" :alt="user.displayName || 'User'" class="w-8 h-8 rounded-full" />
                 <div v-else class="w-8 h-8 bg-gradient-to-br from-green-400 to-blue-500 rounded-full flex items-center justify-center">
                   <UIcon name="i-heroicons-user" class="w-4 h-4 text-white" />
                 </div>
@@ -443,7 +443,7 @@
           class="w-full justify-start"
           @click="showMobileMenu = false"
         >
-          <img v-if="user?.photoURL" :src="user.photoURL" :alt="user.displayName" class="w-5 h-5 mr-3 rounded-full" />
+          <img v-if="user?.photoURL" :src="user.photoURL" :alt="user.displayName || 'User'" class="w-5 h-5 mr-3 rounded-full" />
           <UIcon v-else name="i-heroicons-user-circle" class="w-5 h-5 mr-3" />
           {{ $t('nav.profile') }}
         </UButton>
@@ -487,6 +487,9 @@
 
   <!-- Login Modal -->
   <ModalLogin v-model:open="showLoginModal"/>
+  
+  <!-- Free Group Lesson Banner -->
+  <FreeGroupLessonBanner />
 </template>
 
 <script setup lang="ts">
