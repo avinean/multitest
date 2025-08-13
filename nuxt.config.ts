@@ -101,5 +101,11 @@ export default defineNuxtConfig({
       //   autoAds: true
       // }
     }
+  },
+  runtimeConfig: {
+    public: {
+      monoKey: process.env.NUXT_PUBLIC_MONO_KEY,
+      monoUrl: process.env.NUXT_PUBLIC_MONO_URL
+    }
   }
 })

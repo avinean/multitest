@@ -257,7 +257,7 @@ let observer: IntersectionObserver | null = null
 onMounted(() => {
   // Create intersection observer for 80% visibility threshold
   const observerOptions = {
-    threshold: 0.6,
+    threshold: 0.4,
     rootMargin: '0px 0px -10% 0px'
   }
 

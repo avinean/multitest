@@ -20,7 +20,6 @@
     "release": "Release Notes",
     "admin": "Admin",
     "login": "Login",
-    "signUp": "Sign Up",
     "profile": "Profile",
     "signOut": "Sign Out"
   },
@@ -92,9 +91,7 @@
     "of": "of",
     "next": "Next",
     "previous": "Previous",
-    "submit": "Submit Test",
     "selectAnswer": "Please select an answer",
-    "timeRemaining": "Time remaining",
     "timeRemainingShort": "Time Remaining",
     "percentLeft": "% left",
     "reloadPage": "Reload Page",
@@ -111,13 +108,7 @@
     },
     "finishTest": "Finish Test",
     "previousButton": "← Previous",
-    "nextButton": "Next →",
-    "emailModal": {
-      "title": "Get Your Results",
-      "emailPlaceholder": "Enter your email address...",
-      "namePlaceholder": "Enter your name...",
-      "viewResults": "View Results"
-    }
+    "nextButton": "Next →"
   },
   "result": {
     "meta": {
@@ -151,7 +142,6 @@
       "placeholder": "Search blog posts..."
     },
     "published": "Published",
-    "by": "by",
     "readMore": "Read More",
     "showing": "Showing",
     "of": "of",
@@ -185,8 +175,7 @@
       },
       "lastUpdated": "Last updated",
       "share": "Share",
-      "relatedPosts": "Related Posts",
-      "relatedPostsMessage": "More posts coming soon..."
+      "relatedPosts": "Related Posts"
     },
     "readingTimeMinutes": "min read"
   },
@@ -689,15 +678,15 @@
       "button": "Contact Support"
     }
   },
-  "freeGroupLesson": {
-    "title": "Free Group Lesson!",
-    "description": "Practice English with other learners in interactive sessions.",
+  "freeLesson": {
+    "title": "Free Individual Lesson!",
+    "description": "Get personalized English practice with expert guidance.",
     "benefits": {
       "free": "100% Free",
-      "interactive": "Live Practice",
+      "personalized": "Individual Attention",
       "expert": "Expert Teachers"
     },
-    "cta": "Join Now"
+    "cta": "Book Now"
   },
   "contactModal": {
     "title": "Get in Touch",
@@ -709,5 +698,39 @@
     "nameLabel": "Your Name",
     "namePlaceholder": "Enter your name",
     "submitButton": "Request Callback"
+  },
+  "supportModal": {
+    "title": "Support Our Project",
+    "subtitle": "Help us continue building amazing English learning tools",
+    "shareTitle": "Share with Friends",
+    "shareTelegram": "Telegram",
+    "shareWhatsApp": "WhatsApp",
+    "shareFacebook": "Facebook",
+    "shareTwitter": "Twitter",
+    "shareText": "Check out this amazing English learning platform!",
+    "financialTitle": "Financial Support",
+    "financialMessage": "Every contribution helps us improve our platform and add new features.",
+    "customAmount": "Or enter custom amount:",
+    "enterAmount": "Enter amount",
+    "supportButton": "Support",
+    "thankYou": "Thank you for your support!",
+    "madeWithLove": "Made with love for the community"
+  },
+  "supportSuccess": {
+    "title": "Payment Successful!",
+    "message": "Thank you for supporting our project! Your contribution helps us continue building amazing English learning tools.",
+    "amountLabel": "Support Amount",
+    "supportTitle": "Thanks for Your Support!",
+    "supportMessage": "Your generous contribution means the world to us. Every donation helps us maintain and improve our platform, making English learning accessible to more people around the world.",
+    "supportSubtitle": "You're making a difference!",
+    "paymentDetails": "Payment Details",
+    "transactionId": "Transaction ID",
+    "approvalCode": "Approval Code",
+    "paymentMethod": "Payment Method",
+    "cardNumber": "Card Number",
+    "date": "Payment Date",
+    "backHome": "Back to Home",
+    "contactUs": "Contact Us",
+    "thankYou": "Thank you for your support!"
   }
 } 

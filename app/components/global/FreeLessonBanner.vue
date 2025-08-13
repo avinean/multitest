@@ -1,13 +1,10 @@
 <template>
-  <div 
-    v-show="showBanner"
-    class="fixed bottom-4 right-4 z-40"
-  >
+  <div v-show="showBanner">
     <!-- Minimized Phone Icon -->
     <div 
       v-if="bannerDismissed"
-      @click="expandBanner"
-      class="w-16 h-16 bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 rounded-full shadow-2xl border border-white/20 backdrop-blur-sm flex items-center justify-center cursor-pointer transform hover:scale-110 transition-all duration-200 animate-bounce"
+      @click="bannerDismissed = false"
+      class="w-16 h-16 bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 rounded-full shadow-2xl border border-white/20 backdrop-blur-sm flex items-center justify-center cursor-pointer transform hover:scale-110 transition-all duration-200"
       aria-label="Expand banner"
     >
       <UIcon name="i-heroicons-phone" class="w-8 h-8 text-white" />
@@ -28,11 +25,11 @@
     >
       <div 
         v-if="!bannerDismissed"
-        class="max-w-sm bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 rounded-2xl shadow-2xl border border-white/20 backdrop-blur-sm overflow-hidden"
+        class="absolute right-0 bottom-0 w-400 max-w-sm bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 rounded-2xl shadow-2xl border border-white/20 backdrop-blur-sm overflow-hidden"
       >
         <!-- Close Button -->
         <button
-          @click="closeBanner"
+          @click="bannerDismissed = true"
           class="absolute z-11 top-3 right-3 w-6 h-6 cursor-pointer bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-all duration-200 group"
           aria-label="Close banner"
         >
@@ -53,31 +50,31 @@
           <!-- Text Content -->
           <div class="relative z-10 space-y-4">
             <div class="flex items-center space-x-3">
-              <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center animate-bounce">
-                <UIcon name="i-heroicons-users" class="w-5 h-5 text-white" />
+              <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center shrink-0 animate-bounce">
+                <UIcon name="i-heroicons-user" class="w-5 h-5 text-white" />
               </div>
               <h3 class="text-lg font-bold leading-tight">
-                {{ $t('freeGroupLesson.title') }}
+                {{ $t('freeLesson.title') }}
               </h3>
             </div>
             
             <p class="text-sm text-white/90 leading-relaxed">
-              {{ $t('freeGroupLesson.description') }}
+              {{ $t('freeLesson.description') }}
             </p>
 
             <!-- Interactive Benefits -->
             <div class="space-y-2">
               <div class="flex items-center space-x-2 text-xs group cursor-pointer hover:bg-white/10 p-2 rounded-lg transition-all duration-200">
                 <UIcon name="i-heroicons-check-circle" class="w-4 h-4 text-green-300 flex-shrink-0 group-hover:scale-110 transition-transform duration-200" />
-                <span class="group-hover:text-white transition-colors duration-200">{{ $t('freeGroupLesson.benefits.free') }}</span>
+                <span class="group-hover:text-white transition-colors duration-200">{{ $t('freeLesson.benefits.free') }}</span>
               </div>
               <div class="flex items-center space-x-2 text-xs group cursor-pointer hover:bg-white/10 p-2 rounded-lg transition-all duration-200">
                 <UIcon name="i-heroicons-check-circle" class="w-4 h-4 text-green-300 flex-shrink-0 group-hover:scale-110 transition-transform duration-200" />
-                <span class="group-hover:text-white transition-colors duration-200">{{ $t('freeGroupLesson.benefits.interactive') }}</span>
+                <span class="group-hover:text-white transition-colors duration-200">{{ $t('freeLesson.benefits.personalized') }}</span>
               </div>
               <div class="flex items-center space-x-2 text-xs group cursor-pointer hover:bg-white/10 p-2 rounded-lg transition-all duration-200">
                 <UIcon name="i-heroicons-check-circle" class="w-4 h-4 text-green-300 flex-shrink-0 group-hover:scale-110 transition-transform duration-200" />
-                <span class="group-hover:text-white transition-colors duration-200">{{ $t('freeGroupLesson.benefits.expert') }}</span>
+                <span class="group-hover:text-white transition-colors duration-200">{{ $t('freeLesson.benefits.expert') }}</span>
               </div>
             </div>
 
@@ -87,7 +84,7 @@
               class="w-full bg-white/20 hover:bg-white/30 border border-white/30 hover:border-white/50 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-200 transform hover:scale-105 shadow-lg group"
             >
               <UIcon name="i-heroicons-arrow-right" class="w-4 h-4 mr-2 group-hover:translate-x-1 transition-transform duration-200" />
-              {{ $t('freeGroupLesson.cta') }}
+              {{ $t('freeLesson.cta') }}
             </UButton>
           </div>
         </div>
@@ -106,22 +103,8 @@
 const showBanner = ref(false)
 const showContactModal = ref(false)
 
-// Check if user has already dismissed the banner
-const bannerDismissed = useCookie<boolean>('free-group-lesson-dismissed')
+const bannerDismissed = useCookie<boolean>('free-lesson-dismissed')
 
-// Check if user is on admin pages (don't show banner)
-const route = useRoute()
-const isAdminPage = computed(() => route.path.startsWith('/admin'))
-
-const closeBanner = () => {
-  bannerDismissed.value = true
-}
-
-const expandBanner = () => {
-  bannerDismissed.value = false
-}
-
-// Show banner after 5 seconds if not dismissed and not on admin pages
 onMounted(() =>
   setTimeout(() => {
     showBanner.value = true

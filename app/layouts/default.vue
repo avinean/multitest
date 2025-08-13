@@ -362,134 +362,133 @@
           class="absolute right-0 top-0 h-full w-full md:w-82 bg-white dark:bg-gray-900 shadow-xl dark:shadow-gray-950/50 transform flex flex-col"
           @click.stop
         >
-                <!-- Header -->
           <div class="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
-        <img src="/logo/light-long.png" alt="English Test" class="h-8">
-        <UButton
-          variant="ghost"
-          size="sm"
-          icon="i-heroicons-x-mark"
-          @click="showMobileMenu = false"
-          aria-label="Close menu"
-        />
-      </div>
-
-             <!-- Navigation Items -->
-       <nav class="flex-1 overflow-y-auto p-4 space-y-1">
-        <UButton
-          :to="$localePath('/test')"
-          variant="ghost"
-          size="lg"
-          class="w-full justify-start"
-          @click="showMobileMenu = false"
-        >
-          <UIcon name="i-heroicons-academic-cap" class="w-5 h-5 mr-3" />
-          {{ $t('nav.englishTest') }}
-        </UButton>
-        
-        <UButton
-          :to="$localePath('/blog')"
-          variant="ghost"
-          size="lg"
-          class="w-full justify-start"
-          @click="showMobileMenu = false"
-        >
-          <UIcon name="i-heroicons-document-text" class="w-5 h-5 mr-3" />
-          {{ $t('nav.blog') }}
-        </UButton>
-        
-        <UButton
-          :to="$localePath('/faq')"
-          variant="ghost"
-          size="lg"
-          class="w-full justify-start"
-          @click="showMobileMenu = false"
-        >
-          <UIcon name="i-heroicons-question-mark-circle" class="w-5 h-5 mr-3" />
-          {{ $t('nav.faq') }}
-        </UButton>
-        
-        <UButton
-          :to="$localePath('/contact')"
-          variant="ghost"
-          size="lg"
-          class="w-full justify-start"
-          @click="showMobileMenu = false"
-        >
-          <UIcon name="i-heroicons-chat-bubble-left-right" class="w-5 h-5 mr-3" />
-          {{ $t('nav.contact') }}
-        </UButton>
-
-                 <!-- Divider -->
-         <div class="border-t border-gray-200 my-3"></div>
-
-        <!-- User Actions -->
-        <UButton
-          v-if="!user"
-          variant="ghost"
-          size="lg"
-          class="w-full justify-start"
-          @click="handleMobileLogin"
-        >
-          <UIcon name="i-heroicons-arrow-right-on-rectangle" class="w-5 h-5 mr-3" />
-          {{ $t('nav.login') }}
-        </UButton>
-        
-        <UButton
-          v-if="user"
-          :to="$localePath('/profile')"
-          variant="ghost"
-          size="lg"
-          class="w-full justify-start"
-          @click="showMobileMenu = false"
-        >
-          <img v-if="user?.photoURL" :src="user.photoURL" :alt="user.displayName || 'User'" class="w-5 h-5 mr-3 rounded-full" />
-          <UIcon v-else name="i-heroicons-user-circle" class="w-5 h-5 mr-3" />
-          {{ $t('nav.profile') }}
-        </UButton>
-
-        <UButton
-          v-if="isAdmin"
-          :to="$localePath('/admin')"
-          variant="ghost"
-          size="lg"
-          class="w-full justify-start"
-          @click="showMobileMenu = false"
-        >
-          <UIcon name="i-heroicons-cog-6-tooth" class="w-5 h-5 mr-3" />
-          {{ $t('nav.admin') }}
-        </UButton>
-
-        <UButton
-          v-if="user"
-          variant="ghost"
-          size="lg"
-          class="w-full justify-start text-red-600 hover:text-red-700 hover:bg-red-50"
-          @click="handleMobileSignOut"
-        >
-          <UIcon name="i-heroicons-arrow-right-on-rectangle" class="w-5 h-5 mr-3" />
-          {{ $t('nav.signOut') }}
-        </UButton>
-
-        <!-- Theme Switcher -->
-        <div class="flex items-center justify-between w-full px-3 py-2">
-          <div class="flex items-center space-x-3">
-            <UIcon name="i-heroicons-swatch" class="w-5 h-5 text-gray-600 dark:text-gray-400" />
-            <span class="text-sm font-medium text-gray-900 dark:text-white">{{ $t('theme.toggle') }}</span>
+            <img src="/logo/light-long.png" alt="English Test" class="h-8">
+            <UButton
+              variant="ghost"
+              size="sm"
+              icon="i-heroicons-x-mark"
+              @click="showMobileMenu = false"
+              aria-label="Close menu"
+            />
           </div>
-          <ThemeSwitcher />
-        </div>
-      </nav>
-     </div>
-   </Transition>
- </div>
-</Transition>
 
-  <!-- Login Modal -->
+          <nav class="flex-1 overflow-y-auto p-4 space-y-1">
+            <UButton
+              :to="$localePath('/test')"
+              variant="ghost"
+              size="lg"
+              class="w-full justify-start"
+              @click="showMobileMenu = false"
+            >
+              <UIcon name="i-heroicons-academic-cap" class="w-5 h-5 mr-3" />
+              {{ $t('nav.englishTest') }}
+            </UButton>
+            
+            <UButton
+              :to="$localePath('/blog')"
+              variant="ghost"
+              size="lg"
+              class="w-full justify-start"
+              @click="showMobileMenu = false"
+            >
+              <UIcon name="i-heroicons-document-text" class="w-5 h-5 mr-3" />
+              {{ $t('nav.blog') }}
+            </UButton>
+            
+            <UButton
+              :to="$localePath('/faq')"
+              variant="ghost"
+              size="lg"
+              class="w-full justify-start"
+              @click="showMobileMenu = false"
+            >
+              <UIcon name="i-heroicons-question-mark-circle" class="w-5 h-5 mr-3" />
+              {{ $t('nav.faq') }}
+            </UButton>
+            
+            <UButton
+              :to="$localePath('/contact')"
+              variant="ghost"
+              size="lg"
+              class="w-full justify-start"
+              @click="showMobileMenu = false"
+            >
+              <UIcon name="i-heroicons-chat-bubble-left-right" class="w-5 h-5 mr-3" />
+              {{ $t('nav.contact') }}
+            </UButton>
+
+                    <!-- Divider -->
+            <div class="border-t border-gray-200 my-3"></div>
+
+            <!-- User Actions -->
+            <UButton
+              v-if="!user"
+              variant="ghost"
+              size="lg"
+              class="w-full justify-start"
+              @click="handleMobileLogin"
+            >
+              <UIcon name="i-heroicons-arrow-right-on-rectangle" class="w-5 h-5 mr-3" />
+              {{ $t('nav.login') }}
+            </UButton>
+            
+            <UButton
+              v-if="user"
+              :to="$localePath('/profile')"
+              variant="ghost"
+              size="lg"
+              class="w-full justify-start"
+              @click="showMobileMenu = false"
+            >
+              <img v-if="user?.photoURL" :src="user.photoURL" :alt="user.displayName || 'User'" class="w-5 h-5 mr-3 rounded-full" />
+              <UIcon v-else name="i-heroicons-user-circle" class="w-5 h-5 mr-3" />
+              {{ $t('nav.profile') }}
+            </UButton>
+
+            <UButton
+              v-if="isAdmin"
+              :to="$localePath('/admin')"
+              variant="ghost"
+              size="lg"
+              class="w-full justify-start"
+              @click="showMobileMenu = false"
+            >
+              <UIcon name="i-heroicons-cog-6-tooth" class="w-5 h-5 mr-3" />
+              {{ $t('nav.admin') }}
+            </UButton>
+
+            <UButton
+              v-if="user"
+              variant="ghost"
+              size="lg"
+              class="w-full justify-start text-red-600 hover:text-red-700 hover:bg-red-50"
+              @click="handleMobileSignOut"
+            >
+              <UIcon name="i-heroicons-arrow-right-on-rectangle" class="w-5 h-5 mr-3" />
+              {{ $t('nav.signOut') }}
+            </UButton>
+
+            <!-- Theme Switcher -->
+            <div class="flex items-center justify-between w-full px-3 py-2">
+              <div class="flex items-center space-x-3">
+                <UIcon name="i-heroicons-swatch" class="w-5 h-5 text-gray-600 dark:text-gray-400" />
+                <span class="text-sm font-medium text-gray-900 dark:text-white">{{ $t('theme.toggle') }}</span>
+              </div>
+              <ThemeSwitcher />
+            </div>
+          </nav>
+        </div>
+      </Transition>
+    </div>
+  </Transition>
   <ModalLogin v-model:open="showLoginModal"/>
-  
-  <!-- Free Group Lesson Banner -->
-  <FreeGroupLessonBanner />
+  <ClientOnly>
+    <div class="fixed bottom-4 right-4 z-40 flex gap-4">
+      <SupportBanner />
+      <FreeLessonBanner />
+    </div>
+  </ClientOnly>
 </template>
 
 <script setup lang="ts">
