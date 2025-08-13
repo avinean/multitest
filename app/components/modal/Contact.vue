@@ -1,7 +1,7 @@
 <template>
   <UModal v-model:open="open" class="max-w-md mx-auto" :ui="{ header: 'hidden' }">
     <template #body>
-      <div class="bg-gradient-to-r from-blue-500 to-purple-600 -m-6 p-6 text-white relative">
+      <div class="bg-gradient-to-r from-blue-500 to-purple-600 -mx-6 -mt-6 p-6 text-white relative">
         <!-- Close Button -->
         <UButton
           @click="closeModal"
@@ -77,7 +77,7 @@
           </a>
         </div>
 
-        <!-- Callback Form -->
+        <!-- Callback Form
         <div class="space-y-4">
           <h3 class="text-lg font-semibold text-gray-900 dark:text-white flex items-center">
             <UIcon name="i-heroicons-phone" class="w-5 h-5 mr-2 text-green-500" />
@@ -115,7 +115,7 @@
               {{ $t('contactModal.submitButton') }}
             </UButton>
           </form>
-        </div>
+        </div> -->
       </div>
     </template>
   </UModal>
