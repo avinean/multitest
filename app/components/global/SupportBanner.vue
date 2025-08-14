@@ -170,7 +170,7 @@ const hasShownThisSession = ref(false)
 const handleSupport = async () => {
   if (!selectedAmount.value) return
   try {
-    await pay(+selectedAmount.value)
+    await pay(+selectedAmount.value * 100)
     open.value = false
     console.log(`Support payment of ${selectedAmount.value} ₴ initiated successfully`)
   } catch (error) {
