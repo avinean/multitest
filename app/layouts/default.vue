@@ -66,6 +66,16 @@
                 {{ $t('nav.contact') }}
                 <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-0 h-0.5 bg-orange-500 group-hover:w-full transition-all duration-200"></div>
               </UButton>
+              <UButton
+                :to="$localePath('/subscriptions')" 
+                variant="ghost" 
+                size="sm"
+                class="relative group hover:bg-indigo-50 dark:hover:bg-indigo-900/30 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all duration-200 rounded-lg px-4 py-2"
+              >
+                <UIcon name="i-heroicons-credit-card" class="w-4 h-4 mr-2" />
+                {{ $t('nav.subscriptions') }}
+                <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-0 h-0.5 bg-indigo-500 group-hover:w-full transition-all duration-200"></div>
+              </UButton>
             </div>
 
             <!-- Divider -->
@@ -206,6 +216,15 @@
                 >
                   <UIcon name="i-heroicons-chat-bubble-left-right" class="w-4 h-4 mr-3" />
                   {{ $t('nav.contact') }}
+                </UButton>
+                <UButton
+                  :to="$localePath('/subscriptions')"
+                  variant="ghost"
+                  size="sm"
+                  class="text-gray-300 hover:text-white hover:bg-white/10 justify-start w-full p-2 rounded-lg transition-all duration-200"
+                >
+                  <UIcon name="i-heroicons-credit-card" class="w-4 h-4 mr-3" />
+                  {{ $t('nav.subscriptions') }}
                 </UButton>
                 <UButton
                   :to="$localePath('/release')"
@@ -416,6 +435,17 @@
             >
               <UIcon name="i-heroicons-chat-bubble-left-right" class="w-5 h-5 mr-3" />
               {{ $t('nav.contact') }}
+            </UButton>
+            
+            <UButton
+              :to="$localePath('/subscriptions')"
+              variant="ghost"
+              size="lg"
+              class="w-full justify-start"
+              @click="showMobileMenu = false"
+            >
+              <UIcon name="i-heroicons-credit-card" class="w-5 h-5 mr-3" />
+              {{ $t('nav.subscriptions') }}
             </UButton>
 
                     <!-- Divider -->

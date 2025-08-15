@@ -17,6 +17,7 @@
     "blog": "Blog",
     "faq": "FAQ",
     "contact": "Contact Us",
+    "subscriptions": "Subscriptions",
     "release": "Release Notes",
     "admin": "Admin",
     "login": "Login",
@@ -201,7 +202,8 @@
       "home": "Home",
       "questionGroups": "Question Groups",
       "blog": "Blog",
-      "users": "Users"
+      "users": "Users",
+      "subscriptions": "Subscriptions"
     },
     "login": {
           "email": "Email",
@@ -377,6 +379,93 @@
       "editQuestion": "Edit",
       "deleteQuestion": "Delete",
       "duplicateQuestion": "Duplicate"
+    },
+    "subscriptions": {
+      "subtitle": "View and manage your subscription plans",
+      "create": "Create New Subscription",
+      "createFirst": "Create Your First Subscription",
+      "edit": "Edit",
+      "delete": "Delete",
+      "search": "Search subscriptions by title...",
+      "filterByType": "Filter by type",
+      "filterByStatus": "Filter by status",
+      "clearFilters": "Clear Filters",
+      "allStatuses": "All Statuses",
+      "allTypes": "All Types",            
+      "filtered": "(filtered)",      
+      "noSubscriptionsFound": "No subscriptions found",
+      "noSubscriptionsMessage": "Create your first subscription plan to start offering premium features",
+      "noMatchingFilters": "No subscriptions match your filters",
+      "adjustFilters": "Try adjusting your search criteria or clear the filters to see all subscriptions",
+      "confirmDelete": "Are you sure you want to delete this subscription? This action cannot be undone.",
+      "errorDeleting": "Error deleting subscription",
+      "noResults": "No results found",
+      "noResultsMessage": "Try adjusting your search criteria or clear the filters to see all subscriptions",
+      "showing": "Showing",
+      "of": "of",
+      "created": "Created",
+      "hero": {
+        "title": "Choose Your Learning Path",
+        "subtitle": "Unlock your potential with our comprehensive subscription plans designed for every learner"
+      },
+      "pricing": {
+        "title": "Flexible Pricing Plans",
+        "subtitle": "Select the perfect plan that fits your learning goals and budget"
+      },
+      "loading": {
+        "title": "Loading Subscriptions",
+        "subtitle": "Please wait while we fetch the latest subscription plans for you"
+      },
+      "error": {
+        "title": "Error Loading Subscriptions",
+        "retry": "Try Again"
+      },
+      "noSubscriptions": {
+        "title": "No Subscriptions Available",
+        "message": "We're currently setting up our subscription plans. Please check back soon or contact us for more information."
+      },
+      "plans": {
+        "cta": "Get Started",
+        "untitled": "Untitled Plan"
+      },
+      "meta": {
+        "title": "Subscription Plans | Englistry",
+        "description": "Choose from our flexible subscription plans designed to accelerate your English learning journey"
+      },
+      "adminMeta": {
+        "title": "Subscriptions Management - Admin | Englistry",
+        "description": "Manage subscription plans and pricing for your English learning platform"
+      },
+      "createTitle": "Create New Subscription",
+      "editTitle": "Edit Subscription",
+      "createSubtitle": "Add a new subscription plan to your platform",
+      "editSubtitle": "Modify subscription plan details and settings",
+      "basicInfo": "Basic Information",
+      "type": "Type",
+      "selectType": "Select subscription type",
+      "status": "Status",
+      "selectStatus": "Select status",
+      "title": "Title",
+      "titlePlaceholder": "Enter subscription title...",
+      "price": "Price",
+      "pricePlaceholder": "e.g., 149 ₴/month",
+      "badge": "Badge",
+      "badgePlaceholder": "e.g., Most Popular",
+      "description": "Description",
+      "descriptionPlaceholder": "Enter subscription description...",
+      "features": "Features",
+      "addFeature": "Add Feature",
+      "noFeatures": "No features added yet. Add features to describe what this subscription includes.",
+      "featurePlaceholder": "Enter feature description...",
+      "notFound": "Subscription not found",
+      "errorLoading": "Error loading subscription",
+      "errorSaving": "Error saving subscription",
+      "contentLanguage": "Content Language",
+      "selectLanguageHint": "Select the language for the content below",
+      "contentFor": "Content for",
+      "published": "Published",
+      "draft": "Draft",
+      "publishedLabel": "Make this subscription visible to users"
     }
   },
   "auth": {
@@ -420,7 +509,11 @@
     "refresh": "Refresh",
     "view": "View",
     "actions": "Actions",
-    "close": "Close"
+    "close": "Close",
+    "saving": "Saving...",
+    "previous": "Previous",
+    "next": "Next",
+    "more": "more"
   },
   "release": {
     "meta": {
@@ -687,6 +780,141 @@
       "expert": "Expert Teachers"
     },
     "cta": "Book Now"
+  },
+  "subscriptions": {
+    "meta": {
+      "title": "Subscriptions & Pricing - Premium English Learning | Englistry",
+      "description": "Choose from our premium subscription plans to unlock advanced English learning features, personalized practice, and expert guidance. Start your journey to English fluency today."
+    },
+    "hero": {
+      "title": "Unlock Premium Learning",
+      "subtitle": "Choose the perfect plan to accelerate your English learning journey with personalized practice, advanced features, and expert guidance."
+    },
+    "pricing": {
+      "title": "Choose Your Plan",
+      "subtitle": "Select the subscription that best fits your learning goals and budget. All plans include our core features plus exclusive premium benefits."
+    },
+    "plans": {
+      "start": {
+        "title": "Start",
+        "price": "500 ₴/month",
+        "description": "For those who want to practice regularly and feel progress, but without additional materials.",
+        "features": [
+          "Access to 10 NMT tests per month",
+          "Instant results with correct answers",
+          "Results statistics and progress"
+        ],
+        "cta": "Start Start"
+      },
+      "study": {
+        "title": "Study",
+        "price": "1000 ₴/month",
+        "description": "For those who want not only to practice, but also to analyze mistakes and improve knowledge.",
+        "badge": "Most Popular",
+        "features": [
+          "Unlimited access to NMT tests",
+          "Statistics and progress with tips to improve results",
+          "Access to exclusive articles explaining complex topics"
+        ],
+        "cta": "Get Study"
+      },
+      "pro": {
+        "title": "Pro",
+        "price": "2500 ₴/month",
+        "description": "For students who want to get the maximum benefit from preparation, including educational videos and psychological support.",
+        "features": [
+          "Everything from Study package",
+          "Access to English video lessons",
+          "Access to psychology video consultations",
+          "Ability to ask questions to teacher or psychologist in chat (up to 5 questions per month)"
+        ],
+        "cta": "Go Pro"
+      },
+      "premium": {
+        "title": "Premium",
+        "price": "5000 ₴/month",
+        "description": "Personal approach with individual consultations.",
+        "features": [
+          "Everything from Pro package",
+          "1 online consultation with English teacher (45 min)",
+          "1 online consultation with psychologist (45 min)",
+          "Priority technical support"
+        ],
+        "cta": "Get Premium"
+      }
+    },
+    "benefits": {
+      "title": "Why Choose Premium?",
+      "subtitle": "Discover the advantages that will transform your English learning experience",
+      "items": [
+        {
+          "icon": "i-heroicons-academic-cap",
+          "title": "Advanced Practice",
+          "description": "Access to our complete question bank with thousands of practice questions across all difficulty levels."
+        },
+        {
+          "icon": "i-heroicons-chart-bar",
+          "title": "Detailed Analytics",
+          "description": "Track your progress with comprehensive performance metrics and personalized insights."
+        },
+        {
+          "icon": "i-heroicons-user-group",
+          "title": "Expert Support",
+          "description": "Get help from our team of English language experts whenever you need assistance."
+        },
+        {
+          "icon": "i-heroicons-light-bulb",
+          "title": "Smart Learning",
+          "description": "AI-powered recommendations that adapt to your learning style and progress."
+        },
+        {
+          "icon": "i-heroicons-clock",
+          "title": "Flexible Schedule",
+          "description": "Learn at your own pace with 24/7 access to all premium features and content."
+        },
+        {
+          "icon": "i-heroicons-trophy",
+          "title": "Achievement System",
+          "description": "Earn badges and certificates as you progress through your learning journey."
+        }
+      ]
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "subtitle": "Everything you need to know about our subscription plans",
+      "items": [
+        {
+          "question": "Can I cancel my subscription anytime?",
+          "answer": "Yes, you can cancel your subscription at any time. Your access will continue until the end of your current billing period, and you won't be charged again."
+        },
+        {
+          "question": "Do you offer refunds?",
+          "answer": "We offer a 30-day money-back guarantee. If you're not satisfied with your subscription, contact us within 30 days for a full refund."
+        },
+        {
+          "question": "Can I upgrade or downgrade my plan?",
+          "answer": "Absolutely! You can change your plan at any time. Upgrades take effect immediately, while downgrades apply at your next billing cycle."
+        },
+        {
+          "question": "What payment methods do you accept?",
+          "answer": "We accept all major credit cards, debit cards, and bank transfers. All payments are processed securely through our trusted payment partners."
+        },
+        {
+          "question": "Is there a free trial for premium features?",
+          "answer": "Yes! We offer a 7-day free trial for all premium plans so you can experience the full benefits before committing."
+        },
+        {
+          "question": "What happens if I miss a payment?",
+          "answer": "We'll notify you if there's an issue with your payment. You'll have a grace period to update your payment information before your access is temporarily suspended."
+        }
+      ]
+    },
+    "cta": {
+      "title": "Ready to Transform Your English?",
+      "subtitle": "Join thousands of learners who have already upgraded to premium and accelerated their progress",
+      "primary": "Get Started Today",
+      "secondary": "Learn More"
+    }
   },
   "contactModal": {
     "title": "Get in Touch",

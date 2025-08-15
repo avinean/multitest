@@ -45,3 +45,16 @@ export interface TestResult {
   totalQuestions: number;
   percentage: number;
 }
+
+export type Subscription = {
+  id?: string;
+  published: boolean;
+  price: number;
+  badge?: 'popular' | 'pro' | 'premium';
+  createdAt: string;
+  updatedAt: string;
+} & Record<'uk' | 'en', {
+  title: string;
+  description: string;
+  features: string[];
+}>;

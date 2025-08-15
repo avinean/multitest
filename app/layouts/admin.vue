@@ -38,6 +38,14 @@
                 <UIcon name="i-heroicons-users" class="w-4 h-4" />
                 {{ $t('admin.navigation.users') }}
               </UButton>
+              <UButton
+                variant="ghost" 
+                size="sm"
+                :to="$localePath('/admin/subscriptions')"
+              >
+                <UIcon name="i-heroicons-credit-card" class="w-4 h-4" />
+                {{ $t('admin.navigation.subscriptions') }}
+              </UButton>
             </div>
           </div>
           <div class="flex items-center gap-4">
