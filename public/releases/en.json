@@ -1,6 +1,35 @@
 {
   "releases": [
     {
+      "version": "v2.4.0",
+      "type": "minor",
+      "date": "2025-01-20T14:00:00.000Z",
+      "description": "Enhanced payment system integration for project support with improved user experience.",
+      "features": [
+        "Integrated payment system with Mono Bank for secure transactions",
+        "Support for multiple payment methods including cards and bank transfers",
+        "Real-time payment status tracking and notifications",
+        "Enhanced payment history and transaction management",
+        "Improved user profile with payment information",
+        "Better error handling and user feedback for payment processes"
+      ],
+      "improvements": [
+        "Streamlined payment flow with better user guidance",
+        "Enhanced security measures for payment processing",
+        "Improved mobile payment experience",
+        "Better integration between payment system and user accounts",
+        "More detailed payment analytics and reporting",
+        "Enhanced webhook handling for payment confirmations"
+      ],
+      "fixes": [
+        "Fixed payment document creation and storage issues",
+        "Resolved race conditions in payment processing",
+        "Improved error handling for failed payment attempts",
+        "Fixed payment status synchronization issues",
+        "Resolved missing translation keys for payment interface"
+      ]
+    },
+    {
       "version": "v2.3.0",
       "type": "minor",
       "date": "2025-01-15T10:30:00.000Z",

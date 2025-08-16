@@ -66,7 +66,7 @@
                 {{ $t('nav.contact') }}
                 <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-0 h-0.5 bg-orange-500 group-hover:w-full transition-all duration-200"></div>
               </UButton>
-              <UButton
+              <!-- <UButton
                 :to="$localePath('/subscriptions')" 
                 variant="ghost" 
                 size="sm"
@@ -75,7 +75,7 @@
                 <UIcon name="i-heroicons-credit-card" class="w-4 h-4 mr-2" />
                 {{ $t('nav.subscriptions') }}
                 <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-0 h-0.5 bg-indigo-500 group-hover:w-full transition-all duration-200"></div>
-              </UButton>
+              </UButton> -->
             </div>
 
             <!-- Divider -->
