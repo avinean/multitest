@@ -161,12 +161,10 @@ const fetchQuestions = async () => {
   try {
     const questionGroups: Question[] = []
     
-    // Extract unique group IDs from answers
     const groupIds = [...new Set(
       Object.keys(props.result.answers).map(key => key.split('-')[0])
     )]
     
-    // Fetch each question group
     for (const groupId of groupIds) {
       if (groupId) {
         const groupDoc = await getDoc(doc(db, 'question-groups', groupId))

@@ -156,11 +156,18 @@ try {
 
   questions = testData.questions
   answers = testData.answers
-  score = questions.reduce((correct, question) => 
-    answers[`${question.groupId}-${question.order}`] !== undefined && answers[`${question.groupId}-${question.order}`] === question.correct
-      ? correct + 1 
+  const groups: Record<string, number> = {}
+  score = questions.reduce((correct, question) => {
+    if (groups[question.groupId] === undefined) {
+      groups[question.groupId] = 0
+    } else {
+      groups[question.groupId]! += 1
+    }
+    console.log(question.groupId, groups[question.groupId], answers[`${question.groupId}-${groups[question.groupId]!}`])
+    return answers[`${question.groupId}-${groups[question.groupId]!}`] !== undefined && answers[`${question.groupId}-${groups[question.groupId]!}`] === question.correct
+      ? correct + 1
       : correct
-  , 0)
+  }, 0)
   timeTaken = testData.timeTaken
 
   if (user.value) {

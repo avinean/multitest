@@ -10,47 +10,18 @@ export default function useMono() {
       },
       body: {
         amount,
+        merchantPaymInfo: {
+          destination: 'Оплата за інформаційні та консультаційні послуги',
+          comment: 'Оплата за інформаційні та консультаційні послуги',
+        },
         redirectUrl: location.origin + '/' + locale.value + '/support/success?support=true',
-      }
+      } satisfies SinglePayment
     })
 
     window.open(pageUrl, '_blank')
   }
 
-  async function checkPayment(invoiceId: string) {
-    return $fetch<{ 
-      amount: number,
-      ccy: number,
-      createdDate: string,
-      finalAmount: number,
-      invoiceId: string,
-      modifiedDate: string,
-      payMethod: string,
-      paymentInfo: {
-        approvalCode: string,
-        bank: string,
-        country: string,
-        fee: number,
-        maskedPan: string,
-        paymentMethod: string,
-        paymentSystem: string,
-        rrn: string,
-        terminal: string,
-        tranId: string,
-      },
-      status: string
-    } > (monoUrl + '/api/merchant/invoice/status', {
-      headers: {
-        'X-Token': monoKey
-      },
-      query: {
-        invoiceId
-      }
-    })
-  }
-
   return {
-    pay,
-    checkPayment
+    pay
   }
 }
