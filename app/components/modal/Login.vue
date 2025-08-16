@@ -147,7 +147,7 @@ const isSignUp = ref(initialMode === 'signup')
 const close = () => {
   isOpen.value = false
   if (redirect) {
-    navigateTo(localePath(redirect))
+    navigateTo(redirect)
   }
 }
 
