@@ -12,6 +12,7 @@ export default function useMono() {
         amount,
         merchantPaymInfo: {
           destination: 'Оплата за інформаційні та консультаційні послуги',
+          comment: 'Оплата за інформаційні та консультаційні послуги',
         },
         redirectUrl: location.origin + '/' + locale.value + '/support/success?support=true',
       } satisfies SinglePayment
