@@ -2,6 +2,11 @@
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-18',
   devtools: { enabled: true },
+  vite: {
+    server: {
+      allowedHosts: true,
+    },
+  },
   modules: [
     '@nuxt/ui',
     'nuxt-vuefire',
@@ -20,7 +25,9 @@ export default defineNuxtConfig({
     // '/**': { redirect: '/en' },
     '/:locale/admin/**': { ssr: false },
     '/:locale/test/**': { ssr: false },
-    '/:locale/profile/**': { ssr: false }
+    '/:locale/profile/**': { ssr: false },
+    // API routes
+    '/api/**': { cors: true }
   },
   vuefire: {
     config: {
@@ -105,7 +112,14 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       monoKey: process.env.NUXT_PUBLIC_MONO_KEY,
-      monoUrl: process.env.NUXT_PUBLIC_MONO_URL
+      monoUrl: process.env.NUXT_PUBLIC_MONO_URL,
+      monoWebhookUrl: process.env.NUXT_PUBLIC_MONO_WEBHOOK_URL
+    }
+  },
+  nitro: {
+    // API configuration
+    experimental: {
+      wasm: true
     }
   }
 })

@@ -38,6 +38,21 @@
         <p class="text-gray-600 dark:text-gray-300 text-sm">{{ $t('profile.testResultsDescription') }}</p>
       </UCard>
 
+      <!-- Payments Card -->
+      <UCard 
+        class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:shadow-md dark:hover:shadow-gray-900/25 transition-all duration-200 cursor-pointer group" 
+        @click="navigateTo($localePath('/profile/payments'))"
+      >
+        <div class="flex items-center justify-between mb-4">
+          <div class="w-12 h-12 bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-900/50 dark:to-blue-800/50 rounded-lg flex items-center justify-center">
+            <UIcon name="i-heroicons-credit-card" class="w-6 h-6 text-blue-600 dark:text-blue-400" />
+          </div>
+          <UIcon name="i-heroicons-arrow-right" class="w-5 h-5 text-gray-400 dark:text-gray-500 group-hover:text-blue-500 dark:group-hover:text-blue-400 transition-colors" />
+        </div>
+        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">{{ $t('profile.payments.title') }}</h3>
+        <p class="text-gray-600 dark:text-gray-300 text-sm">{{ $t('profile.payments.description') }}</p>
+      </UCard>
+
       <!-- Stats Card -->
       <UCard class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
         <div class="flex items-center justify-between mb-4">

@@ -100,6 +100,7 @@
                    'text-gray-900 dark:text-white': item.badge !== 'popular'
                  }">
               {{ item.price }}
+              <span class="text-lg font-normal ml-2">{{ t('uahPerMonth') }}</span>
             </div>
             <p class="mb-8"
                :class="{

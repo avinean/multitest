@@ -615,7 +615,25 @@
     "correct": "Correct",
     "incorrect": "Incorrect",
     "noAnswer": "No Answer",
-    "noQuestionsAvailable": "No questions available for this test result"
+    "noQuestionsAvailable": "No questions available for this test result",
+    "payments": {
+      "title": "Payment History",
+      "description": "View your payment history and subscription status",
+      "pageTitle": "Payment History - Profile",
+      "invoice": "Invoice",
+      "email": "Email",
+      "status": "Status",
+      "validated": "Validated",
+      "statuses": {
+        "pending": "Pending",
+        "success": "Completed"
+      },
+      "empty": {
+        "title": "No payments yet",
+        "description": "You haven't made any payments yet. Start your subscription to see your payment history here.",
+        "cta": "Choose a Plan"
+      }
+    }
   },
   "error": {
     "goHome": "Go Home",
@@ -794,91 +812,35 @@
       "title": "Choose Your Plan",
       "subtitle": "Select the subscription that best fits your learning goals and budget. All plans include our core features plus exclusive premium benefits."
     },
+    "loading": {
+      "title": "Loading Subscriptions",
+      "subtitle": "Please wait while we fetch the latest subscription plans..."
+    },
+    "error": {
+      "title": "Error Loading Subscriptions"
+    },
     "plans": {
+      "popular": {
+        "badge": "Most Popular"
+      },
       "start": {
-        "title": "Start",
-        "price": "500 ₴/month",
-        "description": "For those who want to practice regularly and feel progress, but without additional materials.",
-        "features": [
-          "Access to 10 NMT tests per month",
-          "Instant results with correct answers",
-          "Results statistics and progress"
-        ],
-        "cta": "Start Start"
+        "cta": "Get Started"
       },
       "study": {
-        "title": "Study",
-        "price": "1000 ₴/month",
-        "description": "For those who want not only to practice, but also to analyze mistakes and improve knowledge.",
-        "badge": "Most Popular",
-        "features": [
-          "Unlimited access to NMT tests",
-          "Statistics and progress with tips to improve results",
-          "Access to exclusive articles explaining complex topics"
-        ],
-        "cta": "Get Study"
+        "cta": "Choose Plan"
       },
       "pro": {
-        "title": "Pro",
-        "price": "2500 ₴/month",
-        "description": "For students who want to get the maximum benefit from preparation, including educational videos and psychological support.",
-        "features": [
-          "Everything from Study package",
-          "Access to English video lessons",
-          "Access to psychology video consultations",
-          "Ability to ask questions to teacher or psychologist in chat (up to 5 questions per month)"
-        ],
         "cta": "Go Pro"
       },
       "premium": {
-        "title": "Premium",
-        "price": "5000 ₴/month",
-        "description": "Personal approach with individual consultations.",
-        "features": [
-          "Everything from Pro package",
-          "1 online consultation with English teacher (45 min)",
-          "1 online consultation with psychologist (45 min)",
-          "Priority technical support"
-        ],
         "cta": "Get Premium"
       }
     },
-    "benefits": {
-      "title": "Why Choose Premium?",
-      "subtitle": "Discover the advantages that will transform your English learning experience",
-      "items": [
-        {
-          "icon": "i-heroicons-academic-cap",
-          "title": "Advanced Practice",
-          "description": "Access to our complete question bank with thousands of practice questions across all difficulty levels."
-        },
-        {
-          "icon": "i-heroicons-chart-bar",
-          "title": "Detailed Analytics",
-          "description": "Track your progress with comprehensive performance metrics and personalized insights."
-        },
-        {
-          "icon": "i-heroicons-user-group",
-          "title": "Expert Support",
-          "description": "Get help from our team of English language experts whenever you need assistance."
-        },
-        {
-          "icon": "i-heroicons-light-bulb",
-          "title": "Smart Learning",
-          "description": "AI-powered recommendations that adapt to your learning style and progress."
-        },
-        {
-          "icon": "i-heroicons-clock",
-          "title": "Flexible Schedule",
-          "description": "Learn at your own pace with 24/7 access to all premium features and content."
-        },
-        {
-          "icon": "i-heroicons-trophy",
-          "title": "Achievement System",
-          "description": "Earn badges and certificates as you progress through your learning journey."
-        }
-      ]
+    "noSubscriptions": {
+      "title": "No Subscriptions Available",
+      "message": "We're currently setting up our subscription plans. Please check back soon or contact us for more information."
     },
+    
     "faq": {
       "title": "Frequently Asked Questions",
       "subtitle": "Everything you need to know about our subscription plans",
@@ -960,5 +922,7 @@
     "backHome": "Back to Home",
     "contactUs": "Contact Us",
     "thankYou": "Thank you for your support!"
-  }
+  },
+  "uahPerMonth": "UAH/month",
+  "uah": "UAH"
 } 

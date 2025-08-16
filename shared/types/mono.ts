@@ -48,3 +48,15 @@ export type SinglePayment = {
   tipsEmployeeId?: string,
   displayType?: string
 }
+
+export interface Payment {
+  id: string
+  invoiceId: string
+  date: string
+  validated: boolean
+  email: string
+  amount: number
+  userId: string
+  status: 'pending' | 'success'
+  createdAt: string
+}
