@@ -3,7 +3,7 @@
     {
       "version": "v2.4.0",
       "type": "minor",
-      "date": "2025-01-20T14:00:00.000Z",
+      "date": "2025-08-16T14:00:00.000Z",
       "description": "Enhanced payment system integration for project support with improved user experience.",
       "features": [
         "Integrated payment system with Mono Bank for secure transactions",
@@ -32,7 +32,7 @@
     {
       "version": "v2.3.0",
       "type": "minor",
-      "date": "2025-01-15T10:30:00.000Z",
+      "date": "2025-08-05T10:30:00.000Z",
       "description": "Progressive Web App (PWA) support added for enhanced mobile experience and offline functionality.",
       "features": [
         "Install the app on your home screen for quick access",
@@ -61,7 +61,7 @@
     {
       "version": "v2.2.0",
       "type": "minor",
-      "date": "2025-07-30T18:16:12.000Z",
+      "date": "2025-07-31T18:16:12.000Z",
       "description": "Improved website visibility and better organization to help students find study materials more easily.",
       "features": [
         "Dark mode for comfortable studying in low-light environments",
@@ -92,7 +92,7 @@
     {
       "version": "v2.1.0",
       "type": "minor", 
-      "date": "2025-07-28T05:40:02.000Z",
+      "date": "2025-07-30T05:40:02.000Z",
       "description": "Major content expansion with comprehensive FAQ and contact pages, plus enhanced multilingual support.",
       "features": [
         "Comprehensive FAQ section to answer your questions quickly",
@@ -118,7 +118,7 @@
     {
       "version": "v2.0.0",
       "type": "major",
-      "date": "2025-07-25T20:33:02.000Z", 
+      "date": "2025-07-24T20:33:02.000Z", 
       "description": "Complete platform redesign focused on NMT (National Multi-Subject Test) preparation with enhanced features and improved user experience.",
       "features": [
         "Complete redesign focused on NMT exam preparation",
@@ -175,7 +175,7 @@
     {
       "version": "v1.1.0", 
       "type": "minor",
-      "date": "2025-07-10T19:52:18.000Z",
+      "date": "2025-07-07T19:52:18.000Z",
       "description": "Major internationalization update with comprehensive Ukrainian and English language support.",
       "features": [
         "Full website available in both English and Ukrainian",
