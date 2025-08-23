@@ -217,7 +217,7 @@
                   <UIcon name="i-heroicons-chat-bubble-left-right" class="w-4 h-4 mr-3" />
                   {{ $t('nav.contact') }}
                 </UButton>
-                <UButton
+                <!-- <UButton
                   :to="$localePath('/subscriptions')"
                   variant="ghost"
                   size="sm"
@@ -225,7 +225,7 @@
                 >
                   <UIcon name="i-heroicons-credit-card" class="w-4 h-4 mr-3" />
                   {{ $t('nav.subscriptions') }}
-                </UButton>
+                </UButton> -->
                 <UButton
                   :to="$localePath('/release')"
                   variant="ghost"
@@ -514,7 +514,7 @@
   </Transition>
   <ModalLogin v-model:open="showLoginModal"/>
   <ClientOnly>
-    <div class="fixed bottom-4 right-4 z-40 flex gap-4">
+    <div v-if="!$route.meta.hideBanners" class="fixed bottom-4 right-4 z-40 flex gap-4">
       <SupportBanner />
       <FreeLessonBanner />
     </div>

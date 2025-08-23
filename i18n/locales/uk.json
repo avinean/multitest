@@ -463,7 +463,40 @@
       "contentFor": "Контент для",
       "published": "Опубліковано",
       "draft": "Чернетка",
-      "publishedLabel": "Зробити цю підписку видимою для користувачів"
+      "publishedLabel": "Зробити цю підписку видимою для користувачів",
+      "planName": "Назва плану",
+      "invoice": "Інвойс",
+      "planId": "ID плану",
+      "startDate": "Дата початку",
+      "resources": "Ресурси",
+      "resourceSettings": "Налаштування Ресурсів",
+      "resourceLimit": "Ліміт",
+      "resourceLimitDescription": "Максимальна кількість для цього ресурсу",
+      "resourceItems": {
+        "nmt_english_tests": "NMT Англійські Тести",
+        "nmt_english_tests_statistics": "Статистика NMT Англійських Тестів",
+        "nmt_english_tests_recommendations": "Рекомендації NMT Англійських Тестів",
+        "nmt_english_study_materials": "NMT Англійські Навчальні Матеріали",
+        "phycology_tests": "Психологічні Тести",
+        "phycology_tests_statistics": "Статистика Психологічних Тестів",
+        "phycology_tests_recommendations": "Рекомендації Психологічних Тестів",
+        "phycology_study_materials": "Психологічні Навчальні Матеріали",
+        "english_video_library": "Англійська Відеотека",
+        "english_telegram_channel": "Англійський Telegram Канал",
+        "phycology_video_library": "Психологічна Відеотека",
+        "phycology_telegram_channel": "Психологічний Telegram Канал",
+        "english_consultation": "Англійська Консультація",
+        "private_english_chat": "Приватний Англійський Чат",
+        "phycology_consultation": "Психологічна Консультація",
+        "private_phycology_chat": "Приватний Психологічний Чат",
+        "priority_technical_support": "Пріоритетна Технічна Підтримка"
+      },
+      "resourceCategories": {
+        "start": "START - Базові ресурси",
+        "study": "STUDY - Навчальні ресурси",
+        "pro": "PRO - Професійні ресурси",
+        "premium": "PREMIUM - Преміум ресурси"
+      }
     }
   },
   "auth": {
@@ -631,6 +664,34 @@
         "description": "Ви ще не здійснювали жодних платежів. Почніть підписку, щоб побачити історію платежів тут.",
         "cta": "Обрати план"
       }
+    },
+    "subscriptions": {
+      "title": "Мої підписки",
+      "description": "Керуйте вашими активними підписками",
+      "active": "Активна",
+      "expired": "Завершена",
+      "cancelled": "Скасована",
+      "planName": "Назва плану",
+      "invoice": "Інвойс",
+      "planId": "ID плану",
+      "startDate": "Дата початку",
+      "expiryDate": "Дата закінчення",
+      "nextPayment": "Наступний платіж",
+      "autoRenew": "Автопродовження",
+      "paymentMethod": "Спосіб оплати",
+      "lastPayment": "Останній платіж",
+      "noSubscriptions": "Підписок немає",
+      "noSubscriptionsMessage": "У вас ще немає активних підписок. Отримайте доступ до преміум контенту, обравши план підписки.",
+      "getSubscription": "Обрати план",
+      "renewSubscription": "Продовжити підписку",
+      "cancelSubscription": "Скасувати підписку"
+    },
+    "nav": {
+      "dashboard": "Головна",
+      "settings": "Налаштування",
+      "tests": "Тести",
+      "subscriptions": "Підписки",
+      "payments": "Платежі"
     }
   },
   "error": {
@@ -837,6 +898,12 @@
     "noSubscriptions": {
       "title": "Підписки Недоступні",
       "message": "Ми зараз налаштовуємо наші плани підписки. Будь ласка, зайдіть пізніше або зв'яжіться з нами для отримання додаткової інформації."
+    },
+    "authRequired": {
+      "title": "Потрібна Авторизація",
+      "message": "Будь ласка, увійдіть до вашого облікового запису, щоб придбати план підписки.",
+      "loginButton": "Увійти",
+      "signUpButton": "Створити Обліковий Запис"
     },
     "benefits": {
       "title": "Чому Обрати Преміум?",

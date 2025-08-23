@@ -465,7 +465,30 @@
       "contentFor": "Content for",
       "published": "Published",
       "draft": "Draft",
-      "publishedLabel": "Make this subscription visible to users"
+      "publishedLabel": "Make this subscription visible to users",
+      "resources": "Resources",
+      "resourceSettings": "Resource Settings",
+      "resourceLimit": "Limit",
+      "resourceLimitDescription": "Maximum quantity for this resource",
+      "resourceItems": {
+        "nmt_english_tests": "NMT English Tests",
+        "nmt_english_tests_statistics": "NMT English Tests Statistics",
+        "nmt_english_tests_recommendations": "NMT English Tests Recommendations",
+        "nmt_english_study_materials": "NMT English Study Materials",
+        "phycology_tests": "Psychology Tests",
+        "phycology_tests_statistics": "Psychology Tests Statistics",
+        "phycology_tests_recommendations": "Psychology Tests Recommendations",
+        "phycology_study_materials": "Psychology Study Materials",
+        "english_video_library": "English Video Library",
+        "english_telegram_channel": "English Telegram Channel",
+        "phycology_video_library": "Psychology Video Library",
+        "phycology_telegram_channel": "Psychology Telegram Channel",
+        "english_consultation": "English Consultation",
+        "private_english_chat": "Private English Chat",
+        "phycology_consultation": "Psychology Consultation",
+        "private_phycology_chat": "Private Psychology Chat",
+        "priority_technical_support": "Priority Technical Support"
+      }
     }
   },
   "auth": {
@@ -633,6 +656,40 @@
         "description": "You haven't made any payments yet. Start your subscription to see your payment history here.",
         "cta": "Choose a Plan"
       }
+    },
+    "subscriptions": {
+      "title": "My Subscriptions",
+      "description": "Manage your active subscriptions",
+      "active": "Active",
+      "expired": "Expired",
+      "cancelled": "Cancelled",
+      "planName": "Plan Name",
+      "invoice": "Invoice",
+      "planId": "Plan ID",
+      "startDate": "Start Date",
+      "expiryDate": "Expiry Date",
+      "resources": "Resources",
+      "resourceSettings": "Resource Settings",
+      "resourceLimit": "Limit",
+      "resourceLimitDescription": "Maximum quantity for this resource",
+      "resourceCategories": {
+        "start": "START - Basic Resources",
+        "study": "STUDY - Learning Resources",
+        "pro": "PRO - Professional Resources",
+        "premium": "PREMIUM - Premium Resources"
+      },
+      "noSubscriptions": "No Subscriptions",
+      "noSubscriptionsMessage": "You don't have any active subscriptions yet. Get access to premium content by choosing a subscription plan.",
+      "getSubscription": "Choose Plan",
+      "renewSubscription": "Renew Subscription",
+      "cancelSubscription": "Cancel Subscription"
+    },
+    "nav": {
+      "dashboard": "Dashboard",
+      "settings": "Settings",
+      "tests": "Tests",
+      "subscriptions": "Subscriptions",
+      "payments": "Payments"
     }
   },
   "error": {
@@ -839,6 +896,12 @@
     "noSubscriptions": {
       "title": "No Subscriptions Available",
       "message": "We're currently setting up our subscription plans. Please check back soon or contact us for more information."
+    },
+    "authRequired": {
+      "title": "Authentication Required",
+      "message": "Please sign in to your account to purchase a subscription plan.",
+      "loginButton": "Sign In",
+      "signUpButton": "Create Account"
     },
     
     "faq": {

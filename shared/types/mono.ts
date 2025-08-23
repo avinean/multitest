@@ -52,11 +52,16 @@ export type SinglePayment = {
 export interface Payment {
   id: string
   invoiceId: string
-  date: string
-  validated: boolean
   email: string
   amount: number
-  userId: string
   status: 'pending' | 'success'
   createdAt: string
+  updatedAt: string
+  planId: string
+  type: 'support' | 'subscribe'
+  walletData: {
+    walletId: string
+    cardToken: string
+    status: string
+  }
 }

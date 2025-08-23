@@ -156,7 +156,7 @@
 </template>
 
 <script setup lang="ts">
-const { pay } = useMono()
+const { pay } = await useMono()
 
 const presetAmounts = [250, 500, 1000]
 const selectedAmount = ref<number | null>(null)
@@ -170,7 +170,7 @@ const hasShownThisSession = ref(false)
 const handleSupport = async () => {
   if (!selectedAmount.value) return
   try {
-    await pay(+selectedAmount.value * 100)
+    await pay({ amount: +selectedAmount.value * 100, type: 'support' })
     open.value = false
     console.log(`Support payment of ${selectedAmount.value} ₴ initiated successfully`)
   } catch (error) {
@@ -213,7 +213,7 @@ onMounted(() => {
         open.value = true
         sessionStorage.setItem('support-banner-shown', 'true')
         hasShownThisSession.value = true
-      }, 60000)
+      }, 1000 * 60 * 5)
     }
   }
 })

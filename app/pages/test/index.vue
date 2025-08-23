@@ -140,7 +140,8 @@ import { query, where, collection, getDocs } from 'firebase/firestore'
 import { useFirestore } from 'vuefire'
 
 definePageMeta({
-  ssr: false
+  ssr: false,
+  hideBanners: true
 })
 
 // SEO Meta

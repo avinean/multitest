@@ -113,13 +113,13 @@
               />
             </UFormField>
             <UFormField :label="t('admin.subscriptions.price')" required>
-              <UInput
-                v-model="subscriptionForm.price"
-                type="number"
-                :placeholder="t('admin.subscriptions.pricePlaceholder')"
-                required
+                <UInput
+                  v-model="subscriptionForm.price"
+                  type="number"
+                  :placeholder="t('admin.subscriptions.pricePlaceholder')"
+                  required
                 class="w-full"
-              />
+                />
             </UFormField>
             <UFormField :label="t('admin.subscriptions.badge')">
               <USelect
@@ -129,6 +129,48 @@
                 :items="['popular', 'pro', 'premium']"
               />
             </UFormField>
+            <UFormField :label="t('admin.subscriptions.resources')">
+              <UCheckboxGroup
+                v-model="subscriptionForm.resources"
+                :items="Object.values(SubscriptionsResources).map(resource => ({
+                  label: t(`admin.subscriptions.resourceItems.${resource}`),
+                  value: resource
+                }))"
+                @update:model-value="(value) => handleResourceChange(value as string[])"
+              />
+            </UFormField>
+            
+            <!-- Resource Settings -->
+            <template v-if="subscriptionForm.resources?.length">
+              <div class="space-y-4 pt-4 border-t border-gray-200">
+                <h3 class="text-md font-medium text-gray-900">
+                  {{ t('admin.subscriptions.resourceSettings') }}
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <template v-for="resource in subscriptionForm.resources" :key="resource">
+                    <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
+                      <div class="flex items-center justify-between mb-3">
+                        <span class="text-sm font-medium text-gray-700 dark:text-gray-300">
+                          {{ t(`admin.subscriptions.resourceItems.${resource}`) }}
+                        </span>
+                      </div>
+                      <UFormField :label="t('admin.subscriptions.resourceLimit')">
+                        <UInput
+                          :model-value="subscriptionForm.resourcesSettings?.[resource]?.limit"
+                          @update:model-value="(value) => updateResourceLimit(resource, Number(value))"
+                          type="number"
+                          min="1"
+                          class="w-full"
+                        />
+                        <p class="text-xs text-gray-500 mt-1">
+                          {{ t('admin.subscriptions.resourceLimitDescription') }}
+                        </p>
+                      </UFormField>
+                    </div>
+                  </template>
+                </div>
+              </div>
+            </template> -->
           </div>
         </UCard>
 
@@ -240,7 +282,6 @@
 <script setup lang="ts">
 import { doc, getDoc, setDoc, addDoc, collection } from 'firebase/firestore'
 import { useFirestore } from 'vuefire'
-import type { Subscription } from '#shared/types'
 
 const { t } = useI18n()
 const localePath = useLocalePath()
@@ -277,6 +318,8 @@ const subscriptionForm = ref<Subscription>({
   price: 0,  
   createdAt: '',
   updatedAt: '',
+  resources: [],
+  resourcesSettings: {},
   ...(Object.fromEntries(availableLocales.map(({ code }) => [code, initializeForm()])) as Record<'en' | 'uk', any>)
 })
 
@@ -295,6 +338,29 @@ const addFeature = () => {
 
 const removeFeature = (index: number) => {
   subscriptionForm.value[currentLocale.value].features.splice(index, 1)
+}
+
+// Resource management functions
+const handleResourceChange = (resources: string[]) => {
+  subscriptionForm.value.resources = resources
+  
+  // Update resourcesSettings based on selected resources
+  const newSettings: Subscription['resourcesSettings'] = {}
+  
+  resources.forEach(resource => {
+    // Keep existing settings if they exist, otherwise create default
+    newSettings[resource] = subscriptionForm.value.resourcesSettings?.[resource] || {}
+  })
+  
+  subscriptionForm.value.resourcesSettings = newSettings
+}
+
+const updateResourceLimit = (resource: string, limit: number) => {
+  if (!subscriptionForm.value.resourcesSettings) {
+    subscriptionForm.value.resourcesSettings = {}
+  }
+  
+  subscriptionForm.value.resourcesSettings[resource] = { limit }
 }
 
 // Load existing subscription data
@@ -318,6 +384,8 @@ const loadSubscription = async () => {
         badge: data.badge,
         createdAt: data.createdAt || '',
         updatedAt: data.updatedAt || '',
+        resources: data.resources || [],
+        resourcesSettings: data.resourcesSettings || {},
         ...(Object.fromEntries(availableLocales.map(({ code }) => [code, 
           {
             title: data[code]?.title || '',

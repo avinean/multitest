@@ -127,9 +127,8 @@
               }">{{ feature }}</span>
             </li>
           </ul>
-
           <UButton
-            @click="showContactModal = true"
+            @click="handleSubscriptionClick(item)"
             class="w-full font-semibold py-3 px-6 rounded-xl transition-all duration-200"
             :class="getButtonClasses(item)"
           >
@@ -154,17 +153,26 @@
       </div>
     </div>
 
-    <!-- Contact Modal -->
-    <ModalContact v-model:open="showContactModal" />
+    <!-- Login Modal -->
+    <Login v-model:open="showLoginModal" :redirect="'/subscriptions'" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { computed } from 'vue'
 import { collection, query, where, orderBy } from 'firebase/firestore'
 import { useCollection, useFirestore } from 'vuefire'
 
+definePageMeta({
+  redirect: '/'
+})
+
 const { t, locale } = useI18n()
+
+const { pay } = useMono()
+const { user } = await useAuth()
+
+const showLoginModal = ref(false)
 
 // Meta tags
 useHead({
@@ -181,13 +189,23 @@ useHead({
 })
 
 const db = useFirestore()
-const showContactModal = ref(false)
 
 const { data, pending, error } = useCollection<Subscription>(query(
   collection(db, 'subscriptions'),
   where('published', '==', true),
   orderBy('price', 'asc')
 ))
+
+// Handle subscription button click
+const handleSubscriptionClick = (subscription: any) => {
+  if (!user.value) {
+    showLoginModal.value = true
+    return
+  }
+  
+  // User is authenticated, proceed with payment
+  pay({ planId: subscription.id, type: 'subscribe', amount: subscription.price * 100 })
+}
 
 // Helper function to get plan icon based on badge
 const getPlanIcon = (subscription: any) => {

@@ -53,6 +53,12 @@ export type Subscription = {
   badge?: 'popular' | 'pro' | 'premium';
   createdAt: string;
   updatedAt: string;
+  resources?: string[];
+  resourcesSettings?: {
+    [key: string]: {
+      limit?: number;
+    };
+  };
 } & Record<'uk' | 'en', {
   title: string;
   description: string;
